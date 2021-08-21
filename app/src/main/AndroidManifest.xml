@@ -10,7 +10,18 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.InnoPark">
         <activity
-            android:name=".MainActivity"
+            android:name=".PaymentActivity"
+            android:exported="true"
+            android:label="@string/title_activity_payment"
+            android:theme="@style/Theme.InnoPark.NoActionBar" />
+        <activity
+            android:name=".DashboardActivity"
+            android:exported="true" />
+        <activity
+            android:name=".RegisterActivity"
+            android:exported="true" />
+        <activity
+            android:name=".LoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
