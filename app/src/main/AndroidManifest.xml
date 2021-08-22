@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.InnoPark">
         <activity
+            android:name=".ForgotPasswordActivity"
+            android:exported="true" />
+        <activity
             android:name=".PaymentActivity"
             android:exported="true"
             android:label="@string/title_activity_payment"

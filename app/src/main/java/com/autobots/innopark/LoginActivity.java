@@ -13,6 +13,7 @@ public class LoginActivity extends AppCompatActivity {
 
     TextView register_tv;
     Button login_btn;
+    TextView forgot_password_tv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,6 +22,7 @@ public class LoginActivity extends AppCompatActivity {
 
         register_tv = findViewById(R.id.id_register_text);
         login_btn = findViewById(R.id.id_login_btn);
+        forgot_password_tv = findViewById(R.id.id_forgot_password_txt);
 
         register_tv.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -35,5 +37,13 @@ public class LoginActivity extends AppCompatActivity {
                 startActivity(new Intent(getApplicationContext(), DashboardActivity.class));
             }
         });
+
+        forgot_password_tv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getApplicationContext(), ForgotPasswordActivity.class));
+            }
+        });
     }
+
 }

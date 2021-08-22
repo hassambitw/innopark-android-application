@@ -33,5 +33,7 @@ public class PaymentActivity extends AppCompatActivity {
         TabLayout tabs = binding.idPaymentTabs;
         tabs.setupWithViewPager(viewPager);
 
+
+
     }
 }
