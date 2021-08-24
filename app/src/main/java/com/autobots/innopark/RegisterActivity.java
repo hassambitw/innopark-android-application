@@ -33,11 +33,8 @@ public class RegisterActivity extends AppCompatActivity {
         license_plate_et = findViewById(R.id.id_license_plate_register);
 
 
-        register_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(getApplicationContext(), LoginActivity.class));
-            }
+        register_btn.setOnClickListener(view -> {
+            startActivity(new Intent(getApplicationContext(), LoginActivity.class));
         });
 
         radio_grp_vehicle.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {

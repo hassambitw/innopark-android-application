@@ -24,29 +24,16 @@ public class LoginActivity extends AppCompatActivity {
         login_btn = findViewById(R.id.id_login_btn);
         forgot_password_tv = findViewById(R.id.id_forgot_password_txt);
 
-//        register_tv.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                startActivity(new Intent(getApplicationContext(), RegisterActivity.class));
-//            }
-//        });
-
         register_tv.setOnClickListener(view -> {
             startActivity(new Intent(LoginActivity.this, RegisterActivity.class));
         });
 
-        login_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(getApplicationContext(), DashboardActivity.class));
-            }
+        login_btn.setOnClickListener(view -> {
+            startActivity(new Intent(getApplicationContext(), DashboardActivity.class));
         });
 
-        forgot_password_tv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(getApplicationContext(), ForgotPasswordActivity.class));
-            }
+        forgot_password_tv.setOnClickListener(view -> {
+            startActivity(new Intent(getApplicationContext(), ForgotPasswordActivity.class));
         });
     }
 

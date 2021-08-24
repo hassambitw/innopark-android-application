@@ -14,7 +14,6 @@ import com.autobots.innopark.fragment.TariffFragment;
 
 public class PaymentFragmentPagerAdapter extends FragmentStatePagerAdapter {
 
-    final int tab_count = 2;
     private String tab_names[] = new String[] {"Tariff", "Fines"};
     private Context context;
 
@@ -37,7 +36,7 @@ public class PaymentFragmentPagerAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public int getCount() {
-        return tab_count;
+        return tab_names.length;
     }
 
     @Nullable

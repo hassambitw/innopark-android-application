@@ -19,7 +19,8 @@ import com.google.android.material.tabs.TabLayout;
 
 public class PaymentFragment extends Fragment {
 
-    public PaymentFragment() {
+    public PaymentFragment()
+    {
 
     }
 
@@ -30,14 +31,18 @@ public class PaymentFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_payment, container, false);
         Log.d("TAG", "onCreateView: ");
 
-        ViewPager viewPager = view.findViewById(R.id.id_view_pager);
-        PagerAdapter pagerAdapter = new PaymentFragmentPagerAdapter(getFragmentManager());
-        viewPager.setAdapter(pagerAdapter);
-
-        TabLayout tabLayout = view.findViewById(R.id.id_tabs);
-        tabLayout.setupWithViewPager(viewPager);
+        setupViewPager(view);
 
         return view;
 
+    }
+
+    private void setupViewPager(View view)
+    {
+        ViewPager viewPager = view.findViewById(R.id.id_view_pager);
+        PagerAdapter pagerAdapter = new PaymentFragmentPagerAdapter(getFragmentManager());
+        viewPager.setAdapter(pagerAdapter);
+        TabLayout tabLayout = view.findViewById(R.id.id_tabs);
+        tabLayout.setupWithViewPager(viewPager);
     }
 }
