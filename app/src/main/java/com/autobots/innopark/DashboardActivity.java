@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import com.autobots.innopark.fragment.HomeFragment;
+import com.autobots.innopark.fragment.MenuFragment;
 import com.autobots.innopark.fragment.NotificationFragment;
 import com.autobots.innopark.fragment.PaymentFragment;
 import com.google.android.material.navigation.NavigationBarView;
@@ -51,9 +52,9 @@ public class DashboardActivity extends AppCompatActivity {
                     fm.beginTransaction().replace(R.id.id_fragment_container_view, selected_fragment).commit();
                     break;
                 case R.id.id_bottom_nav_menu:
-                    startActivity(new Intent(getApplicationContext(), MenuActivity.class));
-                    //selected_fragment = new MenuFragment();
-                    //fm.beginTransaction().replace(R.id.id_fragment_container_view, selected_fragment).commit();
+                    //startActivity(new Intent(getApplicationContext(), MenuActivity.class));
+                    selected_fragment = new MenuFragment();
+                    fm.beginTransaction().replace(R.id.id_fragment_container_view, selected_fragment).commit();
                     break;
             }
             return true;

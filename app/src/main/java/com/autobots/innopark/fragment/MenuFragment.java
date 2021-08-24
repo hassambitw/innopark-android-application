@@ -1,20 +1,24 @@
-package com.autobots.innopark;
+package com.autobots.innopark.fragment;
+
+import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.os.Bundle;
-import android.view.MenuItem;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
-
+import com.autobots.innopark.R;
 import com.autobots.innopark.adapter.RecyclerViewAdapter;
 import com.autobots.innopark.data.MenuItemList;
 
 import java.util.ArrayList;
 
-public class MenuActivity extends AppCompatActivity {
+public class MenuFragment extends Fragment {
 
     Toolbar toolbar;
     private RecyclerView m_recycler_view;
@@ -22,25 +26,31 @@ public class MenuActivity extends AppCompatActivity {
     private RecyclerView.LayoutManager m_layout_manager;
     private ArrayList<MenuItemList> menuItem;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState)
+    public MenuFragment()
     {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_menu);
-
-
-        setupToolbar();
-        addMenuItems();
-        setupRecyclerView();
 
     }
 
-    private void setupToolbar()
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState)
     {
-        toolbar = findViewById(R.id.id_toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        // Inflate the layout for this fragment
+        View view =  inflater.inflate(R.layout.fragment_menu, container, false);
+
+        setupToolbar(view);
+        addMenuItems();
+        setupRecyclerView(view);
+
+        return view;
+    }
+
+    private void setupToolbar(View view)
+    {
+        toolbar = view.findViewById(R.id.id_toolbar);
+        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(false);
+        //((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     private void addMenuItems()
@@ -54,12 +64,12 @@ public class MenuActivity extends AppCompatActivity {
         menuItem.add(new MenuItemList(R.drawable.ic_baseline_admin_panel_settings_24, "Admin Panel"));
     }
 
-    private void setupRecyclerView()
+    private void setupRecyclerView(View view)
     {
-        m_recycler_view = findViewById(R.id.id_menu_recycler_view);
+        m_recycler_view = view.findViewById(R.id.id_menu_recycler_view);
         m_recycler_view.setHasFixedSize(true);
-        m_layout_manager = new LinearLayoutManager(this);
-        m_adapter = new RecyclerViewAdapter(menuItem, this);
+        m_layout_manager = new LinearLayoutManager(getActivity());
+        m_adapter = new RecyclerViewAdapter(menuItem, getActivity());
         m_recycler_view.setLayoutManager(m_layout_manager);
         m_recycler_view.setAdapter(m_adapter);
     }

@@ -10,10 +10,6 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.InnoPark">
         <activity
-            android:name=".MenuActivity"
-            android:parentActivityName=".DashboardActivity"
-            android:exported="true" />
-        <activity
             android:name=".ForgotPasswordActivity"
             android:exported="true" />
         <activity
