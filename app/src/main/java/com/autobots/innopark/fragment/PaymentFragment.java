@@ -19,10 +19,8 @@ import com.google.android.material.tabs.TabLayout;
 
 public class PaymentFragment extends Fragment {
 
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        Log.d("TAG", "onCreate: ");
+    public PaymentFragment() {
+
     }
 
     @Override

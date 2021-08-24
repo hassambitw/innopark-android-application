@@ -20,18 +20,12 @@ public class ForgotPasswordActivity extends AppCompatActivity {
         change_password = findViewById(R.id.id_change_password_btn);
         cancel_password_reset = findViewById(R.id.id_cancel_password_reset_forgot);
 
-        change_password.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(getApplicationContext(), LoginActivity.class));
-            }
-        });
+       change_password.setOnClickListener(view -> {
+           startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+       } );
 
-        cancel_password_reset.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
+        cancel_password_reset.setOnClickListener(view -> {
+            finish();
         });
     }
 }

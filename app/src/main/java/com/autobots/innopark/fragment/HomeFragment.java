@@ -13,6 +13,10 @@ import com.autobots.innopark.R;
 
 public class HomeFragment extends Fragment {
 
+    public HomeFragment() {
+
+    }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

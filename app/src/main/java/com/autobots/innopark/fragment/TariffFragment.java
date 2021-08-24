@@ -15,6 +15,10 @@ import com.autobots.innopark.R;
 
 public class TariffFragment extends Fragment {
 
+    public TariffFragment() {
+
+    }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

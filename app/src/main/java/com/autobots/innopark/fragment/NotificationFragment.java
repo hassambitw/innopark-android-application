@@ -12,6 +12,10 @@ import com.autobots.innopark.R;
 
 public class NotificationFragment extends Fragment {
 
+    public NotificationFragment() {
+
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
