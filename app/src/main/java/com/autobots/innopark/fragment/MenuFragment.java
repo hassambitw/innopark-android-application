@@ -1,7 +1,10 @@
 package com.autobots.innopark.fragment;
 
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
@@ -11,9 +14,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
+import com.autobots.innopark.LoginActivity;
 import com.autobots.innopark.R;
-import com.autobots.innopark.adapter.RecyclerViewAdapter;
+import com.autobots.innopark.adapter.MenuRecyclerViewAdapter;
 import com.autobots.innopark.data.MenuItemList;
 
 import java.util.ArrayList;
@@ -21,15 +26,20 @@ import java.util.ArrayList;
 public class MenuFragment extends Fragment {
 
     Toolbar toolbar;
-    private RecyclerView m_recycler_view;
-    private RecyclerView.Adapter m_adapter;
-    private RecyclerView.LayoutManager m_layout_manager;
+    private RecyclerView mRecyclerView;
+    private RecyclerView.Adapter mAdapter;
+    private RecyclerView.LayoutManager mLayoutManager;
     private ArrayList<MenuItemList> menuItem;
+    AlertDialog signoutDialog;
+    Button signOutBtn;
+
 
     public MenuFragment()
     {
 
     }
+
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -37,20 +47,24 @@ public class MenuFragment extends Fragment {
     {
         // Inflate the layout for this fragment
         View view =  inflater.inflate(R.layout.fragment_menu, container, false);
+        signOutBtn = view.findViewById(R.id.id_sign_out_btn);
+
 
         setupToolbar(view);
         addMenuItems();
         setupRecyclerView(view);
+        setupSignOutDialog(view);
 
         return view;
     }
 
     private void setupToolbar(View view)
     {
-        toolbar = view.findViewById(R.id.id_toolbar);
+        toolbar = view.findViewById(R.id.id_menu_toolbar);
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
         ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(false);
-        //((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        //toolbar.setTitle("Menu");
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     private void addMenuItems()
@@ -66,11 +80,31 @@ public class MenuFragment extends Fragment {
 
     private void setupRecyclerView(View view)
     {
-        m_recycler_view = view.findViewById(R.id.id_menu_recycler_view);
-        m_recycler_view.setHasFixedSize(true);
-        m_layout_manager = new LinearLayoutManager(getActivity());
-        m_adapter = new RecyclerViewAdapter(menuItem, getActivity());
-        m_recycler_view.setLayoutManager(m_layout_manager);
-        m_recycler_view.setAdapter(m_adapter);
+        mRecyclerView = view.findViewById(R.id.id_menu_recycler_view);
+        mRecyclerView.setHasFixedSize(true);
+        mLayoutManager = new LinearLayoutManager(getActivity());
+        mAdapter = new MenuRecyclerViewAdapter(menuItem, getActivity());
+        mRecyclerView.setLayoutManager(mLayoutManager);
+        mRecyclerView.setAdapter(mAdapter);
     }
+
+    private void setupSignOutDialog(View view)
+    {
+        signOutBtn.setOnClickListener((v) -> {
+            signoutDialog = new AlertDialog.Builder(getActivity())
+                    .setMessage("Are you sure you want to sign out?")
+                    .setPositiveButton("Yes", new DialogInterface.OnClickListener()
+                    {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i)
+                        {
+                            startActivity(new Intent(getActivity(), LoginActivity.class));
+                        }
+                    })
+                    .setNegativeButton("Cancel", null)
+                    .setCancelable(false)
+                    .show();
+        });
+    }
+
 }

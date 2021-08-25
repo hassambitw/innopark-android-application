@@ -4,13 +4,18 @@
     android:layout_height="80dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/id_menu_row_item"
-    app:cardElevation="0dp">
+    android:clickable="true"
+    app:cardElevation="0dp"
+    app:cardBackgroundColor="?android:attr/windowBackground">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_margin="4dp"
-        android:background="@drawable/recycler_view_border">
+        android:clickable="true"
+        android:background="@drawable/recycler_view_border"
+        android:foreground="?attr/selectableItemBackground">
+
 
     <ImageView
         android:id="@+id/id_menu_image"
