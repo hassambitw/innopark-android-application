@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.autobots.innopark.R;
 import com.autobots.innopark.adapter.MenuRecyclerViewAdapter;
@@ -28,6 +29,7 @@ public class NotificationFragment extends Fragment {
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
+    private TextView toolbar_title;
 
     public NotificationFragment() {
 
@@ -35,7 +37,8 @@ public class NotificationFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+                             Bundle savedInstanceState)
+    {
         // Inflate the layout for this fragment
         View view =  inflater.inflate(R.layout.fragment_notification, container, false);
 
@@ -51,11 +54,14 @@ public class NotificationFragment extends Fragment {
         toolbar = view.findViewById(R.id.id_notifications_toolbar);
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
         ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(false);
+        toolbar_title = toolbar.findViewById(R.id.id_toolbar_title);
+        toolbar_title.setText("Notification");
         //toolbar.setTitle("Menu");
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        //((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
-    private void setupData() {
+    private void setupData()
+    {
         notifs.add(new NotificationData(1, "Notification 1"));
         notifs.add(new NotificationData(1, "Notification 1"));
         notifs.add(new NotificationData(1, "Notification 1"));

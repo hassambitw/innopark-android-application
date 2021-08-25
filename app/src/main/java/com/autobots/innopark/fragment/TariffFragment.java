@@ -13,16 +13,18 @@ import android.view.ViewGroup;
 import com.autobots.innopark.R;
 
 
-public class TariffFragment extends Fragment {
+public class TariffFragment extends Fragment
+{
 
-    public TariffFragment() {
-
+    public TariffFragment()
+    {
     }
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+                             Bundle savedInstanceState)
+    {
         // Inflate the layout for this fragment
         View view =  inflater.inflate(R.layout.fragment_tariff, container, false);
         return view;

@@ -8,7 +8,7 @@
 
     <include
         android:id="@+id/id_notifications_toolbar"
-        layout="@layout/toolbar_notifications" />
+        layout="@layout/toolbar" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/id_notifications_recycler_view"

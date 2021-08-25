@@ -21,7 +21,8 @@ public class RegisterActivity extends AppCompatActivity {
     EditText license_plate_et;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
@@ -37,12 +38,15 @@ public class RegisterActivity extends AppCompatActivity {
             startActivity(new Intent(getApplicationContext(), LoginActivity.class));
         });
 
-        radio_grp_vehicle.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+        radio_grp_vehicle.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
+        {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, int checkedId) {
-                if (checkedId == R.id.id_radio_own_vehicle_yes_register) {
+                if (checkedId == R.id.id_radio_own_vehicle_yes_register)
+                {
                     license_plate_et.setVisibility(View.VISIBLE);
-                } else if (checkedId == R.id.id_radio_own_vehicle_no_register) {
+                } else if (checkedId == R.id.id_radio_own_vehicle_no_register)
+                {
                     license_plate_et.setVisibility(View.INVISIBLE);
                 }
             }

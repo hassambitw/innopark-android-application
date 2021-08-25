@@ -8,13 +8,17 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.autobots.innopark.LoginActivity;
 import com.autobots.innopark.R;
@@ -23,7 +27,8 @@ import com.autobots.innopark.data.MenuItemList;
 
 import java.util.ArrayList;
 
-public class MenuFragment extends Fragment {
+public class MenuFragment extends Fragment implements MenuRecyclerViewAdapter.OnMenuClickListener
+{
 
     Toolbar toolbar;
     private RecyclerView mRecyclerView;
@@ -32,6 +37,7 @@ public class MenuFragment extends Fragment {
     private ArrayList<MenuItemList> menuItem;
     AlertDialog signoutDialog;
     Button signOutBtn;
+    TextView toolbar_title;
 
 
     public MenuFragment()
@@ -63,8 +69,10 @@ public class MenuFragment extends Fragment {
         toolbar = view.findViewById(R.id.id_menu_toolbar);
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
         ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(false);
+        toolbar_title = toolbar.findViewById(R.id.id_toolbar_title);
+        toolbar_title.setText("Menu");
         //toolbar.setTitle("Menu");
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        //((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     private void addMenuItems()
@@ -83,7 +91,7 @@ public class MenuFragment extends Fragment {
         mRecyclerView = view.findViewById(R.id.id_menu_recycler_view);
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(getActivity());
-        mAdapter = new MenuRecyclerViewAdapter(menuItem, getActivity());
+        mAdapter = new MenuRecyclerViewAdapter(menuItem, getActivity(), this);
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mAdapter);
     }
@@ -107,4 +115,29 @@ public class MenuFragment extends Fragment {
         });
     }
 
+    @Override
+    public void onMenuClick(int position)
+    {
+        Log.d("TAG", "onMenuClick: " + position);
+        Toast.makeText(getActivity(), "Clicked " + position, Toast.LENGTH_SHORT).show();
+        Fragment selectedFragment = null;
+
+
+        switch (position)
+        {
+            case 0:
+            {
+                selectedFragment = new ProfileFragment();
+                getActivity().getSupportFragmentManager()
+                        .beginTransaction()
+                        .setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_right, R.anim.enter_from_right, R.anim.exit_to_right)
+                        .replace(R.id.id_fragment_container_view, selectedFragment)
+                        .addToBackStack(null)
+                        .commit();
+                break;
+            }
+
+
+        }
+    }
 }

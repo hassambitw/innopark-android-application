@@ -12,19 +12,23 @@ import androidx.fragment.app.FragmentStatePagerAdapter;
 import com.autobots.innopark.fragment.FinesFragment;
 import com.autobots.innopark.fragment.TariffFragment;
 
-public class PaymentFragmentPagerAdapter extends FragmentStatePagerAdapter {
+public class PaymentFragmentPagerAdapter extends FragmentStatePagerAdapter
+{
 
     private String tab_names[] = new String[] {"Tariff", "Fines"};
     private Context context;
 
-    public PaymentFragmentPagerAdapter(@NonNull FragmentManager fm) {
+    public PaymentFragmentPagerAdapter(@NonNull FragmentManager fm)
+    {
         super(fm);
     }
 
     @NonNull
     @Override
-    public Fragment getItem(int position) {
-        switch (position) {
+    public Fragment getItem(int position)
+    {
+        switch (position)
+        {
             case 0:
                 return new TariffFragment();
             case 1:
@@ -35,14 +39,17 @@ public class PaymentFragmentPagerAdapter extends FragmentStatePagerAdapter {
     }
 
     @Override
-    public int getCount() {
+    public int getCount()
+    {
         return tab_names.length;
     }
 
     @Nullable
     @Override
-    public CharSequence getPageTitle(int position) {
-        switch (position) {
+    public CharSequence getPageTitle(int position)
+    {
+        switch (position)
+        {
             case 0:
                 return tab_names[0];
             case 1:

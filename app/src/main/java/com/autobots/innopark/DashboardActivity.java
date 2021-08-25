@@ -29,7 +29,13 @@ public class DashboardActivity extends AppCompatActivity {
         bottom_nav = findViewById(R.id.id_bottom_nav_menu);
         bottom_nav.setOnItemSelectedListener(navigationItemSelectedListener);
 
+        if (savedInstanceState == null)
+        {
+            bottom_nav.setSelectedItemId(R.id.id_bottom_nav_home);
+        }
+
     }
+
 
 
     private NavigationBarView.OnItemSelectedListener navigationItemSelectedListener
@@ -41,20 +47,29 @@ public class DashboardActivity extends AppCompatActivity {
             switch(item.getItemId()) {
                 case R.id.id_bottom_nav_home:
                     selected_fragment = new HomeFragment();
-                    fm.beginTransaction().replace(R.id.id_fragment_container_view, selected_fragment).commit();
+                    fm.beginTransaction()
+                            .replace(R.id.id_fragment_container_view, selected_fragment)
+                            .commit();
                     break;
                 case R.id.id_bottom_nav_payment:
                     selected_fragment = new PaymentFragment();
-                    fm.beginTransaction().replace(R.id.id_fragment_container_view, selected_fragment).commit();
+                    fm.beginTransaction()
+                            .replace(R.id.id_fragment_container_view, selected_fragment)
+                            .commit();
                     break;
                 case R.id.id_bottom_nav_notifications:
                     selected_fragment = new NotificationFragment();
-                    fm.beginTransaction().replace(R.id.id_fragment_container_view, selected_fragment).commit();
+                    fm.beginTransaction()
+                            .replace(R.id.id_fragment_container_view, selected_fragment)
+                            .commit();
                     break;
                 case R.id.id_bottom_nav_menu:
                     //startActivity(new Intent(getApplicationContext(), MenuActivity.class));
                     selected_fragment = new MenuFragment();
-                    fm.beginTransaction().replace(R.id.id_fragment_container_view, selected_fragment).commit();
+                    fm.beginTransaction()
+                            .replace(R.id.id_fragment_container_view, selected_fragment)
+                            .addToBackStack(null)
+                            .commit();
                     break;
             }
             return true;

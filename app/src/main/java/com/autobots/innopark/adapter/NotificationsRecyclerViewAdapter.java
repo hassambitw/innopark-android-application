@@ -1,7 +1,6 @@
 package com.autobots.innopark.adapter;
 
 import android.content.Context;
-import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,7 +33,7 @@ public class NotificationsRecyclerViewAdapter extends RecyclerView.Adapter<Notif
     @Override
     public NotificationsRecyclerViewAdapter.MySwipeViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType)
     {
-        View view = LayoutInflater.from(context).inflate(R.layout.notification_row_item, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.notification_swipe_row_item, parent, false);
         return new MySwipeViewHolder(view);
     }
 

@@ -1,6 +1,7 @@
 package com.autobots.innopark.adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,11 +23,14 @@ public class MenuRecyclerViewAdapter extends RecyclerView.Adapter<MenuRecyclerVi
 
     final private ArrayList<MenuItemList> menu_items;
     private Context context;
+    private OnMenuClickListener onMenuClickListener;
 
-    public MenuRecyclerViewAdapter(ArrayList<MenuItemList> menu_items, Context context)
+
+    public MenuRecyclerViewAdapter(ArrayList<MenuItemList> menu_items, Context context, OnMenuClickListener onMenuClickListener)
     {
         this.menu_items = menu_items;
         this.context = context;
+        this.onMenuClickListener = onMenuClickListener;
     }
 
     @NonNull
@@ -34,7 +38,7 @@ public class MenuRecyclerViewAdapter extends RecyclerView.Adapter<MenuRecyclerVi
     public MenuRecyclerViewAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType)
     {
         View view = LayoutInflater.from(context).inflate(R.layout.menu_row_item_view, parent, false);
-        return new ViewHolder(view);
+        return new ViewHolder(view, onMenuClickListener);
     }
 
     @Override
@@ -53,17 +57,29 @@ public class MenuRecyclerViewAdapter extends RecyclerView.Adapter<MenuRecyclerVi
     }
 
 
-    public static class ViewHolder extends RecyclerView.ViewHolder
+    public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener
     {
         public ImageView myImageView;
         public TextView m_text_view;
+        OnMenuClickListener onMenuClickListener;
 
-        public ViewHolder(@NonNull View itemView)
+
+        public ViewHolder(@NonNull View itemView, OnMenuClickListener onMenuClickListener)
         {
             super(itemView);
             myImageView = itemView.findViewById(R.id.id_menu_image);
             m_text_view = itemView.findViewById(R.id.id_menu_txt);
+            this.onMenuClickListener = onMenuClickListener;
 
+            itemView.setOnClickListener(this);
+
+        }
+
+
+        @Override
+        public void onClick(View view)
+        {
+           onMenuClickListener.onMenuClick(getBindingAdapterPosition());
         }
     }
 
