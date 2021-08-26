@@ -112,21 +112,68 @@ public class MenuListFragment extends Fragment implements MenuRecyclerViewAdapte
     {
         Log.d("TAG", "onMenuClick: " + position);
         Toast.makeText(getActivity(), "Clicked " + position, Toast.LENGTH_SHORT).show();
-        Fragment childFragment = null;
-        Fragment parentFragment;
+        Fragment selectedFragment = null;
 
 
         switch (position)
         {
             case 0:
             {
-                childFragment = new ProfileFragment();
+                selectedFragment = new ProfileFragment();
                 getActivity().getSupportFragmentManager()
                         .beginTransaction()
+                        .setReorderingAllowed(true)
                         .setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_right, R.anim.enter_from_right, R.anim.exit_to_right)
                         .addToBackStack(null)
-                        .replace(R.id.id_child_fragment_container_view, childFragment)
-
+                        .replace(R.id.id_child_fragment_container_view, selectedFragment)
+                        .commit();
+                break;
+            }
+            case 1:
+            {
+                selectedFragment = new VehicleFragment();
+                getActivity().getSupportFragmentManager()
+                        .beginTransaction()
+                        .setReorderingAllowed(true)
+                        .setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_right, R.anim.enter_from_right, R.anim.exit_to_right)
+                        .addToBackStack(null)
+                        .replace(R.id.id_child_fragment_container_view, selectedFragment)
+                        .commit();
+                break;
+            }
+            case 2:
+            {
+                selectedFragment = new CustomerServiceFragment();
+                getActivity().getSupportFragmentManager()
+                        .beginTransaction()
+                        .setReorderingAllowed(true)
+                        .setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_right, R.anim.enter_from_right, R.anim.exit_to_right)
+                        .addToBackStack(null)
+                        .replace(R.id.id_child_fragment_container_view, selectedFragment)
+                        .commit();
+                break;
+            }
+            case 3:
+            {
+                selectedFragment = new FAQFragment();
+                getActivity().getSupportFragmentManager()
+                        .beginTransaction()
+                        .setReorderingAllowed(true)
+                        .setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_right, R.anim.enter_from_right, R.anim.exit_to_right)
+                        .addToBackStack(null)
+                        .replace(R.id.id_child_fragment_container_view, selectedFragment)
+                        .commit();
+                break;
+            }
+            case 4:
+            {
+                selectedFragment = new AdminPanelFragment();
+                getActivity().getSupportFragmentManager()
+                        .beginTransaction()
+                        .setReorderingAllowed(true)
+                        .setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_right, R.anim.enter_from_right, R.anim.exit_to_right)
+                        .addToBackStack(null)
+                        .replace(R.id.id_child_fragment_container_view, selectedFragment)
                         .commit();
                 break;
             }

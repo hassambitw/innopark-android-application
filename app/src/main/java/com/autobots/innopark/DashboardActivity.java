@@ -48,18 +48,21 @@ public class DashboardActivity extends AppCompatActivity {
                 case R.id.id_bottom_nav_home:
                     selected_fragment = new HomeFragment();
                     fm.beginTransaction()
+                            .setReorderingAllowed(true)
                             .replace(R.id.id_fragment_container_view, selected_fragment)
                             .commit();
                     break;
                 case R.id.id_bottom_nav_payment:
                     selected_fragment = new PaymentFragment();
                     fm.beginTransaction()
+                            .setReorderingAllowed(true)
                             .replace(R.id.id_fragment_container_view, selected_fragment)
                             .commit();
                     break;
                 case R.id.id_bottom_nav_notifications:
                     selected_fragment = new NotificationFragment();
                     fm.beginTransaction()
+                            .setReorderingAllowed(true)
                             .replace(R.id.id_fragment_container_view, selected_fragment)
                             .commit();
                     break;
@@ -67,6 +70,7 @@ public class DashboardActivity extends AppCompatActivity {
                     //startActivity(new Intent(getApplicationContext(), MenuActivity.class));
                     selected_fragment = new MenuFragment();
                     fm.beginTransaction()
+                            .setReorderingAllowed(true)
                             .replace(R.id.id_fragment_container_view, selected_fragment)
                             .commit();
                     break;
