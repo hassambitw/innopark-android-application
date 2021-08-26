@@ -68,11 +68,19 @@ public class DashboardActivity extends AppCompatActivity {
                     selected_fragment = new MenuFragment();
                     fm.beginTransaction()
                             .replace(R.id.id_fragment_container_view, selected_fragment)
-                            .addToBackStack(null)
                             .commit();
                     break;
             }
             return true;
         }
     };
+
+    @Override
+    public void onBackPressed() {
+        if (getFragmentManager().getBackStackEntryCount() > 0) {
+            getFragmentManager().popBackStack();
+        } else {
+            super.onBackPressed();
+        }
+    }
 }

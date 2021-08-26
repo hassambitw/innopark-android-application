@@ -27,7 +27,7 @@ import com.autobots.innopark.data.MenuItemList;
 
 import java.util.ArrayList;
 
-public class MenuFragment extends Fragment implements MenuRecyclerViewAdapter.OnMenuClickListener
+public class MenuFragment extends Fragment
 {
 
     Toolbar toolbar;
@@ -55,13 +55,25 @@ public class MenuFragment extends Fragment implements MenuRecyclerViewAdapter.On
         View view =  inflater.inflate(R.layout.fragment_menu, container, false);
         signOutBtn = view.findViewById(R.id.id_sign_out_btn);
 
-
         setupToolbar(view);
-        addMenuItems();
-        setupRecyclerView(view);
-        setupSignOutDialog(view);
+        addMenuListFragment();
+
+
+//        addMenuItems();
+//        setupRecyclerView(view);
+//        setupSignOutDialog(view);
 
         return view;
+    }
+
+    private void addMenuListFragment()
+    {
+        Fragment fragment = new MenuListFragment();
+        getActivity().getSupportFragmentManager()
+                .beginTransaction()
+                .add(R.id.id_child_fragment_container_view, fragment)
+                .commit();
+
     }
 
     private void setupToolbar(View view)
@@ -75,69 +87,74 @@ public class MenuFragment extends Fragment implements MenuRecyclerViewAdapter.On
         //((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
-    private void addMenuItems()
-    {
-        menuItem = new ArrayList<>();
 
-        menuItem.add(new MenuItemList(R.drawable.ic_baseline_profile_24, "Profile"));
-        menuItem.add(new MenuItemList(R.drawable.ic_baseline_directions_vehicle_24, "Vehicles"));
-        menuItem.add(new MenuItemList(R.drawable.ic_baseline_customer_service_two_24, "Customer Service"));
-        menuItem.add(new MenuItemList(R.drawable.ic_baseline_faq_24, "FAQ"));
-        menuItem.add(new MenuItemList(R.drawable.ic_baseline_admin_panel_settings_24, "Admin Panel"));
-    }
-
-    private void setupRecyclerView(View view)
-    {
-        mRecyclerView = view.findViewById(R.id.id_menu_recycler_view);
-        mRecyclerView.setHasFixedSize(true);
-        mLayoutManager = new LinearLayoutManager(getActivity());
-        mAdapter = new MenuRecyclerViewAdapter(menuItem, getActivity(), this);
-        mRecyclerView.setLayoutManager(mLayoutManager);
-        mRecyclerView.setAdapter(mAdapter);
-    }
-
-    private void setupSignOutDialog(View view)
-    {
-        signOutBtn.setOnClickListener((v) -> {
-            signoutDialog = new AlertDialog.Builder(getActivity())
-                    .setMessage("Are you sure you want to sign out?")
-                    .setPositiveButton("Yes", new DialogInterface.OnClickListener()
-                    {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i)
-                        {
-                            startActivity(new Intent(getActivity(), LoginActivity.class));
-                        }
-                    })
-                    .setNegativeButton("Cancel", null)
-                    .setCancelable(false)
-                    .show();
-        });
-    }
-
-    @Override
-    public void onMenuClick(int position)
-    {
-        Log.d("TAG", "onMenuClick: " + position);
-        Toast.makeText(getActivity(), "Clicked " + position, Toast.LENGTH_SHORT).show();
-        Fragment selectedFragment = null;
-
-
-        switch (position)
-        {
-            case 0:
-            {
-                selectedFragment = new ProfileFragment();
-                getActivity().getSupportFragmentManager()
-                        .beginTransaction()
-                        .setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_right, R.anim.enter_from_right, R.anim.exit_to_right)
-                        .replace(R.id.id_fragment_container_view, selectedFragment)
-                        .addToBackStack(null)
-                        .commit();
-                break;
-            }
-
-
-        }
-    }
+//
+//    private void addMenuItems()
+//    {
+//        menuItem = new ArrayList<>();
+//
+//        menuItem.add(new MenuItemList(R.drawable.ic_baseline_profile_24, "Profile"));
+//        menuItem.add(new MenuItemList(R.drawable.ic_baseline_directions_vehicle_24, "Vehicles"));
+//        menuItem.add(new MenuItemList(R.drawable.ic_baseline_customer_service_two_24, "Customer Service"));
+//        menuItem.add(new MenuItemList(R.drawable.ic_baseline_faq_24, "FAQ"));
+//        menuItem.add(new MenuItemList(R.drawable.ic_baseline_admin_panel_settings_24, "Admin Panel"));
+//    }
+//
+//    private void setupRecyclerView(View view)
+//    {
+//        mRecyclerView = view.findViewById(R.id.id_menu_recycler_view);
+//        mRecyclerView.setHasFixedSize(true);
+//        mLayoutManager = new LinearLayoutManager(getActivity());
+//        mAdapter = new MenuRecyclerViewAdapter(menuItem, getActivity(), this);
+//        mRecyclerView.setLayoutManager(mLayoutManager);
+//        mRecyclerView.setAdapter(mAdapter);
+//    }
+//
+//    private void setupSignOutDialog(View view)
+//    {
+//        signOutBtn.setOnClickListener((v) -> {
+//            signoutDialog = new AlertDialog.Builder(getActivity())
+//                    .setMessage("Are you sure you want to sign out?")
+//                    .setPositiveButton("Yes", new DialogInterface.OnClickListener()
+//                    {
+//                        @Override
+//                        public void onClick(DialogInterface dialogInterface, int i)
+//                        {
+//                            startActivity(new Intent(getActivity(), LoginActivity.class));
+//                        }
+//                    })
+//                    .setNegativeButton("Cancel", null)
+//                    .setCancelable(false)
+//                    .show();
+//        });
+//    }
+//
+//    @Override
+//    public void onMenuClick(int position)
+//    {
+//        Log.d("TAG", "onMenuClick: " + position);
+//        Toast.makeText(getActivity(), "Clicked " + position, Toast.LENGTH_SHORT).show();
+//        Fragment childFragment = null;
+//        Fragment parentFragment;
+//
+//
+//        switch (position)
+//        {
+//            case 0:
+//            {
+//                childFragment = new ProfileFragment();
+//                parentFragment = new MenuFragment();
+//                getActivity().getSupportFragmentManager()
+//                        .beginTransaction()
+//                        .setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_right, R.anim.enter_from_right, R.anim.exit_to_right)
+//                        .remove(parentFragment)
+//                        .replace(R.id.id_fragment_container_view, childFragment)
+//                        .addToBackStack(null)
+//                        .commit();
+//                break;
+//            }
+//
+//
+//        }
+//    }
 }
