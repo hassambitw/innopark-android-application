@@ -1,41 +1,25 @@
 package com.autobots.innopark.fragment;
 
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.os.Bundle;
 
-import androidx.appcompat.app.AlertDialog;
+import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.autobots.innopark.LoginActivity;
 import com.autobots.innopark.R;
-import com.autobots.innopark.adapter.MenuRecyclerViewAdapter;
-import com.autobots.innopark.data.MenuItemList;
 
-import java.util.ArrayList;
 
 public class MenuFragment extends Fragment
 {
 
     Toolbar toolbar;
-    private RecyclerView mRecyclerView;
-    private RecyclerView.Adapter mAdapter;
-    private RecyclerView.LayoutManager mLayoutManager;
-    private ArrayList<MenuItemList> menuItem;
-    AlertDialog signoutDialog;
     Button signOutBtn;
     TextView toolbar_title;
 
