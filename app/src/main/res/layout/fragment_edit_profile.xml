@@ -12,27 +12,12 @@
         android:layout_height="wrap_content">
 
 
-        <TextView
-            android:id="@+id/id_profile_editprofile"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="32dp"
-            android:text="Edit Profile"
-            android:textColor="@color/blue"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.03" />
-
         <LinearLayout
             android:id="@+id/linearLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="16dp"
             android:layout_marginEnd="32dp"
             android:background="@drawable/edittext_rounded"
             android:gravity="center"
@@ -41,8 +26,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/id_profile_editprofile"
-            app:layout_constraintVertical_bias="0.014">
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.029">
 
             <TextView
                 android:layout_width="85dp"
@@ -56,8 +41,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_marginLeft="10dp"
-                android:enabled="false"
-                android:inputType="none"
                 android:paddingLeft="15dp"
                 android:textSize="18sp" />
 
@@ -89,8 +72,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_marginLeft="10dp"
-                android:enabled="false"
-                android:inputType="none"
                 android:paddingLeft="15dp"
                 android:textSize="18sp" />
 
@@ -122,8 +103,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_marginLeft="10dp"
-                android:enabled="false"
-                android:inputType="none"
                 android:paddingLeft="15dp"
                 android:textSize="18sp" />
 
@@ -136,11 +115,13 @@
             android:layout_marginStart="32dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="32dp"
+            android:layout_marginBottom="32dp"
             android:background="@color/black"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/linearLayout3"
-            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@+id/linearLayout3"
-            app:layout_constraintTop_toBottomOf="@+id/linearLayout3" />
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout3"
+            app:layout_constraintVertical_bias="0.137" />
 
         <TextView
             android:id="@+id/id_credit_card_text"
@@ -165,8 +146,6 @@
             android:layout_marginTop="32dp"
             android:layout_marginEnd="32dp"
             android:background="@drawable/editext_border"
-            android:inputType="none"
-            android:enabled="false"
             android:hint="Credit Card Name"
             android:paddingLeft="15dp"
             android:textColor="@color/gray"
@@ -185,8 +164,6 @@
             android:background="@drawable/editext_border"
             android:hint="Credit Card Number"
             android:paddingLeft="15dp"
-            android:inputType="none"
-            android:enabled="false"
             android:textColor="@color/gray"
             android:textColorHint="@color/gray"
             app:layout_constraintEnd_toEndOf="parent"
@@ -215,8 +192,6 @@
             android:layout_marginEnd="32dp"
             android:background="@drawable/editext_border"
             android:hint="MM/YY"
-            android:inputType="none"
-            android:enabled="false"
             android:paddingLeft="5dp"
             android:paddingRight="5dp"
             android:textColorHint="@color/gray"
@@ -246,8 +221,6 @@
             android:layout_marginEnd="32dp"
             android:background="@drawable/editext_border"
             android:hint="465"
-            android:inputType="none"
-            android:enabled="false"
             android:paddingLeft="5dp"
             android:paddingRight="5dp"
             android:textColorHint="@color/gray"
@@ -258,17 +231,19 @@
             app:layout_constraintTop_toBottomOf="@+id/id_cvv_register_input_txt" />
 
         <Button
+            android:id="@+id/id_edit_profile_save"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="36dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="24dp"
             android:layout_marginBottom="32dp"
-            android:padding="10dp"
-            android:text="Delete Account"
+            android:text="Save Changes"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/id_credit_card_view"
-            app:layout_constraintVertical_bias="1.0" />
+            app:layout_constraintVertical_bias="0.456" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

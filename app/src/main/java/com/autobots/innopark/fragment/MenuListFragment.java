@@ -131,7 +131,7 @@ public class MenuListFragment extends Fragment implements MenuRecyclerViewAdapte
             }
             case 1:
             {
-                selectedFragment = new VehicleFragment();
+                selectedFragment = new VehicleListFragment();
                 getActivity().getSupportFragmentManager()
                         .beginTransaction()
                         .setReorderingAllowed(true)

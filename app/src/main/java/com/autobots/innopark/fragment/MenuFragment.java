@@ -43,10 +43,6 @@ public class MenuFragment extends Fragment
         addMenuListFragment();
 
 
-//        addMenuItems();
-//        setupRecyclerView(view);
-//        setupSignOutDialog(view);
-
         return view;
     }
 
@@ -56,7 +52,7 @@ public class MenuFragment extends Fragment
         getActivity().getSupportFragmentManager()
                 .beginTransaction()
                 .setReorderingAllowed(true)
-                .add(R.id.id_child_fragment_container_view, fragment)
+                .replace(R.id.id_child_fragment_container_view, fragment)
                 .commit();
 
     }

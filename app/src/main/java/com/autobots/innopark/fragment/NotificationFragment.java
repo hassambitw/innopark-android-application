@@ -63,14 +63,10 @@ public class NotificationFragment extends Fragment {
     private void setupData()
     {
         notifs.add(new NotificationData(1, "Notification 1"));
-        notifs.add(new NotificationData(1, "Notification 1"));
-        notifs.add(new NotificationData(1, "Notification 1"));
-        notifs.add(new NotificationData(1, "Notification 1"));
-        notifs.add(new NotificationData(1, "Notification 1"));
-        notifs.add(new NotificationData(1, "Notification 1"));
-        notifs.add(new NotificationData(1, "Notification 1"));
-        notifs.add(new NotificationData(1, "Notification 1"));
-        notifs.add(new NotificationData(1, "Notification 1"));
+        notifs.add(new NotificationData(2, "Notification 2"));
+        notifs.add(new NotificationData(3, "Notification 3"));
+        notifs.add(new NotificationData(4, "Notification 4"));
+
     }
 
     private void setupRecyclerView(View view)

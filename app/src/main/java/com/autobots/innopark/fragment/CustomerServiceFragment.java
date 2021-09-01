@@ -1,5 +1,6 @@
 package com.autobots.innopark.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -9,6 +10,8 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.autobots.innopark.R;
@@ -16,8 +19,13 @@ import com.autobots.innopark.R;
 
 public class CustomerServiceFragment extends Fragment {
 
-    Toolbar toolbar;
-    TextView toolbar_title;
+    private Toolbar toolbar;
+    private TextView toolbar_title;
+    private Button sendButton;
+    private EditText toEditText;
+    private EditText subjectEditText;
+    private EditText messageEditText;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -25,9 +33,37 @@ public class CustomerServiceFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_customer_service, container, false);
 
+        sendButton = view.findViewById(R.id.id_customer_service_send_btn);
+        toEditText = view.findViewById(R.id.id_customer_service_to);
+        subjectEditText = view.findViewById(R.id.id_customer_service_subject);
+        messageEditText = view.findViewById(R.id.id_customer_service_message);
+
         setupToolbar();
 
+        sendButton.setOnClickListener((v) -> {
+            sendMail();
+        });
+
         return view;
+    }
+
+    private void sendMail()
+    {
+        String recipients = toEditText.getText().toString();
+        String[] recipientsSplit = recipients.split(",");
+
+        String subject = subjectEditText.getText().toString();
+        String message = messageEditText.getText().toString();
+
+        Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.putExtra(Intent.EXTRA_EMAIL, recipientsSplit);
+        intent.putExtra(Intent.EXTRA_SUBJECT, subject);
+        intent.putExtra(Intent.EXTRA_TEXT, message);
+
+        intent.setType("message/rfc822");
+        startActivity(Intent.createChooser(intent, "Choose an email app:"));
+
+
     }
 
     private void setupToolbar()
