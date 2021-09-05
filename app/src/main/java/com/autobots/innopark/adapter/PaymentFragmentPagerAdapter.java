@@ -6,11 +6,10 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 
-import com.autobots.innopark.fragment.FinesFragment;
-import com.autobots.innopark.fragment.TariffFragment;
+import com.autobots.innopark.fragment.FinesListFragment;
+import com.autobots.innopark.fragment.TariffListFragment;
 
 public class PaymentFragmentPagerAdapter extends FragmentStatePagerAdapter
 {
@@ -30,9 +29,9 @@ public class PaymentFragmentPagerAdapter extends FragmentStatePagerAdapter
         switch (position)
         {
             case 0:
-                return new TariffFragment();
+                return new TariffListFragment();
             case 1:
-                return new FinesFragment();
+                return new FinesListFragment();
             default:
                 return null;
         }

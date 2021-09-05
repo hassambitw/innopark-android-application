@@ -40,7 +40,7 @@ public class PaymentFragment extends Fragment {
     private void setupViewPager(View view)
     {
         ViewPager viewPager = view.findViewById(R.id.id_view_pager);
-        PagerAdapter pagerAdapter = new PaymentFragmentPagerAdapter(getFragmentManager());
+        PagerAdapter pagerAdapter = new PaymentFragmentPagerAdapter(getChildFragmentManager());
         viewPager.setAdapter(pagerAdapter);
         TabLayout tabLayout = view.findViewById(R.id.id_tabs);
         tabLayout.setupWithViewPager(viewPager);
