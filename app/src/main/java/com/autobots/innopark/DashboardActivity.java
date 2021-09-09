@@ -14,12 +14,17 @@ import com.autobots.innopark.fragment.MenuFragment;
 import com.autobots.innopark.fragment.NotificationFragment;
 import com.autobots.innopark.fragment.PaymentFragment;
 import com.google.android.material.navigation.NavigationBarView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 
 public class DashboardActivity extends AppCompatActivity {
 
     private NavigationBarView bottom_nav;
     final FragmentManager fm = getSupportFragmentManager();
+    private FirebaseAuth firebaseAuth;
+    private FirebaseUser currentUser;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,12 +33,22 @@ public class DashboardActivity extends AppCompatActivity {
 
         bottom_nav = findViewById(R.id.id_bottom_nav_menu);
         bottom_nav.setOnItemSelectedListener(navigationItemSelectedListener);
+        firebaseAuth = FirebaseAuth.getInstance();
 
         if (savedInstanceState == null)
         {
             bottom_nav.setSelectedItemId(R.id.id_bottom_nav_home);
         }
 
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        currentUser = firebaseAuth.getCurrentUser();
+        if (currentUser == null) {
+            startActivity(new Intent (getApplicationContext(), LoginActivity.class));
+        }
     }
 
 

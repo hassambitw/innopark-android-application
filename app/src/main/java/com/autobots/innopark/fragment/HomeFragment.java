@@ -1,7 +1,10 @@
 package com.autobots.innopark.fragment;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 
@@ -10,7 +13,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.autobots.innopark.LoginActivity;
 import com.autobots.innopark.R;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 
 public class HomeFragment extends Fragment
@@ -18,10 +24,35 @@ public class HomeFragment extends Fragment
 
     ImageView arrow;
     ImageView profile;
+    FirebaseAuth firebaseAuth;
+    FirebaseUser currentUser;
+
 
     public HomeFragment()
     {
 
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        currentUser = firebaseAuth.getCurrentUser();
+        if (currentUser == null) {
+            startActivity(new Intent(getActivity(), LoginActivity.class));
+        }
+    }
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+
+        firebaseAuth = FirebaseAuth.getInstance();
+
+        currentUser = firebaseAuth.getCurrentUser();
+        if (currentUser == null) {
+            startActivity(new Intent(getActivity(), LoginActivity.class));
+        }
     }
 
 
@@ -34,6 +65,8 @@ public class HomeFragment extends Fragment
 
         arrow = view.findViewById(R.id.id_home_arrow);
         profile = view.findViewById(R.id.id_home_profile_img);
+
+        firebaseAuth = FirebaseAuth.getInstance();
 
         arrow.setOnClickListener((v) -> {
             addCurrentSessionFragment();
