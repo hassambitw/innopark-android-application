@@ -93,7 +93,7 @@ public class RegisterActivity extends AppCompatActivity {
             String ccName = ccName_et.getText().toString().trim();
             long ccNum = Long.parseLong(ccNum_et.getText().toString().trim());
             String ccExpiry = ccExpiry_et.getText().toString().trim();
-            int ccCVV = Integer.parseInt(ccCVV_et.getText().toString().trim());
+            int ccCVV = Integer.parseInt(ccCVV_et.getText().toString().trim()); 
             String licenseNum = license_plate_et.getText().toString().trim();
 
 
