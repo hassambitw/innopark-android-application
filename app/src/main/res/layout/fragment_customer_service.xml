@@ -7,80 +7,98 @@
     tools:context=".fragment.CustomerServiceFragment"
     android:fillViewport="true">
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:gravity="center"
-        android:padding="20dp">
+        android:layout_height="0dp">
+
+        <include
+            android:id="@+id/id_menu_toolbar"
+            layout="@layout/toolbar"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/edittext_rounded"
-            android:padding="10dp">
+            android:layout_height="match_parent"
+            android:layout_marginTop="75dp"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="20dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/id_menu_toolbar">
 
-            <TextView
-                android:layout_width="50dp"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="To"
-                android:textSize="18sp" />
-
-            <EditText
-                android:id="@+id/id_customer_service_to"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@android:color/transparent" />
+                android:background="@drawable/edittext_rounded"
+                android:padding="10dp">
+
+                <TextView
+                    android:layout_width="50dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="To"
+                    android:textSize="18sp" />
+
+                <EditText
+                    android:id="@+id/id_customer_service_to"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/edittext_rounded"
+                android:padding="10dp">
+
+                <TextView
+                    android:layout_width="70dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="Subject"
+                    android:textSize="18sp" />
+
+                <EditText
+                    android:id="@+id/id_customer_service_subject"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:background="@android:color/transparent" />
+
+            </LinearLayout>
+
+            <EditText
+                android:id="@+id/id_customer_service_message"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginTop="10dp"
+                android:layout_weight="1"
+                android:background="@drawable/edittext_rounded"
+                android:gravity="top"
+                android:hint="Message"
+                android:padding="10dp" />
+
+            <Button
+                android:id="@+id/id_customer_service_send_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:padding="10dp"
+                android:text="Send"
+                android:textColor="@color/design_default_color_on_secondary" />
+
 
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/edittext_rounded"
-            android:padding="10dp"
-            android:layout_marginTop="10dp">
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <TextView
-                android:layout_width="70dp"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="Subject"
-                android:textSize="18sp" />
-
-            <EditText
-                android:id="@+id/id_customer_service_subject"
-                android:layout_width="match_parent"
-                android:layout_marginLeft="10dp"
-                android:layout_height="wrap_content"
-                android:background="@android:color/transparent" />
-
-        </LinearLayout>
-
-        <EditText
-            android:id="@+id/id_customer_service_message"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:gravity="top"
-            android:padding="10dp"
-            android:hint="Message"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/edittext_rounded" />
-
-        <Button
-            android:id="@+id/id_customer_service_send_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:padding="10dp"
-            android:text="Send"
-            android:textColor="@color/design_default_color_on_secondary" />
-
-
-    </LinearLayout>
 
 
 

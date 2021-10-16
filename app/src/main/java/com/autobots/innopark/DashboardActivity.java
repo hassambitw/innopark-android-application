@@ -5,14 +5,20 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
+
 import com.autobots.innopark.fragment.HomeFragment;
 import com.autobots.innopark.fragment.MenuFragment;
 import com.autobots.innopark.fragment.NotificationFragment;
-import com.autobots.innopark.fragment.PaymentFragment;
+import com.autobots.innopark.fragment.ParkingFragment;
 import com.google.android.material.navigation.NavigationBarView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -24,6 +30,7 @@ public class DashboardActivity extends AppCompatActivity {
     final FragmentManager fm = getSupportFragmentManager();
     private FirebaseAuth firebaseAuth;
     private FirebaseUser currentUser;
+    private View decorView;
 
 
     @Override
@@ -31,15 +38,63 @@ public class DashboardActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
 
+        setStatusBarGradiant(this);
+
+        decorView = getWindow().getDecorView();
         bottom_nav = findViewById(R.id.id_bottom_nav_menu);
         bottom_nav.setOnItemSelectedListener(navigationItemSelectedListener);
         firebaseAuth = FirebaseAuth.getInstance();
+
+       // hideNavigationBar();
 
         if (savedInstanceState == null)
         {
             bottom_nav.setSelectedItemId(R.id.id_bottom_nav_home);
         }
 
+    }
+
+    public static void setStatusBarGradiant(Activity activity)
+    {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Window window = activity.getWindow();
+            Drawable background = activity.getResources().getDrawable(R.drawable.gradient);
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.setStatusBarColor(activity.getResources().getColor(android.R.color.transparent));
+            window.setNavigationBarColor(activity.getResources().getColor(android.R.color.transparent));
+            window.setBackgroundDrawable(background);
+        }
+    }
+
+    public void hideNavigationBar()
+    {
+        decorView.setOnSystemUiVisibilityChangeListener(new View.OnSystemUiVisibilityChangeListener() {
+            @Override
+            public void onSystemUiVisibilityChange(int i) {
+                if (i == 0)
+                    decorView.setSystemUiVisibility(hideSystemBars());
+            }
+        });
+    }
+
+//    @Override
+//    public void onWindowFocusChanged(boolean hasFocus)
+//    {
+//        super.onWindowFocusChanged(hasFocus);
+//        if (hasFocus)
+//        {
+//            decorView.setSystemUiVisibility(hideSystemBars());
+//        }
+//    }
+
+    private int hideSystemBars()
+    {
+        return View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                | View.SYSTEM_UI_FLAG_FULLSCREEN
+                | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+                | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION;
     }
 
     @Override
@@ -67,8 +122,8 @@ public class DashboardActivity extends AppCompatActivity {
                             .replace(R.id.id_fragment_container_view, selected_fragment)
                             .commit();
                     break;
-                case R.id.id_bottom_nav_payment:
-                    selected_fragment = new PaymentFragment();
+                case R.id.id_bottom_nav_parking:
+                    selected_fragment = new ParkingFragment();
                     fm.beginTransaction()
                             .setReorderingAllowed(true)
                             .replace(R.id.id_fragment_container_view, selected_fragment)

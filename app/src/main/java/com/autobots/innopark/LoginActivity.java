@@ -59,7 +59,8 @@ public class LoginActivity extends AppCompatActivity
         });
 
         login_btn.setOnClickListener(view -> {
-            loginUser();
+           //loginUser();
+            startActivity(new Intent(getApplicationContext(), DashboardActivity.class));
         });
 
         forgot_password_tv.setOnClickListener(view -> {
@@ -67,28 +68,28 @@ public class LoginActivity extends AppCompatActivity
         });
     }
 
-    private void loginUser()
-    {
-        String email = email_et.getText().toString().trim();
-        String password = password_et.getText().toString().trim();
-
-        if (!TextUtils.isEmpty(email) && !TextUtils.isEmpty(password))
-        {
-            firebaseAuth.signInWithEmailAndPassword(email,password)
-                    .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-                            if (task.isSuccessful()) {
-                                Toast.makeText(getApplicationContext(), "User logged in successfully", Toast.LENGTH_SHORT).show();
-                                startActivity(new Intent(getApplicationContext(), DashboardActivity.class));
-                            } else {
-                                Toast.makeText(getApplicationContext(), "Login error: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                    });
-        } else {
-            Toast.makeText(getApplicationContext(), "Please fill all fields", Toast.LENGTH_SHORT).show();
-        }
-    }
+//    private void loginUser()
+//    {
+//        String email = email_et.getText().toString().trim();
+//        String password = password_et.getText().toString().trim();
+//
+//        if (!TextUtils.isEmpty(email) && !TextUtils.isEmpty(password))
+//        {
+//            firebaseAuth.signInWithEmailAndPassword(email,password)
+//                    .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+//                        @Override
+//                        public void onComplete(@NonNull Task<AuthResult> task) {
+//                            if (task.isSuccessful()) {
+//                                Toast.makeText(getApplicationContext(), "User logged in successfully", Toast.LENGTH_SHORT).show();
+//                                startActivity(new Intent(getApplicationContext(), DashboardActivity.class));
+//                            } else {
+//                                Toast.makeText(getApplicationContext(), "Login error: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+//                            }
+//                        }
+//                    });
+//        } else {
+//            Toast.makeText(getApplicationContext(), "Please fill all fields", Toast.LENGTH_SHORT).show();
+//        }
+//    }
 
 }

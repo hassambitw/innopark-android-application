@@ -8,6 +8,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -16,6 +17,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.GridLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,6 +36,7 @@ public class MenuListFragment extends Fragment implements MenuRecyclerViewAdapte
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
+    private GridLayoutManager gridLayoutManager;
     private ArrayList<MenuItemList> menuItem;
     AlertDialog signoutDialog;
     Button signOutBtn;
@@ -56,13 +59,14 @@ public class MenuListFragment extends Fragment implements MenuRecyclerViewAdapte
         View view = inflater.inflate(R.layout.fragment_menu_list, container, false);
         signOutBtn = view.findViewById(R.id.id_sign_out_btn);
         Fragment menuFragment = new MenuFragment();
-        firebaseAuth = FirebaseAuth.getInstance();
+        //firebaseAuth = FirebaseAuth.getInstance();
 
-        toolbar = ((AppCompatActivity) getActivity()).findViewById(R.id.id_menu_toolbar);
-        toolbar_title = toolbar.findViewById(R.id.id_toolbar_title);
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-        toolbar_title.setText("Menu");
+//        toolbar = ((AppCompatActivity) getActivity()).findViewById(R.id.id_menu_toolbar);
+//        toolbar_title = toolbar.findViewById(R.id.id_toolbar_title);
+//        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+//        toolbar_title.setText("Menu");
 
+        setupToolbar(view);
         addMenuItems();
         setupRecyclerView(view);
         setupSignOutDialog(view);
@@ -75,20 +79,21 @@ public class MenuListFragment extends Fragment implements MenuRecyclerViewAdapte
     {
         menuItem = new ArrayList<>();
 
-        menuItem.add(new MenuItemList(R.drawable.ic_baseline_profile_24, "Profile"));
-        menuItem.add(new MenuItemList(R.drawable.ic_baseline_directions_vehicle_24, "Vehicles"));
-        menuItem.add(new MenuItemList(R.drawable.ic_baseline_customer_service_two_24, "Customer Service"));
-        menuItem.add(new MenuItemList(R.drawable.ic_baseline_faq_24, "FAQ"));
-        menuItem.add(new MenuItemList(R.drawable.ic_baseline_admin_panel_settings_24, "Admin Panel"));
+        menuItem.add(new MenuItemList(R.drawable.menu_account, "Profile"));
+        menuItem.add(new MenuItemList(R.drawable.menu_car, "Vehicles"));
+        menuItem.add(new MenuItemList(R.drawable.menu_customer_service, "Customer Service"));
+        menuItem.add(new MenuItemList(R.drawable.menu_faq, "FAQ"));
+        menuItem.add(new MenuItemList(R.drawable.menu_admin_panel, "Admin Panel"));
     }
 
     private void setupRecyclerView(View view)
     {
         mRecyclerView = view.findViewById(R.id.id_menu_recycler_view);
         mRecyclerView.setHasFixedSize(true);
-        mLayoutManager = new LinearLayoutManager(getActivity());
+       // mLayoutManager = new LinearLayoutManager(getActivity());
+        gridLayoutManager = new GridLayoutManager(getActivity(), 2, GridLayoutManager.VERTICAL, false);
         mAdapter = new MenuRecyclerViewAdapter(menuItem, getActivity(), this);
-        mRecyclerView.setLayoutManager(mLayoutManager);
+        mRecyclerView.setLayoutManager(gridLayoutManager);
         mRecyclerView.setAdapter(mAdapter);
     }
 
@@ -102,7 +107,7 @@ public class MenuListFragment extends Fragment implements MenuRecyclerViewAdapte
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i)
                         {
-                            firebaseAuth.signOut();
+                            //firebaseAuth.signOut();
                             Toast.makeText(getActivity(), "User signed out", Toast.LENGTH_SHORT).show();
                             startActivity(new Intent(getActivity(), LoginActivity.class));
                         }
@@ -111,6 +116,17 @@ public class MenuListFragment extends Fragment implements MenuRecyclerViewAdapte
                     .setCancelable(false)
                     .show();
         });
+    }
+
+    private void setupToolbar(View view)
+    {
+        toolbar = view.findViewById(R.id.id_menu_toolbar);
+        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(false);
+        toolbar_title = toolbar.findViewById(R.id.id_toolbar_title);
+        toolbar_title.setText("Menu");
+        //toolbar.setTitle("Menu");
+        //((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     @Override

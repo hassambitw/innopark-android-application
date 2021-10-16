@@ -39,7 +39,6 @@ public class MenuFragment extends Fragment
         View view =  inflater.inflate(R.layout.fragment_menu, container, false);
         signOutBtn = view.findViewById(R.id.id_sign_out_btn);
 
-        setupToolbar(view);
         addMenuListFragment();
 
 
@@ -57,16 +56,7 @@ public class MenuFragment extends Fragment
 
     }
 
-    private void setupToolbar(View view)
-    {
-        toolbar = view.findViewById(R.id.id_menu_toolbar);
-        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(false);
-        toolbar_title = toolbar.findViewById(R.id.id_toolbar_title);
-        toolbar_title.setText("Menu");
-        //toolbar.setTitle("Menu");
-        //((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-    }
+
 
 
 

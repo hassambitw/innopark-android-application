@@ -64,7 +64,7 @@ public class NotificationsRecyclerViewAdapter extends RecyclerView.Adapter<Notif
         public MySwipeViewHolder (@NonNull View itemView)
         {
             super(itemView);
-            mNotificationText = itemView.findViewById(R.id.id_notifications_textview);
+            mNotificationText = itemView.findViewById(R.id.id_notifications_text);
             mDelete = itemView.findViewById(R.id.id_delete_notification_textview);
             swipeLayout = itemView.findViewById(R.id.id_swipe_layout);
 

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+  <style name="Android.Screens.Theme" parent="@android:style/Theme.Material.Light" />
+
+<!--  <style name="BottomNavigationViewStyle" parent="Widget.MaterialComponents.BottomNavigationView.Colored">-->
+<!--    <item name="android:background">@drawable/gradient</item>-->
+<!--    <item name="itemTextColor">@color/white</item>-->
+<!--    <item name="itemIconTint">@color/white</item>-->
+<!--  </style>-->
+
+  <style name="ThemeOverlay.App.TabLayout" parent="">
+    <item name="colorPrimary">@color/teal_one</item>
+    <item name="colorSurface">@color/silver</item>
+    <item name="colorOnSurface">@color/light_blue</item>
+  </style>
+
+</resources>
+

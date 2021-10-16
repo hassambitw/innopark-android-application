@@ -20,7 +20,7 @@ import com.autobots.innopark.R;
 public class CustomerServiceFragment extends Fragment {
 
     private Toolbar toolbar;
-    private TextView toolbar_title;
+    private TextView toolbarTitle;
     private Button sendButton;
     private EditText toEditText;
     private EditText subjectEditText;
@@ -38,7 +38,7 @@ public class CustomerServiceFragment extends Fragment {
         subjectEditText = view.findViewById(R.id.id_customer_service_subject);
         messageEditText = view.findViewById(R.id.id_customer_service_message);
 
-        setupToolbar();
+        setupToolbar(view);
 
         sendButton.setOnClickListener((v) -> {
             sendMail();
@@ -66,12 +66,14 @@ public class CustomerServiceFragment extends Fragment {
 
     }
 
-    private void setupToolbar()
+    private void setupToolbar(View view)
     {
-        toolbar = getActivity().findViewById(R.id.id_menu_toolbar);
+        toolbar = view.findViewById(R.id.id_menu_toolbar);
+        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(false);
         ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        toolbar_title = toolbar.findViewById(R.id.id_toolbar_title);
-        toolbar_title.setText("Customer Service");
+        toolbarTitle = toolbar.findViewById(R.id.id_toolbar_title);
+        toolbarTitle.setText("Customer Service");
 
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override

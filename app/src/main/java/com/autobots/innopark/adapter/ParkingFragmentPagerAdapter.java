@@ -11,13 +11,13 @@ import androidx.fragment.app.FragmentStatePagerAdapter;
 import com.autobots.innopark.fragment.FinesListFragment;
 import com.autobots.innopark.fragment.TariffListFragment;
 
-public class PaymentFragmentPagerAdapter extends FragmentStatePagerAdapter
+public class ParkingFragmentPagerAdapter extends FragmentStatePagerAdapter
 {
 
     private String tab_names[] = new String[] {"Tariff", "Fines"};
     private Context context;
 
-    public PaymentFragmentPagerAdapter(@NonNull FragmentManager fm)
+    public ParkingFragmentPagerAdapter(@NonNull FragmentManager fm)
     {
         super(fm);
     }
