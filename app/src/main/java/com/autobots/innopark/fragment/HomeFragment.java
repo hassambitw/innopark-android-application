@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.autobots.innopark.Config;
 import com.autobots.innopark.LoginActivity;
 import com.autobots.innopark.R;
 import com.google.firebase.auth.FirebaseAuth;
@@ -24,7 +25,7 @@ public class HomeFragment extends Fragment
 
     ImageView arrow;
     ImageView profile;
-    FirebaseAuth firebaseAuth;
+    final FirebaseAuth firebaseAuth = Config.firebaseAuth;
     FirebaseUser currentUser;
 
 
@@ -47,8 +48,6 @@ public class HomeFragment extends Fragment
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
 
-        firebaseAuth = FirebaseAuth.getInstance();
-
         currentUser = firebaseAuth.getCurrentUser();
         if (currentUser == null) {
             startActivity(new Intent(getActivity(), LoginActivity.class));
@@ -66,7 +65,6 @@ public class HomeFragment extends Fragment
         arrow = view.findViewById(R.id.id_home_arrow);
         profile = view.findViewById(R.id.id_home_profile_img);
 
-        firebaseAuth = FirebaseAuth.getInstance();
 
         arrow.setOnClickListener((v) -> {
             addCurrentSessionFragment();

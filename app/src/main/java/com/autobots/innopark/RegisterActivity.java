@@ -48,12 +48,12 @@ public class RegisterActivity extends AppCompatActivity {
     private EditText ccCVV_et;
 
     //Firebase Auth
-    private FirebaseAuth firebaseAuth;
+    private FirebaseAuth firebaseAuth = Config.firebaseAuth;
     private FirebaseAuth.AuthStateListener authStateListener;
     private FirebaseUser currentUser;
 
     //firestore connection
-    private FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private FirebaseFirestore db = Config.db;
     private CollectionReference collectionReference = db.collection("Users");
 
     private boolean ownVehicle;
@@ -79,9 +79,6 @@ public class RegisterActivity extends AppCompatActivity {
         ccNum_et = findViewById(R.id.id_register_ccnum);
         ccExpiry_et = findViewById(R.id.id_register_ccexpiry);
         ccCVV_et = findViewById(R.id.id_register_cc_cvv);
-
-
-        firebaseAuth = FirebaseAuth.getInstance();
 
 
         register_btn.setOnClickListener(view -> {

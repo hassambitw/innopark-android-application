@@ -19,6 +19,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.autobots.innopark.Config;
 import com.autobots.innopark.LoginActivity;
 import com.autobots.innopark.R;
 import com.autobots.innopark.adapter.MenuRecyclerViewAdapter;
@@ -39,7 +40,7 @@ public class MenuListFragment extends Fragment implements MenuRecyclerViewAdapte
     Button signOutBtn;
     TextView toolbar_title;
 
-    FirebaseAuth firebaseAuth;
+    final FirebaseAuth firebaseAuth = Config.firebaseAuth;
 
 
     public MenuListFragment()
@@ -56,7 +57,6 @@ public class MenuListFragment extends Fragment implements MenuRecyclerViewAdapte
         View view = inflater.inflate(R.layout.fragment_menu_list, container, false);
         signOutBtn = view.findViewById(R.id.id_sign_out_btn);
         Fragment menuFragment = new MenuFragment();
-        firebaseAuth = FirebaseAuth.getInstance();
 
         toolbar = ((AppCompatActivity) getActivity()).findViewById(R.id.id_menu_toolbar);
         toolbar_title = toolbar.findViewById(R.id.id_toolbar_title);

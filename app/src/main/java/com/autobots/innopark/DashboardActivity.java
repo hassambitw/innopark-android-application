@@ -22,7 +22,7 @@ public class DashboardActivity extends AppCompatActivity {
 
     private NavigationBarView bottom_nav;
     final FragmentManager fm = getSupportFragmentManager();
-    private FirebaseAuth firebaseAuth;
+    private FirebaseAuth firebaseAuth = Config.firebaseAuth;
     private FirebaseUser currentUser;
 
 
@@ -33,7 +33,6 @@ public class DashboardActivity extends AppCompatActivity {
 
         bottom_nav = findViewById(R.id.id_bottom_nav_menu);
         bottom_nav.setOnItemSelectedListener(navigationItemSelectedListener);
-        firebaseAuth = FirebaseAuth.getInstance();
 
         if (savedInstanceState == null)
         {

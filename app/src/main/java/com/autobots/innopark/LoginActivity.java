@@ -1,5 +1,7 @@
 package com.autobots.innopark;
 
+import com.autobots.innopark.Config;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -32,12 +34,12 @@ public class LoginActivity extends AppCompatActivity
     private EditText password_et;
 
     //Firebase Auth
-    private FirebaseAuth firebaseAuth;
+    private FirebaseAuth firebaseAuth = Config.firebaseAuth;
     private FirebaseAuth.AuthStateListener authStateListener;
     private FirebaseUser currentUser;
 
     //firestore connection
-    private FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private FirebaseFirestore db = Config.db;
 
 
     @Override
@@ -51,8 +53,6 @@ public class LoginActivity extends AppCompatActivity
         forgot_password_tv = findViewById(R.id.id_forgot_password_txt);
         email_et = findViewById(R.id.id_email);
         password_et = findViewById(R.id.id_password);
-
-        firebaseAuth = FirebaseAuth.getInstance();
 
         register_tv.setOnClickListener(view -> {
             startActivity(new Intent(LoginActivity.this, RegisterActivity.class));
