@@ -16,7 +16,7 @@ import com.autobots.innopark.R;
 public class FAQFragment extends Fragment {
 
     Toolbar toolbar;
-    TextView toolbar_title;
+    TextView toolbarTitle;
 
 
     @Override
@@ -25,17 +25,19 @@ public class FAQFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_f_a_q, container, false);
 
-        setupToolbar();
+        setupToolbar(view);
 
         return view;
     }
 
-    private void setupToolbar()
+    private void setupToolbar(View view)
     {
-        toolbar = getActivity().findViewById(R.id.id_menu_toolbar);
+        toolbar = view.findViewById(R.id.id_menu_toolbar);
+        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(false);
         ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        toolbar_title = toolbar.findViewById(R.id.id_toolbar_title);
-        toolbar_title.setText("FAQ");
+        toolbarTitle = toolbar.findViewById(R.id.id_toolbar_title);
+        toolbarTitle.setText("FAQ");
 
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override

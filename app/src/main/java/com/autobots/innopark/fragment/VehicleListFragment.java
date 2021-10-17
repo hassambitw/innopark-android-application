@@ -22,7 +22,7 @@ import java.util.ArrayList;
 public class VehicleListFragment extends Fragment implements VehicleRecyclerViewAdapter.OnVehicleClickListener {
 
     Toolbar toolbar;
-    TextView toolbar_title;
+    TextView toolbarTitle;
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
@@ -47,7 +47,7 @@ public class VehicleListFragment extends Fragment implements VehicleRecyclerView
             addVehicleFragment();
         });
 
-        setupToolbar();
+        setupToolbar(view);
         populateVehicles();
         setupRecyclerView(view);
 
@@ -62,12 +62,14 @@ public class VehicleListFragment extends Fragment implements VehicleRecyclerView
         vehicleList.add(new Vehicle("C4521", new String[]{"Pritish Agarwal, Wahdan Hasan"}, "Lamborghini Aventador"));
     }
 
-    private void setupToolbar()
+    private void setupToolbar(View view)
     {
-        toolbar = getActivity().findViewById(R.id.id_menu_toolbar);
+        toolbar = view.findViewById(R.id.id_menu_toolbar);
+        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(false);
         ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        toolbar_title = toolbar.findViewById(R.id.id_toolbar_title);
-        toolbar_title.setText("Vehicles");
+        toolbarTitle = toolbar.findViewById(R.id.id_toolbar_title);
+        toolbarTitle.setText("Customer Support");
 
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override

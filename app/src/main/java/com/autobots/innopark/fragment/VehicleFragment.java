@@ -25,7 +25,7 @@ import java.util.ArrayList;
 public class VehicleFragment extends Fragment {
 
     Toolbar toolbar;
-    TextView toolbar_title;
+    TextView toolbarTitle;
     Button addDriver;
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
@@ -49,7 +49,7 @@ public class VehicleFragment extends Fragment {
             addDriverFragment();
         });
 
-        setupToolbar();
+        setupToolbar(view);
         populateDrivers();
         setupRecyclerView(view);
 
@@ -78,12 +78,14 @@ public class VehicleFragment extends Fragment {
         driverList.add(new Driver("Pritish Agarwal", "21", "05/12/1999", "India"));
     }
 
-    private void setupToolbar()
+    private void setupToolbar(View view)
     {
-        toolbar = getActivity().findViewById(R.id.id_menu_toolbar);
+        toolbar = view.findViewById(R.id.id_menu_toolbar);
+        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(false);
         ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        toolbar_title = toolbar.findViewById(R.id.id_toolbar_title);
-        toolbar_title.setText("Vehicle Details");
+        toolbarTitle = toolbar.findViewById(R.id.id_toolbar_title);
+        toolbarTitle.setText("Vehicle Details");
 
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override

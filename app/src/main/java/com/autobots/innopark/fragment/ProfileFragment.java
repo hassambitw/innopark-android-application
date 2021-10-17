@@ -41,25 +41,27 @@ public class ProfileFragment extends Fragment
             editProfileFragment();
         });
 
-//        setupToolbar();
+        setupToolbar(view);
 
         return view;
     }
 
-//    private void setupToolbar()
-//    {
-//        toolbar = getActivity().findViewById(R.id.id_menu_toolbar);
-//        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-//        toolbar_title = toolbar.findViewById(R.id.id_toolbar_title);
-//        toolbar_title.setText("Profile");
-//
-//        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                getActivity().onBackPressed();
-//            }
-//        });
-//    }
+    private void setupToolbar(View view)
+    {
+        toolbar = view.findViewById(R.id.id_menu_toolbar);
+        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(false);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        toolbar_title = toolbar.findViewById(R.id.id_toolbar_title);
+        toolbar_title.setText("Profile");
+
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().onBackPressed();
+            }
+        });
+    }
 
     private void editProfileFragment()
     {

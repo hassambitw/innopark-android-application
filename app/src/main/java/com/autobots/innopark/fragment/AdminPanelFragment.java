@@ -23,7 +23,7 @@ import java.util.ArrayList;
 public class AdminPanelFragment extends Fragment implements AdminPanelRecyclerViewAdapter.OnAdminPanelClickListener {
 
     Toolbar toolbar;
-    TextView toolbar_title;
+    TextView toolbarTitle;
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
@@ -36,7 +36,7 @@ public class AdminPanelFragment extends Fragment implements AdminPanelRecyclerVi
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_admin_panel, container, false);
 
-        setupToolbar();
+        setupToolbar(view);
         populateAdminPanel();
         setupRecyclerView(view);
 
@@ -68,12 +68,14 @@ public class AdminPanelFragment extends Fragment implements AdminPanelRecyclerVi
         mRecyclerView.setAdapter(mAdapter);
     }
 
-    private void setupToolbar()
+    private void setupToolbar(View view)
     {
-        toolbar = getActivity().findViewById(R.id.id_menu_toolbar);
+        toolbar = view.findViewById(R.id.id_menu_toolbar);
+        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(false);
         ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        toolbar_title = toolbar.findViewById(R.id.id_toolbar_title);
-        toolbar_title.setText("Admin Panel");
+        toolbarTitle = toolbar.findViewById(R.id.id_toolbar_title);
+        toolbarTitle.setText("Admin Panel");
 
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override

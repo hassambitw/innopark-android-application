@@ -2,7 +2,7 @@
     <!-- Base application theme. -->
     <style name="Theme.InnoPark" parent="Theme.Design.Light.NoActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/purple</item>
+        <item name="colorPrimary">@color/white</item>
         <item name="colorPrimaryVariant">@color/light_blue</item>
         <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->
@@ -11,6 +11,8 @@
         <item name="colorOnSecondary">@color/black</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
+
+<!--        <item name="bottomNavigationStyle">@style/BottomNavigationViewStyle</item>-->
         <!-- Customize your theme here. -->
     </style>
 
@@ -22,4 +24,6 @@
     <style name="Theme.InnoPark.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="Theme.InnoPark.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+
 </resources>

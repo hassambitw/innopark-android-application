@@ -37,7 +37,7 @@ public class MenuRecyclerViewAdapter extends RecyclerView.Adapter<MenuRecyclerVi
     @Override
     public MenuRecyclerViewAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType)
     {
-        View view = LayoutInflater.from(context).inflate(R.layout.menu_row_item_view, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.menu_grid_layout_view, parent, false);
         return new ViewHolder(view, onMenuClickListener);
     }
 
@@ -67,8 +67,8 @@ public class MenuRecyclerViewAdapter extends RecyclerView.Adapter<MenuRecyclerVi
         public ViewHolder(@NonNull View itemView, OnMenuClickListener onMenuClickListener)
         {
             super(itemView);
-            myImageView = itemView.findViewById(R.id.id_menu_image);
-            m_text_view = itemView.findViewById(R.id.id_menu_txt);
+            myImageView = itemView.findViewById(R.id.grid_menu_image_id);
+            m_text_view = itemView.findViewById(R.id.grid_menu_text_id);
             this.onMenuClickListener = onMenuClickListener;
 
             itemView.setOnClickListener(this);

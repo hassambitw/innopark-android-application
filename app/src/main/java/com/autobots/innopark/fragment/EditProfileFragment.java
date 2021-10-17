@@ -33,14 +33,16 @@ public class EditProfileFragment extends Fragment
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_edit_profile, container, false);
 
-        setupToolbar();
+        setupToolbar(view);
 
         return view;
     }
 
-    private void setupToolbar()
+    private void setupToolbar(View view)
     {
-        toolbar = getActivity().findViewById(R.id.id_menu_toolbar);
+        toolbar = view.findViewById(R.id.id_menu_toolbar);
+        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(false);
         ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         toolbarTitle = toolbar.findViewById(R.id.id_toolbar_title);
         toolbarTitle.setText("Edit Profile");

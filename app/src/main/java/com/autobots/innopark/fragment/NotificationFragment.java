@@ -62,10 +62,10 @@ public class NotificationFragment extends Fragment {
 
     private void setupData()
     {
-        notifs.add(new NotificationData(1, "Notification 1"));
-        notifs.add(new NotificationData(2, "Notification 2"));
-        notifs.add(new NotificationData(3, "Notification 3"));
-        notifs.add(new NotificationData(4, "Notification 4"));
+        notifs.add(new NotificationData(1, "You have parked at spot B1"));
+        notifs.add(new NotificationData(2, "You have parked at spot B2"));
+        notifs.add(new NotificationData(3, "You have parked at spot B3"));
+        notifs.add(new NotificationData(4, "You have parked at spot B4"));
 
     }
 

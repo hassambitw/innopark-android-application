@@ -17,7 +17,7 @@ import com.autobots.innopark.R;
 public class AddDriverFragment extends Fragment {
 
     Toolbar toolbar;
-    TextView toolbar_title;
+    TextView toolbarTitle;
     TextView driverName;
     TextView driverAge;
     TextView driverDOB;
@@ -38,17 +38,19 @@ public class AddDriverFragment extends Fragment {
         driverDOB = view.findViewById(R.id.id_add_drivers_dob);
         driverNationality = view.findViewById(R.id.id_add_drivers_nationality);
 
-        setupToolbar();
+        setupToolbar(view);
 
         return view;
     }
 
-    private void setupToolbar()
+    private void setupToolbar(View view)
     {
-        toolbar = getActivity().findViewById(R.id.id_menu_toolbar);
+        toolbar = view.findViewById(R.id.id_menu_toolbar);
+        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(false);
         ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        toolbar_title = toolbar.findViewById(R.id.id_toolbar_title);
-        toolbar_title.setText("Add Driver");
+        toolbarTitle = toolbar.findViewById(R.id.id_toolbar_title);
+        toolbarTitle.setText("Add Driver");
 
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override

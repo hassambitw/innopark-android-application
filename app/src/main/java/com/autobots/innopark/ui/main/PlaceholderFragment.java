@@ -12,7 +12,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.autobots.innopark.databinding.FragmentPaymentBinding;
+import com.autobots.innopark.databinding.FragmentParkingBinding;
 import com.autobots.innopark.databinding.FragmentTariffBinding;
 import com.autobots.innopark.databinding.FragmentTariffBinding;
 
