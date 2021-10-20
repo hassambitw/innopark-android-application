@@ -15,9 +15,8 @@ import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.autobots.innopark.data.DatabaseUtils;
+import com.autobots.innopark.data.Callbacks.StringCallback;
 import com.autobots.innopark.data.Tags;
-import com.autobots.innopark.data.Listeners;
-import com.autobots.innopark.data.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
@@ -27,7 +26,6 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -170,8 +168,8 @@ public class RegisterActivity extends AppCompatActivity {
                                 user.put("vehicles_owned", vehicles_owned);
                                 //if (ownVehicle) userObject.put("License Number", licenseNum);
 
-                                DatabaseUtils.addData(collection, currentUserID, user, new Listeners.DbListenerCallback(){
-                                            public void getResult(String result){
+                                DatabaseUtils.addData(collection, currentUserID, user, new StringCallback(){
+                                        public void passStringResult(String result){
                                                 if(result.equals(Tags.SUCCESS.name())){
                                                     Log.w(Tags.SUCCESS.name(), "ADDED DATA");
 

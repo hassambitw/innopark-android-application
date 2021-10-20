@@ -77,8 +77,8 @@ public class User {
 //    // Create a new user with a first and last name
 //    public static void addUser(String user_uid, Object u) {
 //
-//        DatabaseUtils.addData(col, user_uid, u, new Listeners.DbListenerCallback(){
-//            public void getResult(String result){
+//        DatabaseUtils.addData(col, user_uid, u, new Listeners.StringCallback(){
+//            public void passStringResult(String result){
 //                if(result.equals(Tags.SUCCESS.name())){
 //                    Log.w("Success", "ADDED DATA");
 //                }
@@ -140,8 +140,8 @@ public class User {
 //            user.put(vehicles_driven_field, this.vehicles_driven);
 //            user.put(vehicles_owned_field, this.vehicles_owned);
 //
-//        DatabaseUtils.addData(collection, user_uid, user, new Listeners.DbListenerCallback(){
-//            public void getResult(String result){
+//        DatabaseUtils.addData(collection, user_uid, user, new Listeners.StringCallback(){
+//            public void passStringResult(String result){
 //                if(result.equals(Tags.SUCCESS.name())){
 //                    Log.w("Success", "ADDED DATA");
 //                }

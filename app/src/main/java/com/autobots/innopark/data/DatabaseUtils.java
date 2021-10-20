@@ -4,15 +4,13 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
+import com.autobots.innopark.data.Callbacks.StringCallback;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.Query;
 
 import java.util.Map;
 
@@ -47,7 +45,7 @@ public class DatabaseUtils {
 //                @Override
 //                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
 //                    if (task.isSuccessful()) {
-//                        DocumentSnapshot document = task.getResult();
+//                        DocumentSnapshot document = task.passStringResult();
 //                        if (document != null && document.exists()) {
 //                            Log.d("SUCCESS", document.getString(field.toString())); //Print the name
 //                        } else {
@@ -61,7 +59,7 @@ public class DatabaseUtils {
 //
 //    }
 
-    public static void addData(String collection, String doc, Object data, Listeners.DbListenerCallback callback){
+    public static void addData(String collection, String doc, Object data, StringCallback callback){
          db.collection(collection).document(doc)
                 .set(data)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -80,8 +78,8 @@ public class DatabaseUtils {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if(task.isSuccessful()){
-                            callback.getResult(Tags.SUCCESS.name());
-                        }else callback.getResult(Tags.FAILURE.name());
+                            callback.passStringResult(Tags.SUCCESS.name());
+                        }else callback.passStringResult(Tags.FAILURE.name());
                     }
                 });
     }

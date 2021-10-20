@@ -14,6 +14,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.autobots.innopark.data.Driver;
 import com.autobots.innopark.data.Tags;
 import com.autobots.innopark.data.User;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -80,7 +81,7 @@ public class LoginActivity extends AppCompatActivity
 //                        @Override
 //                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
 //                            if (task.isSuccessful()) {
-//                                for (QueryDocumentSnapshot document : task.getResult()) {
+//                                for (QueryDocumentSnapshot document : task.passStringResult()) {
 //                                    Log.d(Tags.SUCCESS.name(), document.getId() + " => " + document.getData());
 //                                }
 //                            } else {
@@ -89,13 +90,14 @@ public class LoginActivity extends AppCompatActivity
 //                        }
 //                    });
             //User.getEmail("0FvlIc1YgEcen0hxtXiT08hFsxq1");
-            User.getUserUsingEmail("rama6@gmail.com");
+            //User.getUserUsingEmail("rama6@gmail.com");
+            Driver.getDriversListDOB("J71612");
 //            DocumentReference docRef = db.collection("Users").document("0FvlIc1YgEcen0hxtXiT08hFsxq1");
 //            docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
 //                @Override
 //                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
 //                    if (task.isSuccessful()) {
-//                        DocumentSnapshot document = task.getResult();
+//                        DocumentSnapshot document = task.passStringResult();
 //                        if (document != null && document.exists()) {
 //                            Log.d("SUCCESS", document.getString("Email")); //Print the name
 //                        } else {

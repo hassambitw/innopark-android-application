@@ -173,8 +173,8 @@
 //                                                        .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
 //                                                            @Override
 //                                                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-//                                                                if (Objects.requireNonNull(task).getResult().exists()) {
-//                                                                    String name = task.getResult()
+//                                                                if (Objects.requireNonNull(task).passStringResult().exists()) {
+//                                                                    String name = task.passStringResult()
 //                                                                            .getString("username");
 //
 //                                                                    Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
