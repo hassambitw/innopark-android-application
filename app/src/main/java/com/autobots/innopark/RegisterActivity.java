@@ -17,6 +17,7 @@ import android.widget.Toast;
 import com.autobots.innopark.data.DatabaseUtils;
 import com.autobots.innopark.data.Tags;
 import com.autobots.innopark.data.Listeners;
+import com.autobots.innopark.data.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
@@ -25,7 +26,10 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class RegisterActivity extends AppCompatActivity {
@@ -83,7 +87,7 @@ public class RegisterActivity extends AppCompatActivity {
             String first_name = first_name_et.getText().toString().trim();
             String last_name = last_name_et.getText().toString().trim();
             String password  = password_et.getText().toString().trim();
-            long id = Long.parseLong(id_et.getText().toString().trim()); // string to long
+            String id = id_et.getText().toString().trim(); // string to long
             String phoneNumber = phoneNum_et.getText().toString().trim();
             String licenseNum = license_plate_et.getText().toString().trim();
 
@@ -126,7 +130,7 @@ public class RegisterActivity extends AppCompatActivity {
 
     }
 
-    private void createUserEmailAccount(String email, String first_name, String last_name, String password, long id, String phoneNumber, boolean ownVehicle)
+    private void createUserEmailAccount(String email, String first_name, String last_name, String password, String id, String phoneNumber, boolean ownVehicle)
     {
         if (!TextUtils.isEmpty(email) && !TextUtils.isEmpty(first_name) && !TextUtils.isEmpty(last_name) && !TextUtils.isEmpty(password) && !TextUtils.isEmpty(String.valueOf(id)) && !TextUtils.isEmpty(phoneNumber))
         {
@@ -141,11 +145,19 @@ public class RegisterActivity extends AppCompatActivity {
                                 assert currentUser != null;
                                 String currentUserID = currentUser.getUid();
 
-//                                User user = new User(currentUserID, email, password, username, username, currentUserID, phoneNumber, String.valueOf(ownVehicle));
+//                                String vehicle = "11222333";
+//                                User user = new User(currentUserID, email, password, first_name,
+//                                        last_name, id, phoneNumber, vehicle);
 //
-//                                user.addUser(user);
+//                                user.addUser();
 
                                 //create user map so we can add a user to user collection in firestore
+                                List<String> vehicles_driven=new ArrayList<String>();
+                                List<String> vehicles_owned=new ArrayList<String>();
+
+                                //change this to license number entered by user if he owns a vehicle
+                                vehicles_owned.add("12345");
+
                                 Map<String, Object> user = new HashMap<>();
                                 user.put("email_address", email);
                                 user.put("first_name", first_name);
@@ -154,8 +166,8 @@ public class RegisterActivity extends AppCompatActivity {
                                 user.put("last_name", last_name);
                                 user.put("password", password);
                                 user.put("phone_number", phoneNumber);
-                                user.put("vehicles_driven", "1234");
-                                user.put("vehicles_owned", null);
+                                user.put("vehicles_driven", vehicles_driven);
+                                user.put("vehicles_owned", vehicles_owned);
                                 //if (ownVehicle) userObject.put("License Number", licenseNum);
 
                                 DatabaseUtils.addData(collection, currentUserID, user, new Listeners.DbListenerCallback(){

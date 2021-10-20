@@ -73,9 +73,6 @@ public class LoginActivity extends AppCompatActivity
 
         login_btn.setOnClickListener(view -> {
            //loginUser();
-//            Log.w("REMEMBER", "DELETE ME");
-//            User.getUserUsingEmail("rama@gmail.com");
-//            Log.w("QUERY RETURNED", "q.toString()");
 //            DatabaseUtils.db.collection("Users")
 //                    .whereEqualTo("Email", "rama@gmail.com")
 //                    .get()
@@ -92,7 +89,7 @@ public class LoginActivity extends AppCompatActivity
 //                        }
 //                    });
             //User.getEmail("0FvlIc1YgEcen0hxtXiT08hFsxq1");
-            User.getUserUsingEmail("rama3@gmail.com");
+            User.getUserUsingEmail("rama6@gmail.com");
 //            DocumentReference docRef = db.collection("Users").document("0FvlIc1YgEcen0hxtXiT08hFsxq1");
 //            docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
 //                @Override
@@ -135,7 +132,7 @@ public class LoginActivity extends AppCompatActivity
 //                                Toast.makeText(getApplicationContext(), "Error getting data!!!", Toast.LENGTH_LONG).show();
 //                            }
 //                        });
-            //startActivity(new Intent(getApplicationContext(), DashboardActivity.class));
+            startActivity(new Intent(getApplicationContext(), DashboardActivity.class));
         });
 
         forgot_password_tv.setOnClickListener(view -> {

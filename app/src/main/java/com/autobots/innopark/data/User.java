@@ -12,6 +12,7 @@ import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,7 +28,7 @@ public class User {
     private String phone_number;
     private List<String> vehicles_owned;
     private List<String> vehicles_driven;
-    private boolean is_banned = false;
+    private boolean is_banned;
 
     private String user_uid_field = "user_uid";
     private String email_address_field = "email_address";
@@ -51,15 +52,15 @@ public class User {
     public static String vehicles_driven_field1 = "vehicles_driven";
     public static String is_banned_field1 = "is_banned";
 
-    private String collection = "Users";
-    public static String col = "Users";
+    private String collection = "users";
+    public static String col = "users";
 
     //shouldnt be adding more than one vehicle at registration?
     // could ask the user how many vehicles they own first then show number of fields accordingly
-    public User(){}
 
     public User(String user_uid, String email_address, String password, String first_name, String last_name,
                 String user_id_card_number, String phone_number, String vehicles_owned){
+        Log.w("EMAIL_ADDRESS1", email_address);
         this.user_uid = user_uid;
         this.email_address = email_address;
         this.password = password;
@@ -68,30 +69,22 @@ public class User {
         this.user_id_card_number = user_id_card_number;
         this.phone_number = phone_number;
         this.vehicles_owned.add(vehicles_owned);
+        this.vehicles_driven = null;
+        this.is_banned = false;
     }
 
     
-    // Create a new user with a first and last name
-    public void addUser(User u) {
-        Map<String, Object> user = new HashMap<>();
-        user.put(email_address_field, u.email_address);
-        user.put(first_name_field, u.first_name);
-        user.put(user_id_card_number, u.user_id_card_number);
-        user.put(is_banned_field, u.is_banned);
-        user.put(last_name_field, u.last_name);
-        user.put(password_field, u.password);
-        user.put(phone_number_field, u.phone_number);
-        user.put(vehicles_driven_field, u.vehicles_driven);
-        user.put(vehicles_owned_field, u.vehicles_owned);
-
-        DatabaseUtils.addData(collection, user_uid, user, new Listeners.DbListenerCallback(){
-            public void getResult(String result){
-                if(result.equals(Tags.SUCCESS.name())){
-                    Log.w("Success", "ADDED DATA");
-                }
-            }
-        });
-    }
+//    // Create a new user with a first and last name
+//    public static void addUser(String user_uid, Object u) {
+//
+//        DatabaseUtils.addData(col, user_uid, u, new Listeners.DbListenerCallback(){
+//            public void getResult(String result){
+//                if(result.equals(Tags.SUCCESS.name())){
+//                    Log.w("Success", "ADDED DATA");
+//                }
+//            }
+//        });
+//    }
 
     // wouldnt need a parameter when class is used for initialization of user
     public static void getEmail(String user_id){
@@ -122,9 +115,11 @@ public class User {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                Log.d(Tags.SUCCESS.name(), document.getId() + " => " + document.getData());
-                            }
+                            if(!task.getResult().isEmpty()) {
+                                for (QueryDocumentSnapshot document : task.getResult()) {
+                                    Log.d(Tags.SUCCESS.name(), document.getId() + " => " + document.getData());
+                                }
+                            }else Log.d(Tags.FAILURE.name(), "No such email found: ");
                         } else {
                             Log.d(Tags.FAILURE.name(), "Error getting documents: ", task.getException());
                         }
@@ -133,18 +128,26 @@ public class User {
     }
 
 
-    public void addUser(){
-        Map<String, Object> user = new HashMap<>();
-            user.put(email_address_field, this.email_address);
-            user.put(first_name_field, this.first_name);
-            user.put(user_id_card_number_field, this.user_id_card_number);
-            user.put(is_banned_field, this.is_banned);
-            user.put(last_name_field, this.last_name);
-            user.put(password_field, this.password);
-            user.put(phone_number_field, this.phone_number);
-            user.put(vehicles_driven_field, this.vehicles_driven);
-            user.put(vehicles_owned_field, this.vehicles_owned);
-    }
+//    public void addUser(){
+//        Map<String, Object> user = new HashMap<>();
+//            user.put(email_address_field, this.email_address);
+//            user.put(first_name_field, this.first_name);
+//            user.put(user_id_card_number_field, this.user_id_card_number);
+//            user.put(is_banned_field, this.is_banned);
+//            user.put(last_name_field, this.last_name);
+//            user.put(password_field, this.password);
+//            user.put(phone_number_field, this.phone_number);
+//            user.put(vehicles_driven_field, this.vehicles_driven);
+//            user.put(vehicles_owned_field, this.vehicles_owned);
+//
+//        DatabaseUtils.addData(collection, user_uid, user, new Listeners.DbListenerCallback(){
+//            public void getResult(String result){
+//                if(result.equals(Tags.SUCCESS.name())){
+//                    Log.w("Success", "ADDED DATA");
+//                }
+//            }
+//        });
+//    }
 
 
 }
