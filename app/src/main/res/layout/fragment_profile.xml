@@ -55,7 +55,7 @@
                 android:textSize="18sp" />
 
             <EditText
-                android:id="@+id/id_register_username"
+                android:id="@+id/id_register_first_name"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_marginLeft="10dp"

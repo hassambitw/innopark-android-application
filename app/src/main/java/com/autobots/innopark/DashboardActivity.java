@@ -1,5 +1,7 @@
 package com.autobots.innopark;
 
+import com.autobots.innopark.data.DatabaseUtils;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -28,7 +30,7 @@ public class DashboardActivity extends AppCompatActivity {
 
     private NavigationBarView bottom_nav;
     final FragmentManager fm = getSupportFragmentManager();
-    private FirebaseAuth firebaseAuth = Config.firebaseAuth;
+    private FirebaseAuth firebaseAuth = DatabaseUtils.firebaseAuth;
     private FirebaseUser currentUser;
     private View decorView;
 

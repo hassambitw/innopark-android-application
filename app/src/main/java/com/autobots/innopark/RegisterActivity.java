@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -13,21 +14,19 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
+import com.autobots.innopark.data.DatabaseUtils;
+import com.autobots.innopark.data.Tags;
+import com.autobots.innopark.data.Listeners;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -38,7 +37,8 @@ public class RegisterActivity extends AppCompatActivity {
     private RadioButton radio_btn_no;
     private EditText license_plate_et;
     private EditText email_et;
-    private EditText username_et;
+    private EditText first_name_et;
+    private EditText last_name_et;
     private EditText password_et;
     private EditText id_et;
     private EditText phoneNum_et;
@@ -48,13 +48,13 @@ public class RegisterActivity extends AppCompatActivity {
     private EditText ccCVV_et;
 
     //Firebase Auth
-    private FirebaseAuth firebaseAuth = Config.firebaseAuth;
+    private FirebaseAuth firebaseAuth = DatabaseUtils.firebaseAuth;
     private FirebaseAuth.AuthStateListener authStateListener;
     private FirebaseUser currentUser;
 
     //firestore connection
-    private FirebaseFirestore db = Config.db;
-    private CollectionReference collectionReference = db.collection("Users");
+    private FirebaseFirestore db = DatabaseUtils.db;
+    private String collection = "Users";
 
     private boolean ownVehicle;
 
@@ -71,33 +71,27 @@ public class RegisterActivity extends AppCompatActivity {
         radio_btn_no = findViewById(R.id.id_register_own_vehicle_no);
         license_plate_et = findViewById(R.id.id_license_plate_register);
         email_et = findViewById(R.id.id_register_email);
-        username_et = findViewById(R.id.id_register_username);
+        first_name_et = findViewById(R.id.id_register_first_name);
+        last_name_et = findViewById(R.id.id_register_last_name);
         password_et = findViewById(R.id.id_register_password);
         id_et = findViewById(R.id.id_register_id);
         phoneNum_et = findViewById(R.id.id_register_phone);
-        ccName_et = findViewById(R.id.id_register_ccname);
-        ccNum_et = findViewById(R.id.id_register_ccnum);
-        ccExpiry_et = findViewById(R.id.id_register_ccexpiry);
-        ccCVV_et = findViewById(R.id.id_register_cc_cvv);
 
 
         register_btn.setOnClickListener(view -> {
             String email = email_et.getText().toString().trim();
-            String username = username_et.getText().toString().trim();
+            String first_name = first_name_et.getText().toString().trim();
+            String last_name = last_name_et.getText().toString().trim();
             String password  = password_et.getText().toString().trim();
             long id = Long.parseLong(id_et.getText().toString().trim()); // string to long
             String phoneNumber = phoneNum_et.getText().toString().trim();
-            String ccName = ccName_et.getText().toString().trim();
-            long ccNum = Long.parseLong(ccNum_et.getText().toString().trim());
-            String ccExpiry = ccExpiry_et.getText().toString().trim();
-            int ccCVV = Integer.parseInt(ccCVV_et.getText().toString().trim()); 
             String licenseNum = license_plate_et.getText().toString().trim();
 
 
-            if (!TextUtils.isEmpty(email) && !TextUtils.isEmpty(username) && !TextUtils.isEmpty(password) && !TextUtils.isEmpty(String.valueOf(id)) && !TextUtils.isEmpty(phoneNumber) && !TextUtils.isEmpty(phoneNumber)
-                && !TextUtils.isEmpty(ccName) && !TextUtils.isEmpty(String.valueOf(ccNum)) && !TextUtils.isEmpty(ccExpiry) && !TextUtils.isEmpty(String.valueOf(ccCVV)))
+            if (!TextUtils.isEmpty(email) && !TextUtils.isEmpty(first_name) && !TextUtils.isEmpty(last_name)&& !TextUtils.isEmpty(password) && !TextUtils.isEmpty(String.valueOf(id))
+                    && !TextUtils.isEmpty(phoneNumber) && !TextUtils.isEmpty(phoneNumber))
             {
-                createUserEmailAccount(email, username, password, id, phoneNumber, ccName, ccNum, ccExpiry, ccCVV, ownVehicle);
+                createUserEmailAccount(email, first_name, last_name, password, id, phoneNumber, ownVehicle);
                 Toast.makeText(getApplicationContext(), "User Registered", Toast.LENGTH_SHORT).show();
             } else {
                 Toast.makeText(getApplicationContext(), "All fields must be filled!", Toast.LENGTH_SHORT).show();
@@ -132,10 +126,9 @@ public class RegisterActivity extends AppCompatActivity {
 
     }
 
-    private void createUserEmailAccount(String email, String username, String password, long id, String phoneNumber, String ccName, long ccNum, String ccExpiry, int ccCVV, boolean ownVehicle)
+    private void createUserEmailAccount(String email, String first_name, String last_name, String password, long id, String phoneNumber, boolean ownVehicle)
     {
-        if (!TextUtils.isEmpty(email) && !TextUtils.isEmpty(username) && !TextUtils.isEmpty(password) && !TextUtils.isEmpty(String.valueOf(id)) && !TextUtils.isEmpty(phoneNumber) && !TextUtils.isEmpty(ccName)
-            && !TextUtils.isEmpty(String.valueOf(ccNum)) && !TextUtils.isEmpty(ccExpiry) && !TextUtils.isEmpty(String.valueOf(ccCVV)))
+        if (!TextUtils.isEmpty(email) && !TextUtils.isEmpty(first_name) && !TextUtils.isEmpty(last_name) && !TextUtils.isEmpty(password) && !TextUtils.isEmpty(String.valueOf(id)) && !TextUtils.isEmpty(phoneNumber))
         {
             firebaseAuth.createUserWithEmailAndPassword(email, password)
                     .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
@@ -148,48 +141,36 @@ public class RegisterActivity extends AppCompatActivity {
                                 assert currentUser != null;
                                 String currentUserID = currentUser.getUid();
 
+//                                User user = new User(currentUserID, email, password, username, username, currentUserID, phoneNumber, String.valueOf(ownVehicle));
+//
+//                                user.addUser(user);
+
                                 //create user map so we can add a user to user collection in firestore
-                                Map<String, String> userObject = new HashMap<>();
-                                userObject.put("UserID", currentUserID);
-                                userObject.put("Username", username);
-                                userObject.put("Email", email);
-                                userObject.put("Password", password);
-                                userObject.put("Phone Number", phoneNumber);
-                                userObject.put("Credit Card Name", ccName);
-                                userObject.put("Credit Card Number", String.valueOf(ccNum));
-                                userObject.put("Credit Card Expiry", ccExpiry);
-                                userObject.put("Credit Card CVV", String.valueOf(ccCVV));
-                                userObject.put("Own Vehicle", String.valueOf(ownVehicle));
+                                Map<String, Object> user = new HashMap<>();
+                                user.put("email_address", email);
+                                user.put("first_name", first_name);
+                                user.put("id_card_number", id);
+                                user.put("is_banned", false);
+                                user.put("last_name", last_name);
+                                user.put("password", password);
+                                user.put("phone_number", phoneNumber);
+                                user.put("vehicles_driven", "1234");
+                                user.put("vehicles_owned", null);
                                 //if (ownVehicle) userObject.put("License Number", licenseNum);
 
+                                DatabaseUtils.addData(collection, currentUserID, user, new Listeners.DbListenerCallback(){
+                                            public void getResult(String result){
+                                                if(result.equals(Tags.SUCCESS.name())){
+                                                    Log.w(Tags.SUCCESS.name(), "ADDED DATA");
 
-                                //save to firestore db
-                                collectionReference.add(userObject)
-                                        .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                                            @Override
-                                            public void onSuccess(DocumentReference documentReference) {
-                                                documentReference.get()
-                                                        .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                                                            @Override
-                                                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                                                                if (Objects.requireNonNull(task).getResult().exists()) {
-                                                                    String name = task.getResult()
-                                                                            .getString("username");
+                                                    Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                                                    intent.putExtra("first_name", first_name);
+                                                    intent.putExtra("userId", currentUserID);
 
-                                                                    Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
-                                                                    intent.putExtra("username", name);
-                                                                    intent.putExtra("userId", currentUserID);
-
-                                                                    startActivity(intent);
-                                                                }
-                                                            }
-                                                        });
-                                            }
-                                        })
-                                        .addOnFailureListener(new OnFailureListener() {
-                                            @Override
-                                            public void onFailure(@NonNull Exception e) {
-                                                Toast.makeText(getApplicationContext(), "Adding to DB Error: " +  e.getMessage().toString(), Toast.LENGTH_SHORT).show();
+                                                    startActivity(intent);
+                                                }else{
+                                                    Log.w(Tags.FAILURE.name(), "FAILED TO ADD DATA");
+                                                }
                                             }
                                         });
                             }

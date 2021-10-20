@@ -26,19 +26,35 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <EditText
-            android:id="@+id/id_register_username"
+            android:id="@+id/id_register_first_name"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:layout_marginStart="32dp"
             android:layout_marginTop="32dp"
             android:layout_marginEnd="32dp"
             android:background="@drawable/editext_border"
-            android:hint="Username"
+            android:hint="First name"
             android:paddingLeft="15dp"
             android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/id_register_email" />
+
+        <EditText
+            android:id="@+id/id_register_last_name"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="32dp"
+            android:background="@drawable/editext_border"
+            android:hint="Last_name"
+            android:paddingLeft="15dp"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/id_register_first_name" />
 
         <EditText
             android:id="@+id/id_register_email"
@@ -68,8 +84,9 @@
             android:paddingLeft="15dp"
             android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/id_register_username" />
+            app:layout_constraintTop_toBottomOf="@id/id_register_last_name" />
 
         <EditText
             android:id="@+id/id_register_id"
@@ -101,136 +118,18 @@
             app:layout_constraintTop_toBottomOf="@+id/id_register_id" />
 
 
-        <View
-            android:id="@+id/id_credit_card_view"
-            android:layout_width="match_parent"
-            android:layout_height="300dp"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="32dp"
-            android:layout_marginEnd="32dp"
-            android:background="@color/black"
-            app:layout_constraintEnd_toEndOf="@+id/id_register_phone"
-            app:layout_constraintStart_toStartOf="@+id/id_register_phone"
-            app:layout_constraintTop_toBottomOf="@+id/id_register_phone" />
-
-        <EditText
-            android:id="@+id/id_register_cc_cvv"
-            android:layout_width="50dp"
-            android:layout_height="30dp"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="32dp"
-            android:background="@drawable/editext_border"
-            android:hint="465"
-            android:paddingLeft="5dp"
-            android:paddingRight="5dp"
-            android:textColorHint="@color/gray"
-            android:textSize="15sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.807"
-            app:layout_constraintStart_toEndOf="@+id/id_register_ccexpiry"
-            app:layout_constraintTop_toBottomOf="@+id/id_cvv_register_input_txt" />
-
-        <TextView
-            android:id="@+id/id_credit_card_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="32dp"
-            android:text="Credit Card"
-            android:textColor="@color/white"
-            android:textSize="18sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.058"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/id_credit_card_view" />
-
-        <EditText
-            android:id="@+id/id_register_ccname"
-            android:layout_width="300dp"
-            android:layout_height="30dp"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="32dp"
-            android:layout_marginEnd="32dp"
-            android:background="@drawable/editext_border"
-            android:hint="Credit Card Name"
-            android:paddingLeft="15dp"
-            android:textColorHint="@color/gray"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/id_credit_card_text" />
-
-        <EditText
-            android:id="@+id/id_register_ccnum"
-            android:layout_width="300dp"
-            android:layout_height="30dp"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="32dp"
-            android:background="@drawable/editext_border"
-            android:hint="Credit Card Number"
-            android:paddingLeft="15dp"
-            android:textColorHint="@color/gray"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.489"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/id_register_ccname" />
-
-        <TextView
-            android:id="@+id/id_expiry_date_register_txt"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="60dp"
-            android:text="Expiry Date"
-            android:textColor="@color/white"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.138"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/id_register_ccnum" />
-
-        <EditText
-            android:id="@+id/id_register_ccexpiry"
-            android:layout_width="wrap_content"
-            android:layout_height="30dp"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="32dp"
-            android:background="@drawable/editext_border"
-            android:hint="MM/YY"
-            android:paddingLeft="5dp"
-            android:paddingRight="5dp"
-            android:textColorHint="@color/gray"
-            android:textSize="15sp"
-            app:layout_constraintEnd_toEndOf="@+id/id_expiry_date_register_txt"
-            app:layout_constraintStart_toStartOf="@+id/id_expiry_date_register_txt"
-            app:layout_constraintTop_toBottomOf="@+id/id_expiry_date_register_txt" />
-
-        <TextView
-            android:id="@+id/id_cvv_register_input_txt"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="60dp"
-            android:text="CVV"
-            android:textColor="@color/white"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.706"
-            app:layout_constraintStart_toEndOf="@+id/id_expiry_date_register_txt"
-            app:layout_constraintTop_toBottomOf="@+id/id_register_ccnum" />
-
         <TextView
             android:id="@+id/id_own_vehicle_register_txt"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
-            android:layout_marginTop="32dp"
             android:layout_marginEnd="32dp"
             android:text="Do you own a vehicle?"
             android:textColor="@color/black"
             android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/id_credit_card_view" />
+            tools:layout_editor_absoluteY="782dp" />
 
 
         <RadioGroup

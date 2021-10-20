@@ -16,6 +16,7 @@ import android.widget.ImageView;
 import com.autobots.innopark.Config;
 import com.autobots.innopark.LoginActivity;
 import com.autobots.innopark.R;
+import com.autobots.innopark.data.DatabaseUtils;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -25,7 +26,7 @@ public class HomeFragment extends Fragment
 
     ImageView arrow;
     ImageView profile;
-    final FirebaseAuth firebaseAuth = Config.firebaseAuth;
+    final FirebaseAuth firebaseAuth = DatabaseUtils.firebaseAuth;
     FirebaseUser currentUser;
 
 

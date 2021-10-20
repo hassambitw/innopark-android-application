@@ -1,6 +1,6 @@
 package com.autobots.innopark;
 
-import com.autobots.innopark.Config;
+import com.autobots.innopark.data.DatabaseUtils;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -8,19 +8,32 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.autobots.innopark.data.Tags;
+import com.autobots.innopark.data.User;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentChange;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
+import java.lang.reflect.Type;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class LoginActivity extends AppCompatActivity
@@ -34,12 +47,12 @@ public class LoginActivity extends AppCompatActivity
     private EditText password_et;
 
     //Firebase Auth
-    private FirebaseAuth firebaseAuth = Config.firebaseAuth;
+    private FirebaseAuth firebaseAuth = DatabaseUtils.firebaseAuth;
     private FirebaseAuth.AuthStateListener authStateListener;
     private FirebaseUser currentUser;
 
     //firestore connection
-    private FirebaseFirestore db = Config.db;
+    private FirebaseFirestore db = DatabaseUtils.db;
 
 
     @Override
@@ -60,7 +73,69 @@ public class LoginActivity extends AppCompatActivity
 
         login_btn.setOnClickListener(view -> {
            //loginUser();
-            startActivity(new Intent(getApplicationContext(), DashboardActivity.class));
+//            Log.w("REMEMBER", "DELETE ME");
+//            User.getUserUsingEmail("rama@gmail.com");
+//            Log.w("QUERY RETURNED", "q.toString()");
+//            DatabaseUtils.db.collection("Users")
+//                    .whereEqualTo("Email", "rama@gmail.com")
+//                    .get()
+//                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+//                        @Override
+//                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+//                            if (task.isSuccessful()) {
+//                                for (QueryDocumentSnapshot document : task.getResult()) {
+//                                    Log.d(Tags.SUCCESS.name(), document.getId() + " => " + document.getData());
+//                                }
+//                            } else {
+//                                Log.d(Tags.FAILURE.name(), "Error getting documents: ", task.getException());
+//                            }
+//                        }
+//                    });
+            //User.getEmail("0FvlIc1YgEcen0hxtXiT08hFsxq1");
+            User.getUserUsingEmail("rama3@gmail.com");
+//            DocumentReference docRef = db.collection("Users").document("0FvlIc1YgEcen0hxtXiT08hFsxq1");
+//            docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+//                @Override
+//                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+//                    if (task.isSuccessful()) {
+//                        DocumentSnapshot document = task.getResult();
+//                        if (document != null && document.exists()) {
+//                            Log.d("SUCCESS", document.getString("Email")); //Print the name
+//                        } else {
+//                            Log.d("SUCCESS", "No such document");
+//                        }
+//                    } else {
+//                        Log.d("SUCCESS", "get failed with ", task.getException());
+//                    }
+//                }
+//            });
+//            List<Type>mArrayList = null;
+//            DatabaseUtils.db.collection("users").get()
+//                    .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+//                        @Override
+//                        public void onSuccess(QuerySnapshot documentSnapshots) {
+//                            if (documentSnapshots.isEmpty()) {
+//                                Log.d(Tags.SUCCESS.name(), "onSuccess: LIST EMPTY");
+//                                return;
+//                            } else {
+//                                // Convert the whole Query Snapshot to a list
+//                                // of objects directly! No need to fetch each
+//                                // document.
+////                                List<Type> types = documentSnapshots.toObjects(Type.class);
+////
+////                                // Add all to your list
+////                                mArrayList.addAll(types);
+//                                Log.d(Tags.SUCCESS.name(), "onSuccess: " + mArrayList);
+//                            }
+//                        }
+//                    })
+//                        .addOnFailureListener(new OnFailureListener() {
+//                            @Override
+//                            public void onFailure(@NonNull Exception e) {
+//                                Toast.makeText(getApplicationContext(), "Error getting data!!!", Toast.LENGTH_LONG).show();
+//                            }
+//                        });
+            //startActivity(new Intent(getApplicationContext(), DashboardActivity.class));
         });
 
         forgot_password_tv.setOnClickListener(view -> {
