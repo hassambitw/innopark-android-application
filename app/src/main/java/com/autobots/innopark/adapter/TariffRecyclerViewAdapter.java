@@ -41,7 +41,7 @@ public class TariffRecyclerViewAdapter extends RecyclerView.Adapter<TariffRecycl
     public void onBindViewHolder(@NonNull TariffViewHolder holder, int position) {
 
         Tariff tariff = tariff_items.get(position);
-        holder.tariffAmount.setText(String.valueOf(tariff.getTariffRate()));
+        holder.tariffAmount.setText(String.valueOf(tariff.getTariffRate()) + " DHS/hr");
         holder.tariffParkingArea.setText(tariff.getParkingArea());
         holder.tariffParkingLevel.setText(tariff.getParkingLevel());
         holder.tariffParkingSpace.setText(tariff.getParkingSpace());

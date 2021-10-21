@@ -67,7 +67,8 @@ public class TariffListFragment extends Fragment implements TariffRecyclerViewAd
     {
         tariffItems = new ArrayList<>();
 
-        tariffItems.add(new Tariff())
+        tariffItems.add(new Tariff(1, 40.0, "1hr : 30 min", "UOWD", "B1", "Space A", "Spot 23", Boolean.FALSE));
+
     }
 
     private void startPaidTariffFragment()
