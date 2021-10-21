@@ -4,20 +4,22 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background">
+    android:background="@color/background"
+    android:clickable="true"
+    android:clipChildren="false"
+    android:clipToPadding="false">
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/id_tariff_card_active_session"
         android:layout_width="0dp"
         android:layout_height="140dp"
-        android:layout_marginStart="5dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginEnd="5dp"
-        android:clickable="true"
+        android:layout_margin="10dp"
         app:cardUseCompatPadding="true"
-        android:elevation="12dp"
+        android:elevation="50dp"
         android:foreground="?attr/selectableItemBackground"
         app:cardBackgroundColor="@color/white"
         app:cardCornerRadius="10dp"
+        app:cardPreventCornerOverlap="false"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -112,7 +114,7 @@
 
             <TextView
                 android:id="@+id/id_card_active_session_parking_space"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
                 android:layout_marginEnd="24dp"
