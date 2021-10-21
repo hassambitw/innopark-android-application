@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "540632183223",
+    "project_id": "innopark-1fe10",
+    "storage_bucket": "innopark-1fe10.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:540632183223:android:e72a3a356d20b0c4b1b832",
+        "android_client_info": {
+          "package_name": "com.autobots.innopark"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "540632183223-e99g8sf49v25125pcbcgsik2r7ff9shh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDwnAsxB856osJj9kjKsVUYUcu7Hb4RoII"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "540632183223-e99g8sf49v25125pcbcgsik2r7ff9shh.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
