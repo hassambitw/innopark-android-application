@@ -2,6 +2,7 @@ package com.autobots.innopark.fragment;
 
 import android.os.Bundle;
 
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -42,15 +43,28 @@ public class TariffListFragment extends Fragment implements TariffRecyclerViewAd
         View view =  inflater.inflate(R.layout.fragment_tariff_list, container, false);
         paidTariff = view.findViewById(R.id.id_tariff_view_previous_tariff);
 
-        paidTariff.setOnClickListener((v) -> {
+        paidTariff.setOnClickListener(v -> {
             startPaidTariffFragment();
         });
+
 
         populateTariffs();
         setupRecyclerView(view);
 
 
         return view;
+    }
+
+    private void startCurrentSessionFragment()
+    {
+        Fragment fragment = new CurrentSessionFragment();
+        getActivity().getSupportFragmentManager()
+                .beginTransaction()
+                .setReorderingAllowed(true)
+                .addToBackStack(null)
+                .setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_right, R.anim.enter_from_right, R.anim.exit_to_right)
+                .replace(R.id.id_fragment_container_view, fragment)
+                .commit();
     }
 
     private void setupRecyclerView(View view)
@@ -86,14 +100,23 @@ public class TariffListFragment extends Fragment implements TariffRecyclerViewAd
     @Override
     public void onTariffClick(int position)
     {
-        Fragment selectedFragment = new TariffFragment();
+//        Fragment selectedFragment = new TariffFragment();
+//
+//        getActivity().getSupportFragmentManager()
+//                .beginTransaction()
+//                .setReorderingAllowed(true)
+//                .setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_right, R.anim.enter_from_right, R.anim.exit_to_right)
+//                .addToBackStack(null)
+//                .replace(R.id.id_fragment_container_view, selectedFragment)
+//                .commit();
 
+        Fragment fragment = new CurrentSessionFragment();
         getActivity().getSupportFragmentManager()
                 .beginTransaction()
                 .setReorderingAllowed(true)
-                .setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_right, R.anim.enter_from_right, R.anim.exit_to_right)
                 .addToBackStack(null)
-                .replace(R.id.id_fragment_container_view, selectedFragment)
+                .setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_right, R.anim.enter_from_right, R.anim.exit_to_right)
+                .replace(R.id.id_fragment_container_view, fragment)
                 .commit();
     }
 }
