@@ -162,7 +162,6 @@ public class RegisterActivity extends AppCompatActivity {
                                 user.put("id_card_number", id);
                                 user.put("is_banned", false);
                                 user.put("last_name", last_name);
-                                user.put("password", password);
                                 user.put("phone_number", phoneNumber);
                                 user.put("vehicles_driven", vehicles_driven);
                                 user.put("vehicles_owned", vehicles_owned);
