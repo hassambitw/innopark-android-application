@@ -24,7 +24,6 @@ public class User {
 
     private String user_uid;
     private String email_address;
-    private String password;
     private String first_name;
     private String last_name;
     private String user_id_card_number;
@@ -35,7 +34,6 @@ public class User {
 
     private String user_uid_field = "user_uid";
     private String email_address_field = "email_address";
-    private String password_field = "password";
     private String first_name_field =  "first_name";
     private String last_name_field = "last_name";
     private String user_id_card_number_field = "user_id_card_number";
@@ -46,7 +44,6 @@ public class User {
 
     public static String user_uid_field1 = "user_uid";
     public static String email_address_field1 = "email_address";
-    public static String password_field1 = "password";
     public static String first_name_field1 =  "first_name";
     public static String last_name_field1 = "last_name";
     public static String user_id_card_number_field1 = "user_id_card_number";
@@ -61,12 +58,11 @@ public class User {
     //shouldnt be adding more than one vehicle at registration?
     // could ask the user how many vehicles they own first then show number of fields accordingly
 
-    public User(String user_uid, String email_address, String password, String first_name, String last_name,
+    public User(String user_uid, String email_address, String first_name, String last_name,
                 String user_id_card_number, String phone_number, String vehicles_owned){
         Log.w("EMAIL_ADDRESS1", email_address);
         this.user_uid = user_uid;
         this.email_address = email_address;
-        this.password = password;
         this.first_name = first_name;
         this.last_name = last_name;
         this.user_id_card_number = user_id_card_number;
@@ -151,7 +147,6 @@ public class User {
 //            user.put(user_id_card_number_field, this.user_id_card_number);
 //            user.put(is_banned_field, this.is_banned);
 //            user.put(last_name_field, this.last_name);
-//            user.put(password_field, this.password);
 //            user.put(phone_number_field, this.phone_number);
 //            user.put(vehicles_driven_field, this.vehicles_driven);
 //            user.put(vehicles_owned_field, this.vehicles_owned);
