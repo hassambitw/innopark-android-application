@@ -25,6 +25,12 @@ public class Tariff
     double tariffRate;
     String startTime;
     String endTime;
+    String duration;
+    String parkingArea;
+    String parkingLevel;
+    String parkingSpace;
+    String parkingSpot;
+    boolean isPaid;
     double minimumTariffRate;
 
     public static String collection = Config.AVENUES_TABLE + "/" +Config.avenue_id+"/"+Config.SESSIONS_TABLE;
@@ -36,6 +42,65 @@ public class Tariff
         this.startTime = startTime;
         this.endTime = endTime;
         this.minimumTariffRate = minimumTariffRate;
+    }
+
+    public Tariff(int tariffID, double tariffRate, String duration, String parkingArea, String parkingLevel, String parkingSpace, String parkingSpot, boolean isPaid) {
+        this.tariffID = tariffID;
+        this.tariffRate = tariffRate;
+        this.duration = duration;
+        this.parkingArea = parkingArea;
+        this.parkingSpace = parkingSpace;
+        this.parkingLevel = parkingLevel;
+        this.parkingSpot = parkingSpot;
+        this.isPaid = isPaid;
+    }
+
+    public String getDuration() {
+        return duration;
+    }
+
+    public void setDuration(String duration) {
+        this.duration = duration;
+    }
+
+    public String getParkingArea() {
+        return parkingArea;
+    }
+
+    public void setParkingArea(String parkingArea) {
+        this.parkingArea = parkingArea;
+    }
+
+    public String getParkingSpace() {
+        return parkingSpace;
+    }
+
+    public String getParkingLevel() {
+        return parkingLevel;
+    }
+
+    public void setParkingLevel(String parkingLevel) {
+        this.parkingLevel = parkingLevel;
+    }
+
+    public void setParkingSpace(String parkingSpace) {
+        this.parkingSpace = parkingSpace;
+    }
+
+    public String getParkingSpot() {
+        return parkingSpot;
+    }
+
+    public void setParkingSpot(String parkingSpot) {
+        this.parkingSpot = parkingSpot;
+    }
+
+    public boolean isPaid() {
+        return isPaid;
+    }
+
+    public void setPaid(boolean paid) {
+        isPaid = paid;
     }
 
     public int getTariffID() {

@@ -33,7 +33,7 @@ public class NotificationsRecyclerViewAdapter extends RecyclerView.Adapter<Notif
     @Override
     public NotificationsRecyclerViewAdapter.MySwipeViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType)
     {
-        View view = LayoutInflater.from(context).inflate(R.layout.notification_swipe_row_item, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.row_item_notification_swipe, parent, false);
         return new MySwipeViewHolder(view);
     }
 

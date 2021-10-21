@@ -260,14 +260,14 @@
                 android:orientation="vertical">
 
                 <include
-                    layout="@layout/home_current_session_item"
+                    layout="@layout/row_item_current_session"
                     android:id="@+id/id_home_current_session" />
 
                 <include
-                    layout="@layout/home_current_session_item" />
+                    layout="@layout/row_item_current_session" />
 
                 <include
-                    layout="@layout/home_current_session_item" />
+                    layout="@layout/row_item_current_session" />
 
 
             </LinearLayout>

@@ -33,7 +33,7 @@ public class FinesRecyclerViewAdapter extends RecyclerView.Adapter<FinesRecycler
     @Override
     public FinesViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType)
     {
-        View view = LayoutInflater.from(mContext).inflate(R.layout.fine_row_item, parent, false);
+        View view = LayoutInflater.from(mContext).inflate(R.layout.row_item_fine, parent, false);
         return new FinesViewHolder(view, onFineClickListener);
     }
 

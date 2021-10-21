@@ -21,7 +21,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         app:labelVisibilityMode="labeled"
-        app:itemBackground="@drawable/gradient"
+        android:background="@drawable/gradient_primary_reverse"
         app:itemIconTint="@color/bottom_nav_color_selector"
         app:itemTextColor="@color/bottom_nav_color_selector"
         app:layout_constraintBottom_toBottomOf="parent"

@@ -7,25 +7,33 @@
     android:orientation="vertical"
     tools:context=".fragment.ParkingFragment">
 
-    <com.google.android.material.tabs.TabLayout
-        android:id="@+id/id_tabs"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        app:tabSelectedTextColor="@color/white"
-        app:tabTextColor="@color/white_low"
-        app:tabBackground="@drawable/tab_border"
-        android:background="@drawable/gradient">
+    <include
+        layout="@layout/toolbar_tabs" />
 
+<!--    <com.google.android.material.tabs.TabLayout-->
+<!--        android:id="@+id/id_tabs"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_alignParentTop="true"-->
+<!--        android:background="@drawable/gradient_primary_reverse"-->
+<!--        app:tabBackground="@android:color/transparent"-->
+<!--        style="@style/AppTabLayout"-->
+<!--        app:tabSelectedTextColor="@color/white"-->
+<!--        app:tabMode="fixed"-->
+<!--        android:elevation="0dp"-->
+<!--        app:tabTextColor="@color/white_low"-->
+<!--        app:tabIndicatorColor="@color/white"-->
+<!--        app:tabIndicatorFullWidth="true">-->
+<!--    </com.google.android.material.tabs.TabLayout>-->
 
-    </com.google.android.material.tabs.TabLayout>
 
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/id_view_pager"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tabs"
-        app:layout_anchorGravity="center"> </androidx.viewpager.widget.ViewPager>
+        app:layout_anchorGravity="center">
+    </androidx.viewpager.widget.ViewPager>
 <!--        app:layout_behavior="@string/appbar_scrolling_view_behavior" />-->
 
 

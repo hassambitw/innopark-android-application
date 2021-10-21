@@ -1,7 +1,6 @@
 package com.autobots.innopark.adapter;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,7 +36,7 @@ public class MenuRecyclerViewAdapter extends RecyclerView.Adapter<MenuRecyclerVi
     @Override
     public MenuRecyclerViewAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType)
     {
-        View view = LayoutInflater.from(context).inflate(R.layout.menu_grid_layout_view, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.row_item_view_menu_2, parent, false);
         return new ViewHolder(view, onMenuClickListener);
     }
 

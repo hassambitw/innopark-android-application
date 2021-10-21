@@ -8,11 +8,38 @@
 <!--    <item name="itemIconTint">@color/white</item>-->
 <!--  </style>-->
 
-  <style name="ThemeOverlay.App.TabLayout" parent="">
-    <item name="colorPrimary">@color/teal_one</item>
-    <item name="colorSurface">@color/silver</item>
-    <item name="colorOnSurface">@color/light_blue</item>
+
+  <style name="AppTabLayout" parent="Widget.Design.TabLayout">
+    <item name="tabTextAppearance">@style/AppTabTextAppearance</item>
   </style>
+
+  <!-- for text -->
+  <style name="AppTabTextAppearance" parent="TextAppearance.Design.Tab">
+    <item name="android:textSize">15sp</item>
+    <item name="android:textColor">@color/white_low</item>
+    <item name="android:fontFamily">@font/poppins_semibold</item>
+    <item name="textAllCaps">true</item>
+    <item name="android:letterSpacing">0.125</item>
+  </style>
+
+  <style name="Divider">
+    <item name="android:layout_width">match_parent</item>
+    <item name="android:layout_height">1dp</item>
+    <item name="android:background">?android:attr/listDivider</item>
+</style>
+
+  <style name="HorizontalFormLabel">
+    <item name="android:textColor">@color/black</item>
+    <item name="fontFamily">@font/roboto_bold</item>
+    <item name="android:textAllCaps">true</item>
+  </style>
+
+  <style name="HorizontalFormInput">
+    <item name="android:textColor">@color/greytext</item>
+    <item name="fontFamily">@font/roboto_bold</item>
+    <item name="android:textAllCaps">true</item>
+  </style>
+
 
 </resources>
 

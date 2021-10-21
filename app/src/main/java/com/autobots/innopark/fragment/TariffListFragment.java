@@ -14,7 +14,6 @@ import android.widget.TextView;
 
 
 import com.autobots.innopark.R;
-import com.autobots.innopark.adapter.FinesRecyclerViewAdapter;
 import com.autobots.innopark.adapter.TariffRecyclerViewAdapter;
 import com.autobots.innopark.data.Tariff;
 
@@ -68,11 +67,7 @@ public class TariffListFragment extends Fragment implements TariffRecyclerViewAd
     {
         tariffItems = new ArrayList<>();
 
-        tariffItems.add(new Tariff(1, 5.5, "10:45", "10.45", 2));
-        tariffItems.add(new Tariff(1, 5.5, "10:45", "10.45", 2));
-        tariffItems.add(new Tariff(1, 5.5, "10:45", "10.45", 2));
-        tariffItems.add(new Tariff(1, 5.5, "10:45", "10.45", 2));
-        tariffItems.add(new Tariff(1, 5.5, "10:45", "10.45", 2));
+        tariffItems.add(new Tariff())
     }
 
     private void startPaidTariffFragment()

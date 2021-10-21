@@ -1,131 +1,263 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    tools:context=".fragment.CurrentSessionFragment"
+    android:fillViewport="true">
 
-    <LinearLayout
-        android:id="@+id/linearLayout4"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="32dp"
-        android:background="@drawable/edittext_rounded"
-        android:gravity="center"
-        android:padding="10dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout5"
-        app:layout_constraintVertical_bias="0.0">
+        android:layout_height="match_parent">
+
+        <include
+            android:id="@+id/id_menu_toolbar"
+            layout="@layout/toolbar"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:src="@drawable/active_session_location"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/id_menu_toolbar" />
 
         <TextView
-            android:layout_width="85dp"
+            android:id="@+id/textView15"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="Current Tariff"
-            android:textSize="18sp" />
-
-        <EditText
-            android:id="@+id/id_current_session_current_tariff"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_marginLeft="10dp"
-            android:enabled="false"
-            android:inputType="none"
-            android:paddingLeft="15dp"
-            android:textSize="18sp" />
-
-    </LinearLayout>
-
-    <include
-        android:id="@+id/id_menu_toolbar"
-        layout="@layout/toolbar" />
-
-    <LinearLayout
-        android:id="@+id/linearLayout5"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="32dp"
-        android:background="@drawable/edittext_rounded"
-        android:gravity="center"
-        android:padding="10dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout6">
+            android:layout_marginStart="44dp"
+            android:layout_marginTop="32dp"
+            android:fontFamily="@font/roboto_bold"
+            android:text="To"
+            android:textAllCaps="true"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:textColor="@color/black"
+            app:layout_constraintStart_toEndOf="@+id/imageView"
+            app:layout_constraintTop_toTopOf="@+id/imageView" />
 
         <TextView
-            android:layout_width="85dp"
+            android:id="@+id/textView17"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="Start Time"
-            android:textSize="18sp" />
-
-        <EditText
-            android:id="@+id/id_current_session_start_time"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_marginLeft="10dp"
-            android:enabled="false"
-            android:inputType="none"
-            android:paddingLeft="15dp"
-            android:textSize="18sp" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/linearLayout6"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="32dp"
-        android:background="@drawable/edittext_rounded"
-        android:gravity="center"
-        android:padding="10dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/id_menu_toolbar">
+            android:fontFamily="@font/roboto_bold"
+            android:maxWidth="162dp"
+            android:minHeight="48dp"
+            android:text="University of Wollongong, Dubai"
+            android:textAlignment="center"
+            android:textAllCaps="true"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:textColor="@color/black"
+            app:layout_constraintBottom_toBottomOf="@+id/imageView"
+            app:layout_constraintEnd_toStartOf="@+id/guideline2"
+            app:layout_constraintStart_toStartOf="@+id/guideline3"
+            app:layout_constraintTop_toTopOf="@+id/textView15"
+            app:layout_constraintVertical_bias="0.0" />
 
         <TextView
-            android:layout_width="85dp"
+            android:id="@+id/textView18"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="License Number"
-            android:textSize="18sp" />
+            android:layout_marginTop="32dp"
+            android:fontFamily="@font/roboto_bold"
+            android:text="Al Sufouh"
+            android:textAlignment="textEnd"
+            android:textAllCaps="true"
+            android:textColor="@color/slategray"
+            app:layout_constraintEnd_toStartOf="@+id/guideline2"
+            app:layout_constraintStart_toStartOf="@+id/guideline3"
+            app:layout_constraintTop_toBottomOf="@+id/textView17" />
 
-        <EditText
-            android:id="@+id/id_current_session_license_num"
-            android:layout_width="match_parent"
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="32dp"
+            android:fontFamily="@font/roboto_bold"
+            android:text="Dubai Knowledge Park"
+            android:textAlignment="textEnd"
+            android:textAllCaps="true"
+            android:textColor="@color/slategray"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/guideline3"
+            app:layout_constraintTop_toBottomOf="@+id/textView18" />
+
+        <View
+            android:id="@+id/view2"
+            style="@style/Divider"
+            android:layout_marginTop="48dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageView" />
+
+        <TextView
+            android:id="@+id/textView19"
+            style="@style/HorizontalFormLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="32dp"
+            android:text="Start time"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/view2" />
+
+        <TextView
+            style="@style/HorizontalFormInput"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:text="Wed, 12 Oct, 12:05 PM"
+            app:layout_constraintBottom_toBottomOf="@+id/textView19"
+            app:layout_constraintEnd_toStartOf="@+id/guideline2"
+            app:layout_constraintStart_toStartOf="@+id/guideline3"
+            app:layout_constraintTop_toTopOf="@+id/textView19"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <View
+            android:id="@+id/view3"
+            style="@style/Divider"
+            android:layout_marginTop="32dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView19" />
+
+        <TextView
+            android:id="@+id/textView20"
+            style="@style/HorizontalFormLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="32dp"
+            android:text="End Time"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/view3" />
+
+        <TextView
+            style="@style/HorizontalFormInput"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="-"
+            android:textAlignment="center"
+            app:layout_constraintBottom_toBottomOf="@+id/textView20"
+            app:layout_constraintEnd_toStartOf="@+id/guideline2"
+            app:layout_constraintStart_toStartOf="@+id/guideline3"
+            app:layout_constraintTop_toTopOf="@+id/textView20" />
+
+        <View
+            android:id="@+id/view4"
+            style="@style/Divider"
+            android:layout_marginTop="32dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView20" />
+
+        <TextView
+            android:id="@+id/textView21"
+            style="@style/HorizontalFormLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="32dp"
+            android:text="Vehicle"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/view4" />
+
+        <TextView
+            style="@style/HorizontalFormInput"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:text="Toyota Corolla"
+            android:textAlignment="center"
+            app:layout_constraintEnd_toStartOf="@+id/guideline2"
+            app:layout_constraintStart_toStartOf="@+id/guideline3"
+            app:layout_constraintTop_toBottomOf="@+id/view4" />
+
+        <View
+            android:id="@+id/view5"
+            style="@style/Divider"
+            android:layout_marginTop="32dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView21" />
+
+        <TextView
+            android:id="@+id/textView23"
+            style="@style/HorizontalFormLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="32dp"
+            android:text="Parking Spot"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/view5" />
+
+        <TextView
+            style="@style/HorizontalFormInput"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:text="C31 (Basement 2)"
+            android:textAlignment="center"
+            app:layout_constraintEnd_toStartOf="@+id/guideline2"
+            app:layout_constraintStart_toStartOf="@+id/guideline3"
+            app:layout_constraintTop_toBottomOf="@+id/view5" />
+
+        <View
+            android:id="@+id/view6"
+            style="@style/Divider"
+            android:layout_marginTop="32dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView23" />
+
+        <TextView
+            android:id="@+id/textView24"
+            style="@style/HorizontalFormLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginBottom="32dp"
+            android:text="Payment Mode"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/view6"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <Button
+            android:layout_width="0dp"
             android:layout_height="40dp"
-            android:layout_marginLeft="10dp"
-            android:enabled="false"
-            android:inputType="none"
-            android:paddingLeft="15dp"
-            android:textSize="18sp" />
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="32dp"
+            android:background="@drawable/button_bg"
+            android:gravity="center"
+            android:text="Link PayPal"
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/guideline2"
+            app:layout_constraintStart_toStartOf="@+id/guideline3"
+            app:layout_constraintTop_toBottomOf="@+id/view6"
+            app:layout_constraintVertical_bias="0.0" />
 
-    </LinearLayout>
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_begin="379dp" />
 
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="36dp"
-        android:layout_marginTop="44dp"
-        android:layout_marginEnd="32dp"
-        android:text="Drivers"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_begin="224dp" />
 
-        app:layout_constraintEnd_toEndOf="@+id/linearLayout5"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout4" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

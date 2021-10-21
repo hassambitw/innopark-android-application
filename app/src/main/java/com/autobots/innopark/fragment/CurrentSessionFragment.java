@@ -37,7 +37,7 @@ public class CurrentSessionFragment extends Fragment
         ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(false);
         toolbarTitle = toolbar.findViewById(R.id.id_toolbar_title);
-        toolbarTitle.setText("Current Session");
+        toolbarTitle.setText("Active Session");
 
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override

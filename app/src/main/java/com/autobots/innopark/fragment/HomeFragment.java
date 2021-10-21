@@ -28,6 +28,8 @@ public class HomeFragment extends Fragment
     ImageView profile;
     final FirebaseAuth firebaseAuth = DatabaseUtils.firebaseAuth;
     FirebaseUser currentUser;
+    CardView parkingCardView;
+    CardView activeSessionView;
 
 
     public HomeFragment()
@@ -61,14 +63,20 @@ public class HomeFragment extends Fragment
                              Bundle savedInstanceState)
     {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_home, container, false);
+        View view = inflater.inflate(R.layout.fragment_home_2, container, false);
 
         arrow = view.findViewById(R.id.id_home_arrow);
-        profile = view.findViewById(R.id.id_home_profile_img);
+        profile = view.findViewById(R.id.id_home_profile);
+        parkingCardView = view.findViewById(R.id.id_parking_history_card_view);
+        activeSessionView = view.findViewById(R.id.id_home_card_active_session);
 
 
-        arrow.setOnClickListener((v) -> {
-            addCurrentSessionFragment();
+        parkingCardView.setOnClickListener((v) -> {
+            startParkingHistoryFragment();
+        });
+
+        activeSessionView.setOnClickListener((v) -> {
+            startCurrentSessionFragment();
         });
 
         profile.setOnClickListener((v) -> {
@@ -76,6 +84,18 @@ public class HomeFragment extends Fragment
         });
 
         return view;
+    }
+
+    private void startParkingHistoryFragment()
+    {
+        Fragment fragment = new ParkingHistoryFragment();
+        getActivity().getSupportFragmentManager()
+                .beginTransaction()
+                .setReorderingAllowed(true)
+                .addToBackStack(null)
+                .setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_right, R.anim.enter_from_right, R.anim.exit_to_right)
+                .replace(R.id.id_fragment_container_view, fragment)
+                .commit();
     }
 
     private void startProfileFragment()
@@ -90,7 +110,7 @@ public class HomeFragment extends Fragment
                 .commit();
     }
 
-    private void addCurrentSessionFragment()
+    private void startCurrentSessionFragment()
     {
         Fragment fragment = new CurrentSessionFragment();
         getActivity().getSupportFragmentManager()
