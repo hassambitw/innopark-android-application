@@ -12,8 +12,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.autobots.innopark.R;
 import com.autobots.innopark.data.Vehicle;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -33,7 +31,7 @@ public class VehicleRecyclerViewAdapter extends RecyclerView.Adapter<VehicleRecy
     @NonNull
     @Override
     public vehicleViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(mContext).inflate(R.layout.vehicle_row_item, parent, false);
+        View view = LayoutInflater.from(mContext).inflate(R.layout.row_item_vehicle, parent, false);
         return new vehicleViewHolder(view, onVehicleClickListener);
     }
 

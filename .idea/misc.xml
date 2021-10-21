@@ -5,39 +5,56 @@
       <map>
         <entry key="..\:/GradProject/innopark-app-android/app/src/main/res/layout/activity_register.xml" value="0.16799999999999998" />
         <entry key="..\:/Users/hassa/Documents/GitHub/innopark-app-android/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.3828125" />
+        <entry key="..\:/Users/hassa/Documents/GitHub/innopark-app-android/app/src/main/res/drawable/active_session_location.xml" value="0.3861111111111111" />
         <entry key="..\:/Users/hassa/Documents/GitHub/innopark-app-android/app/src/main/res/drawable/bottom_nav_color_selector.xml" value="0.4036458333333333" />
         <entry key="..\:/Users/hassa/Documents/GitHub/innopark-app-android/app/src/main/res/drawable/button_bg.xml" value="0.4036458333333333" />
+        <entry key="..\:/Users/hassa/Documents/GitHub/innopark-app-android/app/src/main/res/drawable/card_dollar.xml" value="0.32760416666666664" />
+        <entry key="..\:/Users/hassa/Documents/GitHub/innopark-app-android/app/src/main/res/drawable/dollar.xml" value="0.4036458333333333" />
         <entry key="..\:/Users/hassa/Documents/GitHub/innopark-app-android/app/src/main/res/drawable/editext_border.xml" value="0.3828125" />
         <entry key="..\:/Users/hassa/Documents/GitHub/innopark-app-android/app/src/main/res/drawable/edittext_rounded.xml" value="0.23541666666666666" />
         <entry key="..\:/Users/hassa/Documents/GitHub/innopark-app-android/app/src/main/res/drawable/ellipse.xml" value="0.302734375" />
         <entry key="..\:/Users/hassa/Documents/GitHub/innopark-app-android/app/src/main/res/drawable/gradient.xml" value="0.4036458333333333" />
+        <entry key="..\:/Users/hassa/Documents/GitHub/innopark-app-android/app/src/main/res/drawable/gradient_active_session.xml" value="0.4036458333333333" />
+        <entry key="..\:/Users/hassa/Documents/GitHub/innopark-app-android/app/src/main/res/drawable/gradient_parking_history.xml" value="0.4036458333333333" />
+        <entry key="..\:/Users/hassa/Documents/GitHub/innopark-app-android/app/src/main/res/drawable/gradient_primary.xml" value="0.38333333333333336" />
+        <entry key="..\:/Users/hassa/Documents/GitHub/innopark-app-android/app/src/main/res/drawable/gradient_primary_reverse.xml" value="0.38333333333333336" />
+        <entry key="..\:/Users/hassa/Documents/GitHub/innopark-app-android/app/src/main/res/drawable/gradient_recent_spending.xml" value="0.33" />
+        <entry key="..\:/Users/hassa/Documents/GitHub/innopark-app-android/app/src/main/res/drawable/gradient_view_fines.xml" value="0.4036458333333333" />
+        <entry key="..\:/Users/hassa/Documents/GitHub/innopark-app-android/app/src/main/res/drawable/gradient_view_map.xml" value="0.4036458333333333" />
         <entry key="..\:/Users/hassa/Documents/GitHub/innopark-app-android/app/src/main/res/drawable/ic_baseline_customer_service_24.xml" value="0.4036458333333333" />
         <entry key="..\:/Users/hassa/Documents/GitHub/innopark-app-android/app/src/main/res/drawable/ic_baseline_lock_24.xml" value="0.3828125" />
         <entry key="..\:/Users/hassa/Documents/GitHub/innopark-app-android/app/src/main/res/drawable/ic_baseline_profile_24.xml" value="0.4036458333333333" />
+        <entry key="..\:/Users/hassa/Documents/GitHub/innopark-app-android/app/src/main/res/drawable/parking_history_paid_bg.xml" value="0.35555555555555557" />
+        <entry key="..\:/Users/hassa/Documents/GitHub/innopark-app-android/app/src/main/res/drawable/parking_history_unpaid_bg.xml" value="0.35555555555555557" />
         <entry key="..\:/Users/hassa/Documents/GitHub/innopark-app-android/app/src/main/res/drawable/rectangle.xml" value="0.4036458333333333" />
         <entry key="..\:/Users/hassa/Documents/GitHub/innopark-app-android/app/src/main/res/drawable/rectangle_11.xml" value="0.4036458333333333" />
         <entry key="..\:/Users/hassa/Documents/GitHub/innopark-app-android/app/src/main/res/drawable/recycler_view_bordder.xml" value="0.3351851851851852" />
         <entry key="..\:/Users/hassa/Documents/GitHub/innopark-app-android/app/src/main/res/drawable/recycler_view_border.xml" value="0.3351851851851852" />
-        <entry key="..\:/Users/hassa/Documents/GitHub/innopark-app-android/app/src/main/res/drawable/tab_border.xml" value="0.4036458333333333" />
+        <entry key="..\:/Users/hassa/Documents/GitHub/innopark-app-android/app/src/main/res/drawable/spending_card_gradient.xml" value="0.4036458333333333" />
+        <entry key="..\:/Users/hassa/Documents/GitHub/innopark-app-android/app/src/main/res/drawable/tab_border.xml" value="0.25" />
+        <entry key="..\:/Users/hassa/Documents/GitHub/innopark-app-android/app/src/main/res/drawable/tariff_amt_border.xml" value="0.38333333333333336" />
         <entry key="..\:/Users/hassa/Documents/GitHub/innopark-app-android/app/src/main/res/font/poppins.xml" value="0.41770833333333335" />
         <entry key="..\:/Users/hassa/Documents/GitHub/innopark-app-android/app/src/main/res/layout/activity_dashboard.xml" value="0.25" />
         <entry key="..\:/Users/hassa/Documents/GitHub/innopark-app-android/app/src/main/res/layout/activity_forgot_password.xml" value="0.2814814814814815" />
         <entry key="..\:/Users/hassa/Documents/GitHub/innopark-app-android/app/src/main/res/layout/activity_login.xml" value="0.290625" />
         <entry key="..\:/Users/hassa/Documents/GitHub/innopark-app-android/app/src/main/res/layout/activity_main.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/hassa/Documents/GitHub/innopark-app-android/app/src/main/res/layout/activity_menu.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/hassa/Documents/GitHub/innopark-app-android/app/src/main/res/layout/activity_parking_history.xml" value="0.3179347826086957" />
         <entry key="..\:/Users/hassa/Documents/GitHub/innopark-app-android/app/src/main/res/layout/activity_payment.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/hassa/Documents/GitHub/innopark-app-android/app/src/main/res/layout/activity_register.xml" value="0.25" />
         <entry key="..\:/Users/hassa/Documents/GitHub/innopark-app-android/app/src/main/res/layout/admin_row_item.xml" value="0.5" />
         <entry key="..\:/Users/hassa/Documents/GitHub/innopark-app-android/app/src/main/res/layout/card_item.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/hassa/Documents/GitHub/innopark-app-android/app/src/main/res/layout/card_item_view.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/hassa/Documents/GitHub/innopark-app-android/app/src/main/res/layout/card_recent_spending.xml" value="0.29483695652173914" />
         <entry key="..\:/Users/hassa/Documents/GitHub/innopark-app-android/app/src/main/res/layout/driver_row_item.xml" value="0.33" />
         <entry key="..\:/Users/hassa/Documents/GitHub/innopark-app-android/app/src/main/res/layout/edit_text_rounded.xml" value="0.3875" />
         <entry key="..\:/Users/hassa/Documents/GitHub/innopark-app-android/app/src/main/res/layout/editext_border.xml" value="0.3875" />
-        <entry key="..\:/Users/hassa/Documents/GitHub/innopark-app-android/app/src/main/res/layout/fine_row_item.xml" value="0.1" />
+        <entry key="..\:/Users/hassa/Documents/GitHub/innopark-app-android/app/src/main/res/layout/fine_row_item.xml" value="0.5" />
+        <entry key="..\:/Users/hassa/Documents/GitHub/innopark-app-android/app/src/main/res/layout/fragment_active_tariff_details.xml" value="0.2884963768115942" />
         <entry key="..\:/Users/hassa/Documents/GitHub/innopark-app-android/app/src/main/res/layout/fragment_add_driver.xml" value="0.25" />
         <entry key="..\:/Users/hassa/Documents/GitHub/innopark-app-android/app/src/main/res/layout/fragment_add_vehicle.xml" value="0.22" />
         <entry key="..\:/Users/hassa/Documents/GitHub/innopark-app-android/app/src/main/res/layout/fragment_admin_panel.xml" value="0.25" />
-        <entry key="..\:/Users/hassa/Documents/GitHub/innopark-app-android/app/src/main/res/layout/fragment_current_session.xml" value="0.290625" />
+        <entry key="..\:/Users/hassa/Documents/GitHub/innopark-app-android/app/src/main/res/layout/fragment_current_session.xml" value="0.33" />
         <entry key="..\:/Users/hassa/Documents/GitHub/innopark-app-android/app/src/main/res/layout/fragment_customer_service.xml" value="0.25" />
         <entry key="..\:/Users/hassa/Documents/GitHub/innopark-app-android/app/src/main/res/layout/fragment_dispute_fine.xml" value="0.22" />
         <entry key="..\:/Users/hassa/Documents/GitHub/innopark-app-android/app/src/main/res/layout/fragment_edit_profile.xml" value="0.32037037037037036" />
@@ -46,17 +63,19 @@
         <entry key="..\:/Users/hassa/Documents/GitHub/innopark-app-android/app/src/main/res/layout/fragment_fines.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/hassa/Documents/GitHub/innopark-app-android/app/src/main/res/layout/fragment_fines_list.xml" value="0.35555555555555557" />
         <entry key="..\:/Users/hassa/Documents/GitHub/innopark-app-android/app/src/main/res/layout/fragment_home.xml" value="0.25" />
+        <entry key="..\:/Users/hassa/Documents/GitHub/innopark-app-android/app/src/main/res/layout/fragment_home_2.xml" value="0.33" />
         <entry key="..\:/Users/hassa/Documents/GitHub/innopark-app-android/app/src/main/res/layout/fragment_menu.xml" value="0.25" />
         <entry key="..\:/Users/hassa/Documents/GitHub/innopark-app-android/app/src/main/res/layout/fragment_menu_list.xml" value="0.25" />
-        <entry key="..\:/Users/hassa/Documents/GitHub/innopark-app-android/app/src/main/res/layout/fragment_notification.xml" value="0.3875" />
+        <entry key="..\:/Users/hassa/Documents/GitHub/innopark-app-android/app/src/main/res/layout/fragment_notification.xml" value="0.25" />
         <entry key="..\:/Users/hassa/Documents/GitHub/innopark-app-android/app/src/main/res/layout/fragment_paid_fines.xml" value="0.3398148148148148" />
         <entry key="..\:/Users/hassa/Documents/GitHub/innopark-app-android/app/src/main/res/layout/fragment_paid_tariff.xml" value="0.12" />
         <entry key="..\:/Users/hassa/Documents/GitHub/innopark-app-android/app/src/main/res/layout/fragment_parking.xml" value="0.33" />
+        <entry key="..\:/Users/hassa/Documents/GitHub/innopark-app-android/app/src/main/res/layout/fragment_parking_history.xml" value="0.3179347826086957" />
         <entry key="..\:/Users/hassa/Documents/GitHub/innopark-app-android/app/src/main/res/layout/fragment_payment.xml" value="0.15" />
         <entry key="..\:/Users/hassa/Documents/GitHub/innopark-app-android/app/src/main/res/layout/fragment_payment2.xml" value="0.35260416666666666" />
         <entry key="..\:/Users/hassa/Documents/GitHub/innopark-app-android/app/src/main/res/layout/fragment_profile.xml" value="0.33" />
-        <entry key="..\:/Users/hassa/Documents/GitHub/innopark-app-android/app/src/main/res/layout/fragment_tariff.xml" value="0.1" />
-        <entry key="..\:/Users/hassa/Documents/GitHub/innopark-app-android/app/src/main/res/layout/fragment_tariff_list.xml" value="0.14" />
+        <entry key="..\:/Users/hassa/Documents/GitHub/innopark-app-android/app/src/main/res/layout/fragment_tariff.xml" value="0.25" />
+        <entry key="..\:/Users/hassa/Documents/GitHub/innopark-app-android/app/src/main/res/layout/fragment_tariff_list.xml" value="0.33" />
         <entry key="..\:/Users/hassa/Documents/GitHub/innopark-app-android/app/src/main/res/layout/fragment_vehicle.xml" value="0.25" />
         <entry key="..\:/Users/hassa/Documents/GitHub/innopark-app-android/app/src/main/res/layout/fragment_vehicle_list.xml" value="0.25" />
         <entry key="..\:/Users/hassa/Documents/GitHub/innopark-app-android/app/src/main/res/layout/gradient.xml" value="0.3029891304347826" />
@@ -66,10 +85,18 @@
         <entry key="..\:/Users/hassa/Documents/GitHub/innopark-app-android/app/src/main/res/layout/menu_row_item_view.xml" value="0.33" />
         <entry key="..\:/Users/hassa/Documents/GitHub/innopark-app-android/app/src/main/res/layout/notification_row_item.xml" value="0.1" />
         <entry key="..\:/Users/hassa/Documents/GitHub/innopark-app-android/app/src/main/res/layout/notification_swipe_row_item.xml" value="0.33" />
+        <entry key="..\:/Users/hassa/Documents/GitHub/innopark-app-android/app/src/main/res/layout/row_item_admin.xml" value="0.25769927536231885" />
+        <entry key="..\:/Users/hassa/Documents/GitHub/innopark-app-android/app/src/main/res/layout/row_item_fine.xml" value="0.25769927536231885" />
+        <entry key="..\:/Users/hassa/Documents/GitHub/innopark-app-android/app/src/main/res/layout/row_item_parking_history.xml" value="0.25" />
+        <entry key="..\:/Users/hassa/Documents/GitHub/innopark-app-android/app/src/main/res/layout/row_item_tariff.xml" value="0.25" />
+        <entry key="..\:/Users/hassa/Documents/GitHub/innopark-app-android/app/src/main/res/layout/row_item_tariff_2.xml" value="0.5" />
+        <entry key="..\:/Users/hassa/Documents/GitHub/innopark-app-android/app/src/main/res/layout/row_item_taroff.xml" value="0.29483695652173914" />
+        <entry key="..\:/Users/hassa/Documents/GitHub/innopark-app-android/app/src/main/res/layout/row_item_view_menu_2.xml" value="0.29891304347826086" />
         <entry key="..\:/Users/hassa/Documents/GitHub/innopark-app-android/app/src/main/res/layout/tariff_row_item.xml" value="0.3875" />
         <entry key="..\:/Users/hassa/Documents/GitHub/innopark-app-android/app/src/main/res/layout/toolbar.xml" value="0.33" />
         <entry key="..\:/Users/hassa/Documents/GitHub/innopark-app-android/app/src/main/res/layout/toolbar_menu.xml" value="0.3675925925925926" />
         <entry key="..\:/Users/hassa/Documents/GitHub/innopark-app-android/app/src/main/res/layout/toolbar_notifications.xml" value="0.3675925925925926" />
+        <entry key="..\:/Users/hassa/Documents/GitHub/innopark-app-android/app/src/main/res/layout/toolbar_tabs.xml" value="0.29891304347826086" />
         <entry key="..\:/Users/hassa/Documents/GitHub/innopark-app-android/app/src/main/res/layout/vehicle_row_item.xml" value="0.33" />
         <entry key="..\:/Users/hassa/Documents/GitHub/innopark-app-android/app/src/main/res/layout/video.xml" value="0.25" />
         <entry key="..\:/Users/hassa/Documents/GitHub/innopark-app-android/app/src/main/res/menu/bottom_nav_bar.xml" value="0.33" />

@@ -38,7 +38,7 @@ public class TariffFragment extends Fragment
         ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(false);
         toolbar_title = toolbar.findViewById(R.id.id_toolbar_title);
-        toolbar_title.setText("Pending Tariff");
+        toolbar_title.setText("Active Tariff");
 
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override

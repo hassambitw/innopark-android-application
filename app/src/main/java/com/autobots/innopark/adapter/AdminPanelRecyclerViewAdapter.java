@@ -2,7 +2,6 @@ package com.autobots.innopark.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -11,8 +10,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.autobots.innopark.R;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
@@ -35,7 +32,7 @@ public class AdminPanelRecyclerViewAdapter extends RecyclerView.Adapter<AdminPan
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType)
     {
-        View view = LayoutInflater.from(mContext).inflate(R.layout.admin_row_item, parent, false);
+        View view = LayoutInflater.from(mContext).inflate(R.layout.row_item_admin, parent, false);
         return new ViewHolder(view, onAdminPanelClickListener);
     }
 

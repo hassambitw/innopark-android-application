@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.autobots.innopark.R;
 import com.autobots.innopark.data.Driver;
-import com.autobots.innopark.fragment.VehicleFragment;
 
 import java.util.ArrayList;
 
@@ -31,7 +30,7 @@ public class DriverRecyclerView extends RecyclerView.Adapter<DriverRecyclerView.
     @Override
     public DriverRecyclerView.driverViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType)
     {
-        View view = LayoutInflater.from(mContext).inflate(R.layout.driver_row_item, parent, false);
+        View view = LayoutInflater.from(mContext).inflate(R.layout.row_time_driver, parent, false);
         return new driverViewHolder(view);
     }
 
