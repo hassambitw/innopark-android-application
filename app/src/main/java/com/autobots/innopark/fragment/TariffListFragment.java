@@ -67,7 +67,7 @@ public class TariffListFragment extends Fragment implements TariffRecyclerViewAd
     {
         tariffItems = new ArrayList<>();
 
-        tariffItems.add(new Tariff())
+        //tariffItems.add(new Tariff());
     }
 
     private void startPaidTariffFragment()
