@@ -4,6 +4,9 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
+import com.autobots.innopark.Config;
+import com.autobots.innopark.data.Callbacks.HashmapCallback;
+import com.autobots.innopark.data.Callbacks.StringCallback;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
@@ -52,8 +55,8 @@ public class User {
     public static String vehicles_driven_field1 = "vehicles_driven";
     public static String is_banned_field1 = "is_banned";
 
-    private String collection = "users";
-    public static String col = "users";
+    private String collection = Config.USERS_TABLE;
+    public static String col = Config.USERS_TABLE;
 
     //shouldnt be adding more than one vehicle at registration?
     // could ask the user how many vehicles they own first then show number of fields accordingly
@@ -74,20 +77,23 @@ public class User {
     }
 
     
-//    // Create a new user with a first and last name
-//    public static void addUser(String user_uid, Object u) {
-//
-//        DatabaseUtils.addData(col, user_uid, u, new Listeners.StringCallback(){
+    // Create a new user with a first and last name
+//    public static void addUser(String user_uid, Object u, StringCallback callback) {
+//        DatabaseUtils.addData(col, user_uid, u, new StringCallback(){
 //            public void passStringResult(String result){
 //                if(result.equals(Tags.SUCCESS.name())){
-//                    Log.w("Success", "ADDED DATA");
+//                    Log.w(Tags.SUCCESS.name(), "ADDED DATA");
+//                    callback.passStringResult(Tags.SUCCESS.name());
+//                }else {
+//                    Log.w(Tags.FAILURE.name(), "ERROR: FAILED TO ADD DATA");
+//                    callback.passStringResult(Tags.FAILURE.name());
 //                }
 //            }
 //        });
 //    }
 
     // wouldnt need a parameter when class is used for initialization of user
-    public static void getEmail(String user_id){
+    public static void getEmail(String user_id, StringCallback callback){
         DatabaseUtils.db.collection(col).document(user_id)
                 .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                 @Override
@@ -95,19 +101,21 @@ public class User {
                     if (task.isSuccessful()) {
                         DocumentSnapshot document = task.getResult();
                         if (document != null && document.exists()) {
-                            Log.d("SUCCESS", document.getString(email_address_field1)); //Print the name
+                            //Log.w("SUCCESS", document.getString(email_address_field1));
+                            callback.passStringResult(document.getString(email_address_field1));
                         } else {
-                            Log.d("SUCCESS", "No such document");
+                            Log.w(Tags.FAILURE.name(), "No such document");
+                            callback.passStringResult("");
                         }
                     } else {
-                        Log.d("SUCCESS", "get failed with ", task.getException());
+                        Log.w(Tags.FAILURE.name(), "ERROR: GETTING EMAIL FAILED - ", task.getException());
                     }
                 }
         });
     }
 
     //change to private
-    public static void getUserUsingEmail(String email_address){
+    public static void getUser(String email_address, HashmapCallback callback){
         DatabaseUtils.db.collection(col)
                 .whereEqualTo(email_address_field1, email_address)
                 .get()
@@ -116,12 +124,20 @@ public class User {
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
                             if(!task.getResult().isEmpty()) {
-                                for (QueryDocumentSnapshot document : task.getResult()) {
-                                    Log.d(Tags.SUCCESS.name(), document.getId() + " => " + document.getData());
-                                }
-                            }else Log.d(Tags.FAILURE.name(), "No such email found: ");
+//                                for (QueryDocumentSnapshot document : task.getResult()) {
+//                                    Log.w(Tags.SUCCESS.name(), String.valueOf(document.getData()));
+//                                }
+
+                                HashMap<String, Object> user = (HashMap<String, Object>) task.getResult().iterator().next().getData();
+                                //Log.w(Tags.SUCCESS.name(), String.valueOf(task.getResult().iterator().next().getData()));
+                                //Log.w(Tags.SUCCESS.name(), String.valueOf(task.getResult().iterator().next().getData().get("email_address")));
+
+                                callback.passHashmapResult(user);
+
+                            }else Log.w(Tags.FAILURE.name(), "ERROR: EMAIL NOT FOUND ");
+
                         } else {
-                            Log.d(Tags.FAILURE.name(), "Error getting documents: ", task.getException());
+                            Log.w(Tags.FAILURE.name(), "ERROR: DOCUMENT NOT FOUND ", task.getException());
                         }
                     }
                 });

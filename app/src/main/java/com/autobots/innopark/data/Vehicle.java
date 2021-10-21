@@ -4,6 +4,7 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
+import com.autobots.innopark.Config;
 import com.autobots.innopark.data.Callbacks.HashmapCallback;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -18,7 +19,7 @@ public class Vehicle
     String[] driverName;
     String vehicleMake;
 
-    public static String collection = "vehicles";
+    public static String collection = Config.VEHICLES_TABLE;
 
     public Vehicle(String licensePlateNum, String[] driverName, String vehicleMake)
     {
@@ -63,10 +64,10 @@ public class Vehicle
                         callback.passHashmapResult((HashMap<String, Object>) vehicles_document.getData());
                     } else {
                         callback.passHashmapResult(null);
-                        Log.d("SUCCESS", "No such document");
+                        Log.d(Tags.FAILURE.name(), "VEHICLE NOT FOUND IN DB");
                     }
                 } else {
-                    Log.d("SUCCESS", "get failed with ", task.getException());
+                    Log.d(Tags.FAILURE.name(), "ERROR: COULDN'T FETCH VEHICLE INFO ", task.getException());
                 }
             }
         });

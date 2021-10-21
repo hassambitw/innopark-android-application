@@ -56,7 +56,7 @@ public class RegisterActivity extends AppCompatActivity {
 
     //firestore connection
     private FirebaseFirestore db = DatabaseUtils.db;
-    private String collection = "Users";
+    private String collection = "users";
 
     private boolean ownVehicle;
 

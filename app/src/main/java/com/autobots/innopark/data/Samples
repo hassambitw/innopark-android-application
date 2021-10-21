@@ -1,0 +1,75 @@
+//DRIVERS
+String license_plate_number = "J71612";
+Driver.getDriversList(license_plate_number, new ArraylistCallback() {
+    @Override
+    public void passArraylistResult(ArrayList<String> result) {
+        if(!result.isEmpty()){
+            // DO SOMETHING WITH THE ARRAY OF DRIVERS
+
+
+            Log.w(Tags.SUCCESS.name(), "Drivers found: "+result);
+    }else Log.w(Tags.FAILURE.name(), "ERROR: NO DRIVERS FOR THIS VEHICLE");
+    }
+});
+
+
+
+//USERS
+User.getEmail("JvUhYc0z7xTHKOmdBJ4RZpxp5Hh2", new StringCallback() {
+    @Override
+    public void passStringResult(String result) {
+        if (!result.isEmpty()){
+            // DO SOMETHING WITH THE USER EMAIL
+
+
+            Log.w(Tags.SUCCESS.name(), result);
+        }else Log.w(Tags.FAILURE.name(), "ERROR: EMAIL NOT FOUND");
+    }
+});
+
+User.getUser("rama6@gmail.com", new HashmapCallback() {
+    @Override
+    public void passHashmapResult(HashMap<String, Object> result) {
+        if(!result.isEmpty()){
+            // DO SOMETHING WITH THE USER INFO
+
+
+            Log.w(Tags.SUCCESS.name(), result.toString());
+
+        }else Log.w(Tags.FAILURE.name(), "ERROR: USER NOT FOUND");
+    }
+});
+
+User.getEmail("0FvlIc1YgEcen0hxtXiT08hFsxq1", new StringCallback() {
+    @Override
+    public void passStringResult(String result) {
+        if (!result.isEmpty()){
+            // DO SOMETHING WITH THE USER EMAIL
+
+            Log.w(Tags.SUCCESS.name(), result);
+        }else Log.w(Tags.FAILURE.name(), "ERROR: EMAIL NOT FOUND");
+    }
+});
+
+
+//TARIFFS-SESSIONS
+String parking_id = "Nl8QwlMnvtEZp04v6tEz";
+Tariff.addSession(parking_id, "0");
+
+Tariff.getSession("13HTWSre5ucAIM815Qgx", new HashmapCallback() {
+    @Override
+    public void passHashmapResult(HashMap<String, Object> result) {
+        if(!result.isEmpty()){
+            // DO SOMETHING WITH THE SESSION RETURNED
+
+            Log.w(Tags.SUCCESS.name(), String.valueOf(result));
+        } else Log.w(Tags.FAILURE.name(), "REQUESTED SESSION DOES NOT EXIST");
+    }
+});
+
+// when car leaves parking, set end_datetime
+String session_id = "yBHaia5bhSOhctbqJKFe";
+float ratePerHour = 2f;
+Tariff.setEndDateTime("0", session_id, ratePerHour);
+
+
