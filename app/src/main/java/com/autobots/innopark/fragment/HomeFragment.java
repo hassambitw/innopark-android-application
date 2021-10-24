@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.autobots.innopark.Config;
 import com.autobots.innopark.LoginActivity;
@@ -29,7 +30,10 @@ public class HomeFragment extends Fragment
     final FirebaseAuth firebaseAuth = DatabaseUtils.firebaseAuth;
     FirebaseUser currentUser;
     CardView parkingCardView;
+    CardView mapCardView;
     CardView activeSessionView;
+    CardView fineCardView;
+    TextView profileName;
 
 
     public HomeFragment()
@@ -67,8 +71,13 @@ public class HomeFragment extends Fragment
 
         arrow = view.findViewById(R.id.id_home_arrow);
         profile = view.findViewById(R.id.id_home_profile);
+        profileName = view.findViewById(R.id.id_home_name);
         parkingCardView = view.findViewById(R.id.id_parking_history_card_view);
         activeSessionView = view.findViewById(R.id.id_home_card_active_session);
+        fineCardView = view.findViewById(R.id.id_home_card_fine_history);
+        mapCardView = view.findViewById(R.id.id_home_card_view_map);
+
+        profileName.setText("Rama");
 
 
         parkingCardView.setOnClickListener((v) -> {
@@ -83,12 +92,54 @@ public class HomeFragment extends Fragment
             startProfileFragment();
         });
 
+        mapCardView.setOnClickListener((v) -> {
+            startMapFragment();
+        });
+
+        fineCardView.setOnClickListener((v) -> {
+            startParkingHistoryFragmentAgain();
+        });
+
         return view;
+    }
+
+    private void startParkingHistoryFragmentAgain()
+    {
+        Fragment fragment = new ParkingHistoryFragment();
+        Bundle bundle = new Bundle();
+
+        bundle.putString("Message", "From Fine History Card");
+        fragment.setArguments(bundle);
+
+        getActivity().getSupportFragmentManager()
+                .beginTransaction()
+                .setReorderingAllowed(true)
+                .addToBackStack(null)
+                .setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_right, R.anim.enter_from_right, R.anim.exit_to_right)
+                .replace(R.id.id_fragment_container_view, fragment)
+                .commit();
+    }
+
+    private void startMapFragment()
+    {
+        Fragment fragment = new MapFragment();
+        getActivity().getSupportFragmentManager()
+                .beginTransaction()
+                .setReorderingAllowed(true)
+                .addToBackStack(null)
+                .setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_right, R.anim.enter_from_right, R.anim.exit_to_right)
+                .replace(R.id.id_fragment_container_view, fragment)
+                .commit();
     }
 
     private void startParkingHistoryFragment()
     {
         Fragment fragment = new ParkingHistoryFragment();
+        Bundle bundle = new Bundle();
+
+        bundle.putString("Message", "From Parking History Card");
+        fragment.setArguments(bundle);
+
         getActivity().getSupportFragmentManager()
                 .beginTransaction()
                 .setReorderingAllowed(true)

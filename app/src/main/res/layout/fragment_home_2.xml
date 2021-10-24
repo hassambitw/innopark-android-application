@@ -54,12 +54,13 @@
             app:srcCompat="@drawable/home_profile_icon"
             app:tint="@color/white" />
 
-    <ScrollView
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="8dp"
         android:fillViewport="true"
         android:paddingTop="16dp"
+        android:clipToPadding="false"
         android:scrollbars="none"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -318,6 +319,7 @@
                     android:layout_marginBottom="25dp">
 
                     <androidx.cardview.widget.CardView
+                        android:id="@+id/id_home_card_view_map"
                         android:layout_width="160dp"
                         android:layout_height="170dp"
                         android:layout_marginLeft="12dp"
@@ -345,7 +347,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginTop="16dp"
+                                android:layout_marginTop="8dp"
                                 android:fontFamily="@font/poppins_semibold"
                                 android:text="View Map"
                                 android:textAllCaps="true"
@@ -400,6 +402,7 @@
                     </androidx.cardview.widget.CardView>
 
                             <androidx.cardview.widget.CardView
+                                android:id="@+id/id_home_card_fine_history"
                                 android:layout_width="160dp"
                                 android:layout_height="170dp"
                                 android:layout_marginRight="17dp"
@@ -446,7 +449,7 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-    </ScrollView>
+    </androidx.core.widget.NestedScrollView>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

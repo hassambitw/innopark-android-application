@@ -71,7 +71,7 @@ public class ProfileFragment extends Fragment
                 .setReorderingAllowed(true)
                 .setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_right, R.anim.enter_from_right, R.anim.exit_to_right)
                 .addToBackStack(null)
-                .replace(R.id.id_child_fragment_container_view, selectedFragment)
+                .replace(R.id.id_fragment_container_view, selectedFragment)
                 .commit();
 
     }

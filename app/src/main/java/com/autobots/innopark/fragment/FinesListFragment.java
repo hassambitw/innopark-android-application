@@ -13,9 +13,7 @@ import android.widget.TextView;
 
 import com.autobots.innopark.R;
 import com.autobots.innopark.adapter.FinesRecyclerViewAdapter;
-import com.autobots.innopark.adapter.TariffRecyclerViewAdapter;
 import com.autobots.innopark.data.Fine;
-import com.autobots.innopark.data.Tariff;
 
 import java.util.ArrayList;
 

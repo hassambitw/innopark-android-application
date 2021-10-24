@@ -46,6 +46,9 @@ public class DashboardActivity extends AppCompatActivity {
         bottom_nav = findViewById(R.id.id_bottom_nav_menu);
         bottom_nav.setOnItemSelectedListener(navigationItemSelectedListener);
 
+        //getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        //getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
+
        // hideNavigationBar();
 
         if (savedInstanceState == null)

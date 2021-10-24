@@ -68,6 +68,7 @@ public class LoginActivity extends AppCompatActivity
 
         login_btn.setOnClickListener(view -> {
             loginUser();
+            startActivity(new Intent(LoginActivity.this, DashboardActivity.class));
         });
 
         forgot_password_tv.setOnClickListener(view -> {

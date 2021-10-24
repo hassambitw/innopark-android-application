@@ -8,11 +8,14 @@ public class ParkingHistoryData
     String[] drivers;
     String carLicense;
     String carName;
-    boolean paidStatus;
+    String duration;
+    boolean tariffPaidStatus;
+    boolean finePaidStatus;
     String paidMessage;
     int tariffPrice;
+    int finePrice;
 
-    public ParkingHistoryData(String location, String date, String parkingLevel, String[] drivers, String carLicense, String carName, boolean paidStatus, String paidMessage, int tariffPrice)
+    public ParkingHistoryData(String location, String date, String parkingLevel, String[] drivers, String carLicense, String carName, String duration, boolean paidStatus, String paidMessage, int tariffPrice, int finePrice, boolean finePaidStatus)
     {
         this.location = location;
         this.date = date;
@@ -20,9 +23,60 @@ public class ParkingHistoryData
         this.drivers = drivers;
         this.carLicense = carLicense;
         this.carName = carName;
-        this.paidStatus = paidStatus;
+        this.duration = duration;
+        this.tariffPaidStatus = paidStatus;
         this.paidMessage = paidMessage;
         this.tariffPrice = tariffPrice;
+        this.finePaidStatus = finePaidStatus;
+        this.finePrice = finePrice;
+
+    }
+
+    public ParkingHistoryData(String location, String date, String parkingLevel, String[] drivers, String carLicense, String carName, boolean finePaidStatus, String paidMessage, int finePrice) {
+        this.location = location;
+        this.date = date;
+        this.parkingLevel = parkingLevel;
+        this.drivers = drivers;
+        this.carLicense = carLicense;
+        this.carName = carName;
+        this.finePaidStatus = finePaidStatus;
+        this.paidMessage = paidMessage;
+        this.finePrice = finePrice;
+    }
+
+
+
+
+    public String getDuration() {
+        return duration;
+    }
+
+    public void setDuration(String duration) {
+        this.duration = duration;
+    }
+
+    public boolean isTariffPaidStatus() {
+        return tariffPaidStatus;
+    }
+
+    public void setTariffPaidStatus(boolean tariffPaidStatus) {
+        this.tariffPaidStatus = tariffPaidStatus;
+    }
+
+    public boolean isFinePaidStatus() {
+        return finePaidStatus;
+    }
+
+    public void setFinePaidStatus(boolean finePaidStatus) {
+        this.finePaidStatus = finePaidStatus;
+    }
+
+    public int getFinePrice() {
+        return finePrice;
+    }
+
+    public void setFinePrice(int finePrice) {
+        this.finePrice = finePrice;
     }
 
     public String getLocation() {
@@ -73,12 +127,9 @@ public class ParkingHistoryData
         this.carName = carName;
     }
 
-    public boolean isPaidStatus() {
-        return paidStatus;
-    }
 
     public void setPaidStatus(boolean paidStatus) {
-        this.paidStatus = paidStatus;
+        this.tariffPaidStatus = paidStatus;
     }
 
     public String getPaidMessage() {
