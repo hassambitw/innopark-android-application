@@ -176,8 +176,9 @@ public class HomeFragment extends Fragment
                     String fullName = firstName + " " + lastName;
 
                     //getting vehicles owned
-                    List<String> vehiclesOwned = (List<String>) result.get("vehicles_owned");
-                    userApi.setVehiclesOwned(vehiclesOwned);
+//                    List<String> vehiclesOwned = (List<String>) result.get("vehicles_owned");
+                    userApi.setVehiclesOwned((List<String>) result.get("vehicles_owned"));
+                    Log.d("TAG", "passHashmapResult: " + userApi.getVehiclesOwned());
 
                     //vehicles driven
                     //vehiclesDriven = (List<String>) result.get("vehicles_driven");
@@ -191,7 +192,7 @@ public class HomeFragment extends Fragment
 
                     db.collectionGroup("sessions_info")
                             .whereEqualTo("end_datetime", null)
-                            .whereIn("vehicle", userApi.getVehiclesDriven())
+                            .whereIn("vehicle", userApi.getVehiclesOwned())
                             .get()
                             .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                                 @Override
