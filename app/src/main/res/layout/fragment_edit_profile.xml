@@ -15,8 +15,119 @@
             android:id="@+id/id_menu_toolbar"
             layout="@layout/toolbar" />
 
+<!--        <LinearLayout-->
+<!--            android:id="@+id/linearLayout"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginStart="32dp"-->
+<!--            android:layout_marginTop="16dp"-->
+<!--            android:layout_marginEnd="32dp"-->
+<!--            android:background="@drawable/edittext_rounded"-->
+<!--            android:gravity="center"-->
+<!--            android:padding="10dp"-->
+<!--            app:layout_constraintBottom_toBottomOf="parent"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintHorizontal_bias="0.0"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/id_menu_toolbar"-->
+<!--            app:layout_constraintVertical_bias="0.029">-->
+
+<!--            <TextView-->
+<!--                android:layout_width="85dp"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:gravity="center"-->
+<!--                android:text="Username"-->
+<!--                android:textSize="18sp" />-->
+
+<!--            <EditText-->
+<!--                android:id="@+id/id_edit_profile_username"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="40dp"-->
+<!--                android:layout_marginLeft="10dp"-->
+<!--                android:paddingLeft="15dp"-->
+<!--                android:textSize="18sp" />-->
+
+<!--        </LinearLayout>-->
+
+<!--        <LinearLayout-->
+<!--            android:id="@+id/linearLayout2"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginStart="32dp"-->
+<!--            android:layout_marginTop="16dp"-->
+<!--            android:layout_marginEnd="32dp"-->
+<!--            android:background="@drawable/edittext_rounded"-->
+<!--            android:gravity="center"-->
+<!--            android:padding="10dp"-->
+<!--            app:layout_constraintEnd_toEndOf="@+id/linearLayout"-->
+<!--            app:layout_constraintStart_toStartOf="@+id/linearLayout"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/linearLayout">-->
+
+<!--            <TextView-->
+<!--                android:layout_width="85dp"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:gravity="center"-->
+<!--                android:text="Password"-->
+<!--                android:textSize="18sp" />-->
+
+<!--            <EditText-->
+<!--                android:id="@+id/id_edit_profile_password"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="40dp"-->
+<!--                android:layout_marginLeft="10dp"-->
+<!--                android:paddingLeft="15dp"-->
+<!--                android:textSize="18sp" />-->
+
+<!--        </LinearLayout>-->
+
+<!--        <LinearLayout-->
+<!--            android:id="@+id/linearLayout3"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginStart="32dp"-->
+<!--            android:layout_marginTop="16dp"-->
+<!--            android:layout_marginEnd="32dp"-->
+<!--            android:background="@drawable/edittext_rounded"-->
+<!--            android:gravity="center"-->
+<!--            android:padding="10dp"-->
+<!--            app:layout_constraintEnd_toEndOf="@+id/linearLayout2"-->
+<!--            app:layout_constraintStart_toStartOf="@+id/linearLayout2"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/linearLayout2">-->
+
+<!--            <TextView-->
+<!--                android:layout_width="85dp"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:gravity="center"-->
+<!--                android:text="ID"-->
+<!--                android:textSize="18sp" />-->
+
+<!--            <EditText-->
+<!--                android:id="@+id/id_edit_profile_card_id"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="40dp"-->
+<!--                android:layout_marginLeft="10dp"-->
+<!--                android:paddingLeft="15dp"-->
+<!--                android:textSize="18sp" />-->
+
+<!--        </LinearLayout>-->
+
+<!--        <Button-->
+<!--            android:id="@+id/id_edit_profile_save"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginStart="32dp"-->
+<!--            android:layout_marginTop="32dp"-->
+<!--            android:layout_marginBottom="32dp"-->
+<!--            android:text="Save Changes"-->
+<!--            app:layout_constraintBottom_toBottomOf="parent"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintHorizontal_bias="0.0"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/linearLayout3"-->
+<!--            app:layout_constraintVertical_bias="0.0" />-->
+
         <LinearLayout
-            android:id="@+id/linearLayout"
+            android:id="@+id/linearLayout6"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
@@ -25,12 +136,75 @@
             android:background="@drawable/edittext_rounded"
             android:gravity="center"
             android:padding="10dp"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/linearLayout4"
+            app:layout_constraintStart_toStartOf="@+id/linearLayout4"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout4">
+
+            <TextView
+                android:layout_width="85dp"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Last Name"
+                android:textSize="18sp" />
+
+            <EditText
+                android:id="@+id/id_edit_profile_last_name"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginLeft="10dp"
+                android:inputType="textPassword"
+                android:paddingLeft="15dp"
+                android:textSize="18sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="32dp"
+            android:background="@drawable/edittext_rounded"
+            android:gravity="center"
+            android:padding="10dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/id_menu_toolbar"
-            app:layout_constraintVertical_bias="0.029">
+            app:layout_constraintTop_toBottomOf="@+id/id_menu_toolbar">
+
+            <TextView
+                android:layout_width="85dp"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Email"
+                android:textSize="18sp" />
+
+            <EditText
+                android:id="@+id/id_edit_profile_email"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginLeft="10dp"
+                android:inputType="textEmailAddress"
+                android:paddingLeft="15dp"
+                android:textSize="18sp" />
+
+        </LinearLayout>
+        
+
+        <LinearLayout
+            android:id="@+id/linearLayout5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="32dp"
+            android:background="@drawable/edittext_rounded"
+            android:gravity="center"
+            android:padding="10dp"
+            app:layout_constraintEnd_toEndOf="@+id/linearLayout"
+            app:layout_constraintStart_toStartOf="@+id/linearLayout"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout">
 
             <TextView
                 android:layout_width="85dp"
@@ -40,10 +214,45 @@
                 android:textSize="18sp" />
 
             <EditText
-                android:id="@+id/id_register_first_name"
+                android:id="@+id/id_edit_profile_username"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_marginLeft="10dp"
+                android:inputType="none"
+                android:paddingLeft="15dp"
+                android:textSize="18sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearLayout4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="32dp"
+            android:background="@drawable/edittext_rounded"
+            android:gravity="center"
+            android:padding="10dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/linearLayout2"
+            app:layout_constraintStart_toStartOf="@+id/linearLayout2"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
+            app:layout_constraintVertical_bias="0.0">
+
+            <TextView
+                android:layout_width="85dp"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="First Name"
+                android:textSize="18sp" />
+
+            <EditText
+                android:id="@+id/id_edit_profile_first_name"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginLeft="10dp"
+                android:inputType="textPassword"
                 android:paddingLeft="15dp"
                 android:textSize="18sp" />
 
@@ -61,7 +270,7 @@
             android:padding="10dp"
             app:layout_constraintEnd_toEndOf="@+id/linearLayout"
             app:layout_constraintStart_toStartOf="@+id/linearLayout"
-            app:layout_constraintTop_toBottomOf="@+id/linearLayout">
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout5">
 
             <TextView
                 android:layout_width="85dp"
@@ -71,10 +280,11 @@
                 android:textSize="18sp" />
 
             <EditText
-                android:id="@+id/id_register_password"
+                android:id="@+id/id_edit_profile_password"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_marginLeft="10dp"
+                android:inputType="textPassword"
                 android:paddingLeft="15dp"
                 android:textSize="18sp" />
 
@@ -83,16 +293,16 @@
         <LinearLayout
             android:id="@+id/linearLayout3"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:layout_marginStart="32dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="32dp"
             android:background="@drawable/edittext_rounded"
             android:gravity="center"
             android:padding="10dp"
-            app:layout_constraintEnd_toEndOf="@+id/linearLayout2"
-            app:layout_constraintStart_toStartOf="@+id/linearLayout2"
-            app:layout_constraintTop_toBottomOf="@+id/linearLayout2">
+            app:layout_constraintEnd_toEndOf="@+id/linearLayout6"
+            app:layout_constraintStart_toStartOf="@+id/linearLayout6"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout6">
 
             <TextView
                 android:layout_width="85dp"
@@ -102,151 +312,29 @@
                 android:textSize="18sp" />
 
             <EditText
-                android:id="@+id/id_register_id"
+                android:id="@+id/id_edit_profile_card_id"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_marginLeft="10dp"
+                android:inputType="none"
                 android:paddingLeft="15dp"
                 android:textSize="18sp" />
 
         </LinearLayout>
 
-        <View
-            android:id="@+id/id_credit_card_view"
-            android:layout_width="match_parent"
-            android:layout_height="300dp"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="32dp"
-            android:layout_marginBottom="32dp"
-            android:background="@color/black"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@+id/linearLayout3"
-            app:layout_constraintStart_toStartOf="@+id/linearLayout3"
-            app:layout_constraintTop_toBottomOf="@+id/linearLayout3"
-            app:layout_constraintVertical_bias="0.137" />
-
-        <TextView
-            android:id="@+id/id_credit_card_text"
+        <Button
+            android:id="@+id/id_edit_profile_save_changes"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="32dp"
-            android:text="Credit Card"
-            android:textColor="@color/white"
-            android:textSize="18sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.058"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/id_credit_card_view" />
-
-        <EditText
-            android:id="@+id/id_register_ccname"
-            android:layout_width="300dp"
-            android:layout_height="30dp"
             android:layout_marginStart="32dp"
             android:layout_marginTop="32dp"
-            android:layout_marginEnd="32dp"
-            android:background="@drawable/editext_border"
-            android:hint="Credit Card Name"
-            android:paddingLeft="15dp"
-            android:textColor="@color/gray"
-            android:textColorHint="@color/gray"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/id_credit_card_text" />
-
-        <EditText
-            android:id="@+id/id_register_ccnum"
-            android:layout_width="300dp"
-            android:layout_height="30dp"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="32dp"
-            android:background="@drawable/editext_border"
-            android:hint="Credit Card Number"
-            android:paddingLeft="15dp"
-            android:textColor="@color/gray"
-            android:textColorHint="@color/gray"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.489"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/id_register_ccname" />
-
-        <TextView
-            android:id="@+id/id_expiry_date_register_txt"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="60dp"
-            android:text="Expiry Date"
-            android:textColor="@color/white"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.138"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/id_register_ccnum" />
-
-        <EditText
-            android:id="@+id/id_register_ccexpiry"
-            android:layout_width="wrap_content"
-            android:layout_height="30dp"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="32dp"
-            android:background="@drawable/editext_border"
-            android:hint="MM/YY"
-            android:paddingLeft="5dp"
-            android:paddingRight="5dp"
-            android:textColorHint="@color/gray"
-            android:textSize="15sp"
-            app:layout_constraintEnd_toEndOf="@+id/id_expiry_date_register_txt"
-            app:layout_constraintStart_toStartOf="@+id/id_expiry_date_register_txt"
-            app:layout_constraintTop_toBottomOf="@+id/id_expiry_date_register_txt" />
-
-        <TextView
-            android:id="@+id/id_cvv_register_input_txt"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="60dp"
-            android:text="CVV"
-            android:textColor="@color/white"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.706"
-            app:layout_constraintStart_toEndOf="@+id/id_expiry_date_register_txt"
-            app:layout_constraintTop_toBottomOf="@+id/id_register_ccnum" />
-
-        <EditText
-            android:id="@+id/id_register_cc_cvv"
-            android:layout_width="50dp"
-            android:layout_height="30dp"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="32dp"
-            android:background="@drawable/editext_border"
-            android:hint="465"
-            android:paddingLeft="5dp"
-            android:paddingRight="5dp"
-            android:textColorHint="@color/gray"
-            android:textSize="15sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.807"
-            app:layout_constraintStart_toEndOf="@+id/id_register_ccexpiry"
-            app:layout_constraintTop_toBottomOf="@+id/id_cvv_register_input_txt" />
-
-        <Button
-            android:id="@+id/id_edit_profile_save"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="24dp"
             android:layout_marginBottom="32dp"
+            android:padding="10dp"
             android:text="Save Changes"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/id_credit_card_view"
-            app:layout_constraintVertical_bias="0.456" />
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout3"
+            app:layout_constraintVertical_bias="0.0" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

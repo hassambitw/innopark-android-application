@@ -44,12 +44,10 @@ public class RegisterActivity extends AppCompatActivity {
     private EditText password_et;
     private EditText id_et;
     private EditText phoneNum_et;
-    private EditText ccName_et;
-    private EditText ccNum_et;
-    private EditText ccExpiry_et;
-    private EditText ccCVV_et;
+    private EditText username_et;
 
     //Firebase Auth
+
     private FirebaseAuth firebaseAuth = DatabaseUtils.firebaseAuth;
     private FirebaseAuth.AuthStateListener authStateListener;
     private FirebaseUser currentUser;
@@ -73,27 +71,31 @@ public class RegisterActivity extends AppCompatActivity {
         radio_btn_no = findViewById(R.id.id_register_own_vehicle_no);
         license_plate_et = findViewById(R.id.id_license_plate_register);
         email_et = findViewById(R.id.id_register_email);
-        first_name_et = findViewById(R.id.id_register_first_name);
+        first_name_et = findViewById(R.id.id_register_firstname);
         last_name_et = findViewById(R.id.id_register_last_name);
         password_et = findViewById(R.id.id_register_password);
-        id_et = findViewById(R.id.id_register_id);
+        id_et = findViewById(R.id.id_register_card_id);
         phoneNum_et = findViewById(R.id.id_register_phone);
+        username_et = findViewById(R.id.id_register_username);
+
+        firebaseAuth = FirebaseAuth.getInstance();
 
 
         register_btn.setOnClickListener(view -> {
             String email = email_et.getText().toString().trim();
             String first_name = first_name_et.getText().toString().trim();
             String last_name = last_name_et.getText().toString().trim();
+            String username = username_et.getText().toString().trim();
             String password  = password_et.getText().toString().trim();
             String id = id_et.getText().toString().trim(); // string to long
             String phoneNumber = phoneNum_et.getText().toString().trim();
             String licenseNum = license_plate_et.getText().toString().trim();
 
 
-            if (!TextUtils.isEmpty(email) && !TextUtils.isEmpty(first_name) && !TextUtils.isEmpty(last_name)&& !TextUtils.isEmpty(password) && !TextUtils.isEmpty(String.valueOf(id))
+            if (!TextUtils.isEmpty(email) && !TextUtils.isEmpty(username) && !TextUtils.isEmpty(first_name) && !TextUtils.isEmpty(last_name)&& !TextUtils.isEmpty(password) && !TextUtils.isEmpty(String.valueOf(id))
                     && !TextUtils.isEmpty(phoneNumber) && !TextUtils.isEmpty(phoneNumber))
             {
-                createUserEmailAccount(email, first_name, last_name, password, id, phoneNumber, ownVehicle);
+                createUserEmailAccount(email, username, first_name, last_name, password, Long.parseLong(id), phoneNumber, ownVehicle);
                 Toast.makeText(getApplicationContext(), "User Registered", Toast.LENGTH_SHORT).show();
             } else {
                 Toast.makeText(getApplicationContext(), "All fields must be filled!", Toast.LENGTH_SHORT).show();
@@ -115,22 +117,38 @@ public class RegisterActivity extends AppCompatActivity {
                 }
             }
         });
+
+        authStateListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                currentUser = firebaseAuth.getCurrentUser();
+                if (currentUser != null)
+                {
+                    //user is already logged in
+                }
+                else
+                    {
+                    //no user yet
+                }
+            }
+        };
     }
 
 
     @Override
     protected void onStart()
     {
+        //check if user is already logged in
         super.onStart();
-
+  
         currentUser = firebaseAuth.getCurrentUser();
-        //firebaseAuth.addAuthStateListener(authStateListener);
+        firebaseAuth.addAuthStateListener(authStateListener);
 
     }
 
-    private void createUserEmailAccount(String email, String first_name, String last_name, String password, String id, String phoneNumber, boolean ownVehicle)
+    private void createUserEmailAccount(String email, String username, String first_name, String last_name, String password, long id, String phoneNumber, boolean ownVehicle)
     {
-        if (!TextUtils.isEmpty(email) && !TextUtils.isEmpty(first_name) && !TextUtils.isEmpty(last_name) && !TextUtils.isEmpty(password) && !TextUtils.isEmpty(String.valueOf(id)) && !TextUtils.isEmpty(phoneNumber))
+        if (!TextUtils.isEmpty(email) && !TextUtils.isEmpty(username) && !TextUtils.isEmpty(first_name) && !TextUtils.isEmpty(last_name) && !TextUtils.isEmpty(password) && !TextUtils.isEmpty(String.valueOf(id)) && !TextUtils.isEmpty(phoneNumber))
         {
             firebaseAuth.createUserWithEmailAndPassword(email, password)
                     .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
@@ -157,7 +175,9 @@ public class RegisterActivity extends AppCompatActivity {
                                 vehicles_owned.add("12345");
 
                                 Map<String, Object> user = new HashMap<>();
+                                user.put("userId", currentUserID);
                                 user.put("email_address", email);
+                                user.put("username", username);
                                 user.put("first_name", first_name);
                                 user.put("id_card_number", id);
                                 user.put("is_banned", false);
@@ -171,13 +191,16 @@ public class RegisterActivity extends AppCompatActivity {
                                         public void passStringResult(String result){
                                                 if(result.equals(Tags.SUCCESS.name())){
                                                     Log.w(Tags.SUCCESS.name(), "ADDED DATA");
-
-                                                    Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
-                                                    intent.putExtra("first_name", first_name);
-                                                    intent.putExtra("userId", currentUserID);
-
-                                                    startActivity(intent);
+                                                    Toast.makeText(getApplicationContext(), "User registered!", Toast.LENGTH_SHORT).show();
+//                                                    UserApi userApi = UserApi.getInstance();
+//                                                    userApi.setUserId(currentUserID);
+//                                                    userApi.setUsername(first_name);
+//                                                    Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+//                                                    intent.putExtra("first_name", first_name);
+//                                                    intent.putExtra("userId", currentUserID);
+                                                    startActivity(new Intent(getApplicationContext(), LoginActivity.class));
                                                 }else{
+                                                    Toast.makeText(getApplicationContext(), "Failure to add data!", Toast.LENGTH_SHORT).show();
                                                     Log.w(Tags.FAILURE.name(), "FAILED TO ADD DATA");
                                                 }
                                             }

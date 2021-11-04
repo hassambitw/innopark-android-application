@@ -27,6 +27,8 @@ import com.autobots.innopark.R;
 import com.autobots.innopark.adapter.MenuRecyclerViewAdapter;
 import com.autobots.innopark.data.MenuItemList;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 
@@ -43,7 +45,11 @@ public class MenuListFragment extends Fragment implements MenuRecyclerViewAdapte
     Button signOutBtn;
     TextView toolbar_title;
 
-    final FirebaseAuth firebaseAuth = DatabaseUtils.firebaseAuth;
+    FirebaseAuth firebaseAuth = DatabaseUtils.firebaseAuth;
+    private FirebaseAuth.AuthStateListener authStateListener;
+    private FirebaseUser user;
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
+
 
 
     public MenuListFragment()
@@ -51,6 +57,12 @@ public class MenuListFragment extends Fragment implements MenuRecyclerViewAdapte
         // Required empty public constructor
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        user = firebaseAuth.getCurrentUser();
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -60,7 +72,7 @@ public class MenuListFragment extends Fragment implements MenuRecyclerViewAdapte
         View view = inflater.inflate(R.layout.fragment_menu_list, container, false);
         signOutBtn = view.findViewById(R.id.id_sign_out_btn);
         Fragment menuFragment = new MenuFragment();
-        //firebaseAuth = FirebaseAuth.getInstance();
+        firebaseAuth = FirebaseAuth.getInstance();
 
 //        toolbar = ((AppCompatActivity) getActivity()).findViewById(R.id.id_menu_toolbar);
 //        toolbar_title = toolbar.findViewById(R.id.id_toolbar_title);
@@ -108,9 +120,12 @@ public class MenuListFragment extends Fragment implements MenuRecyclerViewAdapte
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i)
                         {
-                            //firebaseAuth.signOut();
-                            Toast.makeText(getActivity(), "User signed out", Toast.LENGTH_SHORT).show();
-                            startActivity(new Intent(getActivity(), LoginActivity.class));
+                            if (user != null && firebaseAuth != null )
+                            {
+                                firebaseAuth.signOut();
+                                Toast.makeText(getActivity(), "User signed out", Toast.LENGTH_SHORT).show();
+                                startActivity(new Intent(getActivity(), LoginActivity.class));
+                            }
                         }
                     })
                     .setNegativeButton("Cancel", null)

@@ -11,6 +11,22 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
+        <EditText
+            android:id="@+id/id_register_username"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="32dp"
+            android:background="@drawable/editext_border"
+            android:hint="Username"
+            android:paddingLeft="15dp"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/id_register_email" />
+
         <TextView
             android:id="@+id/id_username_register_text"
             android:layout_width="wrap_content"
@@ -26,7 +42,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <EditText
-            android:id="@+id/id_register_first_name"
+            android:id="@+id/id_register_firstname"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:layout_marginStart="32dp"
@@ -38,7 +54,7 @@
             android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/id_register_email" />
+            app:layout_constraintTop_toBottomOf="@+id/id_register_username" />
 
         <EditText
             android:id="@+id/id_register_last_name"
@@ -54,7 +70,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/id_register_first_name" />
+            app:layout_constraintTop_toBottomOf="@id/id_register_firstname" />
 
         <EditText
             android:id="@+id/id_register_email"
@@ -89,7 +105,7 @@
             app:layout_constraintTop_toBottomOf="@id/id_register_last_name" />
 
         <EditText
-            android:id="@+id/id_register_id"
+            android:id="@+id/id_register_card_id"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:layout_marginStart="32dp"
@@ -115,7 +131,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/id_register_id" />
+            app:layout_constraintTop_toBottomOf="@+id/id_register_card_id" />
 
 
         <TextView

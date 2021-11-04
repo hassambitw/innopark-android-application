@@ -1,5 +1,8 @@
 package com.autobots.innopark;
 
+import static android.content.ContentValues.TAG;
+
+import com.autobots.innopark.data.Callbacks.HashmapCallback;
 import com.autobots.innopark.data.DatabaseUtils;
 
 import androidx.annotation.NonNull;
@@ -12,11 +15,15 @@ import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 
+import com.autobots.innopark.data.Tags;
+import com.autobots.innopark.data.User;
+import com.autobots.innopark.data.UserApi;
 import com.autobots.innopark.fragment.HomeFragment;
 import com.autobots.innopark.fragment.MenuFragment;
 import com.autobots.innopark.fragment.NotificationFragment;
@@ -25,6 +32,8 @@ import com.google.android.material.navigation.NavigationBarView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import java.util.HashMap;
+
 
 public class DashboardActivity extends AppCompatActivity {
 
@@ -32,6 +41,7 @@ public class DashboardActivity extends AppCompatActivity {
     final FragmentManager fm = getSupportFragmentManager();
     private FirebaseAuth firebaseAuth = DatabaseUtils.firebaseAuth;
     private FirebaseUser currentUser;
+    private String currentUserUid;
     private View decorView;
 
 
@@ -55,6 +65,7 @@ public class DashboardActivity extends AppCompatActivity {
         {
             bottom_nav.setSelectedItemId(R.id.id_bottom_nav_home);
         }
+
 
     }
 
@@ -108,6 +119,7 @@ public class DashboardActivity extends AppCompatActivity {
         if (currentUser == null) {
             startActivity(new Intent (getApplicationContext(), LoginActivity.class));
         }
+
     }
 
 

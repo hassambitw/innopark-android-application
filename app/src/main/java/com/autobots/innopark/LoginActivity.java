@@ -21,6 +21,7 @@ import com.autobots.innopark.data.Driver;
 import com.autobots.innopark.data.Tags;
 import com.autobots.innopark.data.Tariff;
 import com.autobots.innopark.data.User;
+import com.autobots.innopark.data.UserApi;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -40,6 +41,8 @@ public class LoginActivity extends AppCompatActivity
     private TextView forgot_password_tv;
     private EditText email_et;
     private EditText password_et;
+    private String currentUserName;
+    private String currentUserId;
 
     //Firebase Auth
     private FirebaseAuth firebaseAuth = DatabaseUtils.firebaseAuth;
@@ -56,6 +59,7 @@ public class LoginActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+
         register_tv = findViewById(R.id.id_register_text);
         login_btn = findViewById(R.id.id_login_btn);
         forgot_password_tv = findViewById(R.id.id_forgot_password_txt);
@@ -68,12 +72,14 @@ public class LoginActivity extends AppCompatActivity
 
         login_btn.setOnClickListener(view -> {
             loginUser();
-            startActivity(new Intent(LoginActivity.this, DashboardActivity.class));
+            //startActivity(new Intent(LoginActivity.this, DashboardActivity.class));
         });
 
         forgot_password_tv.setOnClickListener(view -> {
             startActivity(new Intent(getApplicationContext(), ForgotPasswordActivity.class));
         });
+
+
     }
 
     private void loginUser()
@@ -88,6 +94,12 @@ public class LoginActivity extends AppCompatActivity
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()) {
+
+                                UserApi userApi = UserApi.getInstance();
+                                userApi.setUserEmail(email);
+
+                                Log.d("TAG", "onComplete: " + currentUserName);
+
                                 Toast.makeText(getApplicationContext(), "User logged in successfully", Toast.LENGTH_SHORT).show();
                                 startActivity(new Intent(getApplicationContext(), DashboardActivity.class));
                             } else {
