@@ -35,6 +35,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
@@ -217,6 +218,7 @@ public class HomeFragment extends Fragment
                     db.collectionGroup("sessions_info")
                             .whereEqualTo("end_datetime", null)
                             .whereIn("vehicle", vehiclesCombined)
+                            .orderBy("start_datetime", Query.Direction.DESCENDING)
                             .limit(1)
                             .get()
                             .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
@@ -244,10 +246,9 @@ public class HomeFragment extends Fragment
                                             double tariff = session.getTariff_amount();
                                             String avenue_name = session.getAvenue_name();
 
-                                            if (avenue_name!=null) activeSessionLocation.setText(avenue_name.trim());
+                                            if (avenue_name != null) activeSessionLocation.setText(avenue_name.trim());
                                             //Log.d(TAG, "onSuccess: " + tariff);
 
-                                            activeSessionLocation.setText(avenue_name.trim());
                                             Log.d(TAG, "onSuccess: " + avenue_name);
 
                                             CurrentSessionFragment currentSessionFragment = new CurrentSessionFragment();

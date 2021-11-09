@@ -32,6 +32,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
@@ -138,6 +139,8 @@ public class TariffListFragment extends Fragment implements TariffActiveSessionR
         db.collectionGroup("sessions_info")
                 .whereEqualTo("end_datetime", null)
                 .whereIn("vehicle", vehiclesCombined)
+                .orderBy("start_datetime", Query.Direction.DESCENDING)
+                .limit(1)
                 .get()
                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override
