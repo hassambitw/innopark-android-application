@@ -95,7 +95,7 @@ public class RegisterActivity extends AppCompatActivity {
             if (!TextUtils.isEmpty(email) && !TextUtils.isEmpty(username) && !TextUtils.isEmpty(first_name) && !TextUtils.isEmpty(last_name)&& !TextUtils.isEmpty(password) && !TextUtils.isEmpty(String.valueOf(id))
                     && !TextUtils.isEmpty(phoneNumber) && !TextUtils.isEmpty(phoneNumber))
             {
-                createUserEmailAccount(email, username, first_name, last_name, password, Long.parseLong(id), phoneNumber, ownVehicle);
+                createUserEmailAccount(email, username, first_name, last_name, password, Long.parseLong(id), phoneNumber, ownVehicle, licenseNum);
                 Toast.makeText(getApplicationContext(), "User Registered", Toast.LENGTH_SHORT).show();
             } else {
                 Toast.makeText(getApplicationContext(), "All fields must be filled!", Toast.LENGTH_SHORT).show();
@@ -146,7 +146,7 @@ public class RegisterActivity extends AppCompatActivity {
 
     }
 
-    private void createUserEmailAccount(String email, String username, String first_name, String last_name, String password, long id, String phoneNumber, boolean ownVehicle)
+    private void createUserEmailAccount(String email, String username, String first_name, String last_name, String password, long id, String phoneNumber, boolean ownVehicle, String licenseNum)
     {
         if (!TextUtils.isEmpty(email) && !TextUtils.isEmpty(username) && !TextUtils.isEmpty(first_name) && !TextUtils.isEmpty(last_name) && !TextUtils.isEmpty(password) && !TextUtils.isEmpty(String.valueOf(id)) && !TextUtils.isEmpty(phoneNumber))
         {
@@ -172,7 +172,7 @@ public class RegisterActivity extends AppCompatActivity {
                                 List<String> vehicles_owned=new ArrayList<String>();
 
                                 //change this to license number entered by user if he owns a vehicle
-                                vehicles_owned.add("12345");
+                                if (ownVehicle) vehicles_owned.add(licenseNum);
 
                                 Map<String, Object> user = new HashMap<>();
                                 user.put("userId", currentUserID);
@@ -185,7 +185,7 @@ public class RegisterActivity extends AppCompatActivity {
                                 user.put("phone_number", phoneNumber);
                                 user.put("vehicles_driven", vehicles_driven);
                                 user.put("vehicles_owned", vehicles_owned);
-                                //if (ownVehicle) userObject.put("License Number", licenseNum);
+//                                if (ownVehicle) user.put("vehicles_owned", licenseNum);
 
                                 DatabaseUtils.addData(collection, currentUserID, user, new StringCallback(){
                                         public void passStringResult(String result){

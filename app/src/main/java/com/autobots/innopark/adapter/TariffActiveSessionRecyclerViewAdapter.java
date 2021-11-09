@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.autobots.innopark.R;
+import com.autobots.innopark.data.Session;
 import com.autobots.innopark.data.Tariff;
 
 import java.util.ArrayList;
@@ -17,11 +18,11 @@ import java.util.ArrayList;
 public class TariffActiveSessionRecyclerViewAdapter extends RecyclerView.Adapter
 {
 
-    final private ArrayList<Tariff> tariff_items;
+    final private ArrayList<Session> tariff_items;
     private Context mContext;
     private OnTariffClickListener onTariffClickListener;
 
-    public TariffActiveSessionRecyclerViewAdapter(ArrayList<Tariff> tariff_items, Context mContext, OnTariffClickListener onTariffClickListener)
+    public TariffActiveSessionRecyclerViewAdapter(ArrayList<Session> tariff_items, Context mContext, OnTariffClickListener onTariffClickListener)
     {
         this.tariff_items = tariff_items;
         this.mContext = mContext;
@@ -51,23 +52,41 @@ public class TariffActiveSessionRecyclerViewAdapter extends RecyclerView.Adapter
     {
 
 
-        Tariff tariff = tariff_items.get(position);
-        if (tariff.getDuration().contains("-")) {
-            ActiveViewHolder activeViewHolder = (ActiveViewHolder) holder;
-            activeViewHolder.itemView.setVisibility(View.VISIBLE);
-            activeViewHolder.itemView.setLayoutParams(new RecyclerView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+        Session tariff = tariff_items.get(position);
 
-            activeViewHolder.tariffAmount.setText(String.valueOf(tariff.getTariffRate()) + " DHS/hr");
-            activeViewHolder.tariffParkingArea.setText(tariff.getParkingArea());
-            activeViewHolder.tariffParkingLevel.setText(tariff.getParkingLevel());
-            activeViewHolder.tariffParkingSpace.setText(tariff.getParkingSpace());
-            activeViewHolder.tariffParkingSpot.setText(tariff.getParkingSpot());
-            activeViewHolder.tariffParkingDuration.setText(tariff.getDuration());
-        } else {
-            ActiveViewHolder activeViewHolder = (ActiveViewHolder) holder;
-            activeViewHolder.itemView.setVisibility(View.GONE);
-            activeViewHolder.itemView.setLayoutParams(new RecyclerView.LayoutParams(0, 0));
-        }
+        Double rate = tariff.getRate_per_hour();
+        String parking_location = tariff.getAvenue_name();
+        String parking_spot = tariff.getParking_id();
+        char parking_lvl = parking_spot.charAt(0);
+
+
+
+        ActiveViewHolder activeViewHolder = (ActiveViewHolder) holder;
+
+        activeViewHolder.tariffAmount.setText(rate + " DHS/hr");
+        activeViewHolder.tariffParkingArea.setText(parking_location);
+        activeViewHolder.tariffParkingSpot.setText("Spot " + parking_spot);
+        activeViewHolder.tariffParkingLevel.setText("L" + parking_lvl);
+        activeViewHolder.tariffParkingDuration.setText("-");
+
+
+
+//        if (tariff.getDuration().contains("-")) {
+//            ActiveViewHolder activeViewHolder = (ActiveViewHolder) holder;
+//            activeViewHolder.itemView.setVisibility(View.VISIBLE);
+//            activeViewHolder.itemView.setLayoutParams(new RecyclerView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+//
+//            activeViewHolder.tariffAmount.setText(String.valueOf(tariff.getTariffRate()) + " DHS/hr");
+//            activeViewHolder.tariffParkingArea.setText(tariff.getParkingArea());
+//            activeViewHolder.tariffParkingLevel.setText(tariff.getParkingLevel());
+//            activeViewHolder.tariffParkingSpace.setText(tariff.getParkingSpace());
+//            activeViewHolder.tariffParkingSpot.setText(tariff.getParkingSpot());
+//            activeViewHolder.tariffParkingDuration.setText(tariff.getDuration());
+//        } else {
+//            ActiveViewHolder activeViewHolder = (ActiveViewHolder) holder;
+//            activeViewHolder.itemView.setVisibility(View.GONE);
+//            activeViewHolder.itemView.setLayoutParams(new RecyclerView.LayoutParams(0, 0));
+//        }
 
 //        if (holder.getItemViewType() == 0)
 //        {
@@ -125,7 +144,7 @@ public class TariffActiveSessionRecyclerViewAdapter extends RecyclerView.Adapter
             tariffAmount = itemView.findViewById(R.id.id_card_active_session_tariff_amt);
             tariffParkingArea = itemView.findViewById(R.id.id_card_active_session_parking_area);
             tariffParkingLevel = itemView.findViewById(R.id.id_card_active_session_parking_level);
-            tariffParkingSpace = itemView.findViewById(R.id.id_card_active_session_parking_space);
+            //tariffParkingSpace = itemView.findViewById(R.id.id_card_active_session_parking_space);
             tariffParkingSpot = itemView.findViewById(R.id.id_card_active_session_parking_spot);
             tariffParkingDuration = itemView.findViewById(R.id.id_card_active_session_duration);
 
@@ -155,7 +174,7 @@ public class TariffActiveSessionRecyclerViewAdapter extends RecyclerView.Adapter
             tariffAmount = itemView.findViewById(R.id.id_card_active_session_tariff_amt);
             tariffParkingArea = itemView.findViewById(R.id.id_card_active_session_parking_area);
             tariffParkingLevel = itemView.findViewById(R.id.id_card_active_session_parking_level);
-            tariffParkingSpace = itemView.findViewById(R.id.id_card_active_session_parking_space);
+           // tariffParkingSpace = itemView.findViewById(R.id.id_card_active_session_parking_space);
             tariffParkingSpot = itemView.findViewById(R.id.id_card_active_session_parking_spot);
             tariffParkingDuration = itemView.findViewById(R.id.id_card_active_session_duration);
 

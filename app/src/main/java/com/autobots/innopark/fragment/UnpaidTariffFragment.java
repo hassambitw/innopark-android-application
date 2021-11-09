@@ -1,6 +1,9 @@
 package com.autobots.innopark.fragment;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,23 +17,55 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.autobots.innopark.LoginActivity;
 import com.autobots.innopark.R;
 import com.autobots.innopark.adapter.TariffInactiveSessionRecyclerViewAdapter;
-import com.autobots.innopark.data.Tariff;
+import com.autobots.innopark.data.DatabaseUtils;
+import com.autobots.innopark.data.Session;
+import com.autobots.innopark.data.UserApi;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.List;
 
 public class UnpaidTariffFragment extends Fragment implements TariffInactiveSessionRecyclerViewAdapter.OnTariffClickListener
 {
 
+    private static final String TAG = "UnpaidTariffFragment";
     Toolbar toolbar;
     TextView toolbarTitle;
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
-    ArrayList<Tariff> tariffItems;
+    ArrayList<Session> tariffItems;
+    private List<String> vehiclesCombined;
 
+    final FirebaseAuth firebaseAuth = DatabaseUtils.firebaseAuth;
+    FirebaseUser currentUser;
+
+    //firestore connection
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+    private CollectionReference collectionReference = db.collection("avenues");
+
+    Session tariff;
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+
+        currentUser = firebaseAuth.getCurrentUser();
+        if (currentUser == null) {
+            startActivity(new Intent(getActivity(), LoginActivity.class));
+        }
+    }
 
     @Nullable
     @Override
@@ -38,27 +73,21 @@ public class UnpaidTariffFragment extends Fragment implements TariffInactiveSess
 
         View view = inflater.inflate(R.layout.fragment_unpaid_tariff, container, false);
 
+        tariffItems = new ArrayList<>();
+        vehiclesCombined = new ArrayList<>();
+
+
+        mRecyclerView = view.findViewById(R.id.id_unpaid_sessions_recycler_view);
+
         setupToolbar(view);
-        populateTariffs();
-        setupUnpaidRecyclerView(view);
+        //populateTariffs();
+        //setupUnpaidRecyclerView(view);
 
 
         return view;
 
     }
 
-    private void populateTariffs()
-    {
-        tariffItems = new ArrayList<>();
-
-        tariffItems.add(new Tariff(1, 40.0, "1hr : 30 min", "UOWD", "B1", "Space A", "Spot 23", Boolean.FALSE));
-        tariffItems.add(new Tariff(1, 40.0, "1hr : 30 min", "UOWD", "B1", "Space A", "Spot 23", Boolean.FALSE));
-        tariffItems.add(new Tariff(1, 40.0, "1hr : 30 min", "UOWD", "B1", "Space A", "Spot 23", Boolean.FALSE));
-        tariffItems.add(new Tariff(1, 40.0, "1hr : 30 min", "UOWD", "B1", "Space A", "Spot 23", Boolean.FALSE));
-        tariffItems.add(new Tariff(1, 40.0, "2hr : 30 min", "UOWD", "B1", "Space A", "Spot 23", Boolean.FALSE));
-        tariffItems.add(new Tariff(1, 40.0, "-", "UOWD", "B1", "Space A", "Spot 23", Boolean.FALSE));
-
-    }
 
     private void setupToolbar(View view)
     {
@@ -77,29 +106,71 @@ public class UnpaidTariffFragment extends Fragment implements TariffInactiveSess
         });
     }
 
-    private void setupUnpaidRecyclerView(View view)
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        loadUnpaidData();
+    }
+
+    private void loadUnpaidData()
     {
-        mRecyclerView = view.findViewById(R.id.id_unpaid_sessions_recycler_view);
+        UserApi userApi = UserApi.getInstance();
+        vehiclesCombined = userApi.getVehiclesCombined();
+
+        db.collectionGroup("sessions_info")
+                .whereNotEqualTo("end_datetime", null)
+                .whereEqualTo("is_paid", false)
+                .whereIn("vehicle", vehiclesCombined)
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        Log.d(TAG, "onSuccess: Inside");
+                        if (!queryDocumentSnapshots.isEmpty()) {
+                            List<DocumentSnapshot> snapshotList = queryDocumentSnapshots.getDocuments();
+                            for (DocumentSnapshot snapshot : snapshotList) {
+                                try {
+                                    Log.d(TAG, "onSuccess: " + snapshot.getId());
+                                    tariff = snapshot.toObject(Session.class);
+                                    tariffItems.add(tariff);
+
+                                } catch (Exception e) {
+                                    Log.d(TAG, "onSuccess: " + e.getMessage());
+                                }
+
+                                String parent_id = String.valueOf(snapshot.getReference().getParent().getParent().getId()); // parent doc id
+                                Log.d(TAG, "onSuccess: " + parent_id);
+
+                            }
+                            setupUnpaidRecyclerView();
+
+                        } else {
+                            Log.d(TAG, "onSuccess: Query document snapshots empty");
+                        }
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.d(TAG, "onFailure: " + e.getMessage());
+                    }
+                });
+    }
+
+        private void setupUnpaidRecyclerView()
+    {
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLayoutManager);
         mAdapter = new TariffInactiveSessionRecyclerViewAdapter(tariffItems, getActivity(), this);
         mRecyclerView.setAdapter(mAdapter);
+        mAdapter.notifyDataSetChanged();
     }
 
     @Override
     public void onTariffClick(int position)
     {
-//        Fragment selectedFragment = new TariffFragment();
-//
-//        getActivity().getSupportFragmentManager()
-//                .beginTransaction()
-//                .setReorderingAllowed(true)
-//                .setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_right, R.anim.enter_from_right, R.anim.exit_to_right)
-//                .addToBackStack(null)
-//                .replace(R.id.id_fragment_container_view, selectedFragment)
-//                .commit();
-
         Fragment fragment = new CurrentSessionFragment();
         getActivity().getSupportFragmentManager()
                 .beginTransaction()

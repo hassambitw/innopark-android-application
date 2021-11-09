@@ -11,7 +11,7 @@
     <androidx.cardview.widget.CardView
         android:id="@+id/id_tariff_card_inactive_session_unpaid"
         android:layout_width="0dp"
-        android:layout_height="140dp"
+        android:layout_height="155dp"
         android:layout_margin="10dp"
         app:cardUseCompatPadding="true"
         android:elevation="10dp"
@@ -28,13 +28,13 @@
             android:layout_height="match_parent">
 
             <ImageView
-                android:id="@+id/id_card_active_session_tariff_logo"
+                android:id="@+id/id_card_inactive_session_tariff_logo"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="20dp"
                 android:src="@drawable/card_unpaid_cross"
-                app:layout_constraintEnd_toStartOf="@+id/id_card_active_session_parking_area"
+                app:layout_constraintEnd_toStartOf="@+id/id_card_inactive_session_parking_area"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -43,12 +43,14 @@
                 android:id="@+id/view7"
                 style="@style/Divider"
                 android:layout_marginStart="32dp"
+                android:layout_marginTop="16dp"
                 android:layout_marginEnd="32dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="@+id/id_card_active_session_tariff_logo"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.588" />
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="@+id/id_card_inactive_session_tariff_logo"
+                app:layout_constraintTop_toBottomOf="@+id/id_card_inactive_session_parking_area"
+                app:layout_constraintVertical_bias="0.171" />
 
             <TextView
                 android:id="@+id/textView28"
@@ -67,12 +69,14 @@
                 app:layout_constraintTop_toBottomOf="@+id/view7" />
 
             <TextView
-                android:id="@+id/id_card_active_session_parking_area"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:id="@+id/id_card_inactive_session_parking_area"
+                android:layout_width="120dp"
+                android:layout_height="65dp"
                 android:layout_marginTop="24dp"
                 android:fontFamily="@font/open_sans_semibold"
-                android:text="UOWD"
+                android:text="The University of Wollongong in Dubai"
+                android:autoSizeMaxTextSize="16sp"
+                android:autoSizeMinTextSize="15sp"
                 android:textAlignment="center"
                 android:textColor="@color/black_1"
                 android:textSize="16sp"
@@ -81,7 +85,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/id_card_active_session_parking_level"
+                android:id="@+id/id_card_inactive_session_parking_level"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
@@ -89,11 +93,11 @@
                 android:text="B1"
                 android:textColor="@color/black_1"
                 android:textSize="16sp"
-                app:layout_constraintBottom_toBottomOf="@+id/id_card_active_session_parking_area"
+                app:layout_constraintBottom_toBottomOf="@+id/id_card_inactive_session_parking_area"
                 app:layout_constraintEnd_toStartOf="@+id/guideline5"
                 app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toEndOf="@+id/id_card_active_session_parking_area"
-                app:layout_constraintTop_toTopOf="@+id/id_card_active_session_parking_area"
+                app:layout_constraintStart_toEndOf="@+id/id_card_inactive_session_parking_area"
+                app:layout_constraintTop_toTopOf="@+id/id_card_inactive_session_parking_area"
                 app:layout_constraintVertical_bias="0.0" />
 
             <androidx.constraintlayout.widget.Guideline
@@ -101,7 +105,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                app:layout_constraintGuide_begin="110dp" />
+                app:layout_constraintGuide_begin="88dp" />
 
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/guideline5"
@@ -110,39 +114,28 @@
                 android:orientation="vertical"
                 app:layout_constraintGuide_begin="270dp" />
 
+
             <TextView
-                android:id="@+id/id_card_active_session_parking_space"
-                android:layout_width="wrap_content"
+                android:id="@+id/id_card_inactive_session_parking_spot"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
                 android:layout_marginEnd="24dp"
-                android:fontFamily="@font/open_sans_semibold"
-                android:text="Space A"
-                android:textAlignment="center"
-                android:textColor="@color/blacklight"
-                android:textSize="16sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="@+id/guideline5"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/id_card_active_session_parking_spot"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
                 android:layout_marginBottom="4dp"
                 android:fontFamily="@font/open_sans_semibold"
                 android:text="Spot 23"
                 android:textAlignment="center"
-                android:textColor="@color/slategray"
-                android:textSize="14sp"
+                android:textColor="@color/black_1"
+                android:textSize="16sp"
                 app:layout_constraintBottom_toTopOf="@+id/view7"
-                app:layout_constraintEnd_toEndOf="@+id/id_card_active_session_parking_space"
-                app:layout_constraintStart_toStartOf="@+id/id_card_active_session_parking_space"
-                app:layout_constraintTop_toBottomOf="@+id/id_card_active_session_parking_space" />
-
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="@+id/guideline5"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.06" />
 
             <TextView
-                android:id="@+id/id_card_active_session_duration"
+                android:id="@+id/id_card_inactive_session_duration"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
@@ -163,7 +156,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                app:layout_constraintGuide_begin="207dp" />
+                app:layout_constraintGuide_begin="238dp" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

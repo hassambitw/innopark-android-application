@@ -11,6 +11,7 @@ public class UserApi extends Application
     private String userEmail;
     private List<String> vehiclesOwned;
     private List<String> vehiclesDriven;
+    private List<String> vehiclesCombined;
     private static UserApi instance;
 
     public static UserApi getInstance() {
@@ -22,6 +23,14 @@ public class UserApi extends Application
 
     //empty constructor
     public UserApi() {}
+
+    public List<String> getVehiclesCombined() {
+        return vehiclesCombined;
+    }
+
+    public void setVehiclesCombined(List<String> vehiclesCombined) {
+        this.vehiclesCombined = vehiclesCombined;
+    }
 
     public List<String> getVehiclesOwned() {
         return vehiclesOwned;

@@ -1,6 +1,5 @@
 package com.autobots.innopark.data;
 
-import java.sql.Timestamp;
 import java.util.Date;
 
 public class Session {
@@ -13,8 +12,19 @@ public class Session {
     Date start_datetime;
     double tariff_amount;
     String vehicle;
+    String avenue_name;
 
     public Session() {}
+
+    public Session(String venue) {
+        this.avenue_name = avenue_name;
+    }
+
+
+
+//    public Session(String name) {
+//        this.name = name;
+//    }
 
 //    public Session(Timestamp due_datetime, Timestamp end_datetime, boolean is_paid, int parking_id, double rate_per_hour, Timestamp start_datetime, double tariff_amount, String vehicle) {
 //        this.due_datetime = due_datetime;
@@ -26,6 +36,31 @@ public class Session {
 //        this.tariff_amount = tariff_amount;
 //        this.vehicle = vehicle;
 //    }
+
+
+//    public GeoPoint getGps_coordinate() {
+//        return gps_coordinate;
+//    }
+//
+//    public void setGps_coordinate(GeoPoint gps_coordinate) {
+//        this.gps_coordinate = gps_coordinate;
+//    }
+//
+//    public HashMap<String, Integer> getParking_types() {
+//        return parking_types;
+//    }
+//
+//    public void setParking_types(HashMap<String, Integer> parking_types) {
+//        this.parking_types = parking_types;
+//    }
+
+    public String getAvenue_name() {
+        return avenue_name;
+    }
+
+    public void setAvenue_name(String avenue_name) {
+        this.avenue_name = avenue_name;
+    }
 
     public Date getDue_datetime() {
         return due_datetime;

@@ -2,6 +2,7 @@ package com.autobots.innopark.fragment;
 
 import static android.content.ContentValues.TAG;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -39,9 +40,11 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 
@@ -57,6 +60,7 @@ public class HomeFragment extends Fragment
     TextView activeSessionLocation;
     CardView fineCardView;
     TextView profileName;
+    Bundle args;
 
     String parent_id;
 
@@ -68,9 +72,11 @@ public class HomeFragment extends Fragment
 
     private CollectionReference collectionReference = db.collection("avenues");
 
-    ArrayList<String> myList = new ArrayList<>();
-    List<String> newList = new ArrayList<>();
-    List<String> vehiclesDriven = new ArrayList<>();
+    List<String> vehiclesOwned;
+    List<String> vehiclesDriven;
+    List<String> vehiclesCombined;
+
+    //private HomeFragmentListener homeFragmentListener;
 
 
 
@@ -92,14 +98,25 @@ public class HomeFragment extends Fragment
             startActivity(new Intent(getActivity(), LoginActivity.class));
         }
 
-        //        currentUser = firebaseAuth.getCurrentUser();
-        if (currentUser == null) {
-            startActivity(new Intent(getActivity(), LoginActivity.class));
-        }
-
-
+//        if (context instanceof HomeFragmentListener) {
+//            homeFragmentListener = (HomeFragmentListener) context;
+//        } else {
+//            throw new RuntimeException(context.toString() + " must implement HomeFragmentListener");
+//        }
 
     }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+       // homeFragmentListener = null;
+    }
+
+//    public interface HomeFragmentListener {
+//        void onHomeInputSent(Object input);
+//
+////        void onHomeStringInputSent(String input);
+//    }
 
 
     @Override
@@ -119,17 +136,12 @@ public class HomeFragment extends Fragment
         fineCardView = view.findViewById(R.id.id_home_card_fine_history);
         mapCardView = view.findViewById(R.id.id_home_card_view_map);
 
-        myList.add("Hello");
-        myList.add("Hello");
-        System.out.println(myList);
-
-        newList = myList
-                .stream()
-                .distinct()
-                .collect(Collectors.toList());
+        vehiclesDriven = new ArrayList<>();
+        vehiclesOwned = new ArrayList<>();
+        vehiclesCombined = new ArrayList<>();
 
 
-
+        args = new Bundle();
 
         String userId = UserApi.getInstance().getUserId();
 
@@ -176,49 +188,91 @@ public class HomeFragment extends Fragment
                     String fullName = firstName + " " + lastName;
 
                     //getting vehicles owned
-//                    List<String> vehiclesOwned = (List<String>) result.get("vehicles_owned");
+                    vehiclesOwned = (List<String>) result.get("vehicles_owned");
+
                     userApi.setVehiclesOwned((List<String>) result.get("vehicles_owned"));
-                    Log.d("TAG", "passHashmapResult: " + userApi.getVehiclesOwned());
+                   // Log.d("TAG", "passHashmapResult: " + userApi.getVehiclesOwned());
 
                     //vehicles driven
-                    //vehiclesDriven = (List<String>) result.get("vehicles_driven");
+                    vehiclesDriven = (List<String>) result.get("vehicles_driven");
+
                     userApi.setVehiclesDriven((List<String>) result.get("vehicles_driven"));
-                    Log.d("Tag", "passHashmapResult: " + userApi.getVehiclesDriven());
+                    //Log.d("Tag", "passHashmapResult: " + userApi.getVehiclesDriven());
+
+                    vehiclesDriven.addAll(Objects.requireNonNull(vehiclesOwned));
+
+                    vehiclesCombined = vehiclesDriven
+                                        .stream()
+                                        .distinct()
+                                        .collect(Collectors.toList());
+
+                    //Log.d(TAG, "passHashmapResult: " + vehiclesCombined);
 
                     profileName.setText(fullName);
                     userApi.setUserId(currentUserUid);
                     userApi.setUsername(fullName);
+                    userApi.setVehiclesCombined(vehiclesCombined);
 
 
                     db.collectionGroup("sessions_info")
                             .whereEqualTo("end_datetime", null)
-                            .whereIn("vehicle", userApi.getVehiclesOwned())
+                            .whereIn("vehicle", vehiclesCombined)
                             .get()
                             .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                                 @Override
                                 public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                                     if (!queryDocumentSnapshots.isEmpty()) {
-                                        Log.d("TAG", "onSuccess: Inside onSuccess");
+                                        //Log.d("TAG", "onSuccess: Inside onSuccess");
                                         List<DocumentSnapshot> snapshotList = queryDocumentSnapshots.getDocuments();
                                         for (DocumentSnapshot snapshot: snapshotList) {
                                             Session session = snapshot.toObject(Session.class);
-                                            //System.out.println(session.getParking_id());
-                                            //Log.d("TAG", "onSuccess: " + snapshot.getId());
+
                                             activeSessionParking.setText("Level " + session.getParking_id().charAt(0));
+                                            Date start_time = session.getStart_datetime();
+                                            //Log.d(TAG, "onSuccess: " + start_time);
+                                            Date end_time = session.getEnd_datetime();
+                                            //Log.d(TAG, "onSuccess: " + end_time);
+                                            String vehicleNum = session.getVehicle();
+                                            //Log.d(TAG, "onSuccess: " + vehicleNum);
+                                            String parking_spot = session.getParking_id();
+                                            //Log.d(TAG, "onSuccess: " + parking_spot);
+                                            char parking_level = session.getParking_id().charAt(0);
+                                            //Log.d(TAG, "onSuccess: " + parking_level);
+                                            double tariff = session.getTariff_amount();
+                                            String avenue_name = session.getAvenue_name();
+                                            activeSessionLocation.setText(avenue_name.trim());
+                                            //Log.d(TAG, "onSuccess: " + tariff);
+
+
+                                            CurrentSessionFragment currentSessionFragment = new CurrentSessionFragment();
+                                            if (start_time != null) args.putSerializable("start_time", start_time);
+                                            if (end_time != null) args.putSerializable("end_time", end_time);
+                                            args.putString("vehicle_num", vehicleNum);
+                                            args.putString("parking_spot", parking_spot);
+                                            args.putChar("parking_level", parking_level);
+                                            args.putDouble("tariff", tariff);
+                                            args.putString("avenue_name", avenue_name);
+//                                            currentSessionFragment.setArguments(args);
+                                            getActivity().getSupportFragmentManager().setFragmentResult("requestKeyFromActive_Home", args);
 
                                             parent_id = String.valueOf(snapshot.getReference().getParent().getParent().getId());
-                                            Log.d(TAG, "onSuccess: " + parent_id);
+                                            //Log.d(TAG, "onSuccess: " + parent_id);
 
-                                            db.collection("avenues").document(parent_id)
-                                                    .get()
-                                                    .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                                                        @Override
-                                                        public void onSuccess(DocumentSnapshot documentSnapshot) {
-                                                            String venue = documentSnapshot.getString("name");
-                                                            Log.d(TAG, "onSuccess: " + documentSnapshot.getString("name"));
-                                                            activeSessionLocation.setText(venue.trim());
-                                                        }
-                                                    });
+//                                            db.collection("avenues").document(parent_id)
+//                                                    .get()
+//                                                    .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+//                                                        @Override
+//                                                        public void onSuccess(DocumentSnapshot documentSnapshot) {
+//                                                            String venue = documentSnapshot.getString("name");
+//
+//                                                            //Log.d(TAG, "onSuccess: " + documentSnapshot.getString("name"));
+//                                                            activeSessionLocation.setText(venue.trim());
+//
+//                                                            CurrentSessionFragment currentSessionFragment = new CurrentSessionFragment();
+//                                                            args.putString("avenue_name", venue);
+//                                                            currentSessionFragment.setArguments(args);
+//                                                        }
+//                                                    });
                                         }
                                     }
 
