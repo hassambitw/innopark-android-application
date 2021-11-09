@@ -240,7 +240,7 @@ public class HomeFragment extends Fragment
                                             //Log.d(TAG, "onSuccess: " + parking_level);
                                             double tariff = session.getTariff_amount();
                                             String avenue_name = session.getAvenue_name();
-                                            activeSessionLocation.setText(avenue_name.trim());
+                                            if (avenue_name!=null) activeSessionLocation.setText(avenue_name.trim());
                                             //Log.d(TAG, "onSuccess: " + tariff);
 
 
