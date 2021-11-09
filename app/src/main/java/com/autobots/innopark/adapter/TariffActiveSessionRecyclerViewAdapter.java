@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.autobots.innopark.R;
 import com.autobots.innopark.data.Session;
-import com.autobots.innopark.data.Tariff;
 
 import java.util.ArrayList;
 
@@ -155,7 +154,7 @@ public class TariffActiveSessionRecyclerViewAdapter extends RecyclerView.Adapter
 
         @Override
         public void onClick(View view) {
-            onTariffClickListener.onTariffClick(getBindingAdapterPosition());
+            onTariffClickListener.onActiveTariffClick(getBindingAdapterPosition());
         }
     }
 
@@ -185,7 +184,7 @@ public class TariffActiveSessionRecyclerViewAdapter extends RecyclerView.Adapter
 
         @Override
         public void onClick(View view) {
-            onTariffClickListener.onTariffClick(getBindingAdapterPosition());
+            onTariffClickListener.onActiveTariffClick(getBindingAdapterPosition());
         }
     }
 
@@ -250,6 +249,6 @@ public class TariffActiveSessionRecyclerViewAdapter extends RecyclerView.Adapter
 //
     public interface OnTariffClickListener
     {
-        public void onTariffClick(int position);
+        public void onActiveTariffClick(int position);
     }
 }

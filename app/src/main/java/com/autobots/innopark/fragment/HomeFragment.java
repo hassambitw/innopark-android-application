@@ -217,6 +217,7 @@ public class HomeFragment extends Fragment
                     db.collectionGroup("sessions_info")
                             .whereEqualTo("end_datetime", null)
                             .whereIn("vehicle", vehiclesCombined)
+                            .limit(1)
                             .get()
                             .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                                 @Override
@@ -226,6 +227,8 @@ public class HomeFragment extends Fragment
                                         List<DocumentSnapshot> snapshotList = queryDocumentSnapshots.getDocuments();
                                         for (DocumentSnapshot snapshot: snapshotList) {
                                             Session session = snapshot.toObject(Session.class);
+
+                                            Log.d(TAG, "onSuccess: Active Doc ID: " + snapshot.getId());
 
                                             activeSessionParking.setText("Level " + session.getParking_id().charAt(0));
                                             Date start_time = session.getStart_datetime();
@@ -240,9 +243,12 @@ public class HomeFragment extends Fragment
                                             //Log.d(TAG, "onSuccess: " + parking_level);
                                             double tariff = session.getTariff_amount();
                                             String avenue_name = session.getAvenue_name();
+
                                             if (avenue_name!=null) activeSessionLocation.setText(avenue_name.trim());
                                             //Log.d(TAG, "onSuccess: " + tariff);
 
+                                            activeSessionLocation.setText(avenue_name.trim());
+                                            Log.d(TAG, "onSuccess: " + avenue_name);
 
                                             CurrentSessionFragment currentSessionFragment = new CurrentSessionFragment();
                                             if (start_time != null) args.putSerializable("start_time", start_time);

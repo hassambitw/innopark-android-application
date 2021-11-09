@@ -38,22 +38,6 @@ public class Session {
 //    }
 
 
-//    public GeoPoint getGps_coordinate() {
-//        return gps_coordinate;
-//    }
-//
-//    public void setGps_coordinate(GeoPoint gps_coordinate) {
-//        this.gps_coordinate = gps_coordinate;
-//    }
-//
-//    public HashMap<String, Integer> getParking_types() {
-//        return parking_types;
-//    }
-//
-//    public void setParking_types(HashMap<String, Integer> parking_types) {
-//        this.parking_types = parking_types;
-//    }
-
     public String getAvenue_name() {
         return avenue_name;
     }

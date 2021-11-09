@@ -33,6 +33,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class PaidTariffFragment extends Fragment implements TariffInactiveSessionRecyclerViewAdapter.OnTariffClickListener
@@ -44,8 +45,10 @@ public class PaidTariffFragment extends Fragment implements TariffInactiveSessio
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
-    private ArrayList<Session> tariffItems;
+    private ArrayList<Session> paidTariffItems;
     private List<String> vehiclesCombined;
+
+    Bundle args2;
 
     final FirebaseAuth firebaseAuth = DatabaseUtils.firebaseAuth;
     FirebaseUser currentUser;
@@ -73,10 +76,12 @@ public class PaidTariffFragment extends Fragment implements TariffInactiveSessio
     {
         View view = inflater.inflate(R.layout.fragment_paid_tariff, container, false);
 
-        tariffItems = new ArrayList<>();
+        paidTariffItems = new ArrayList<>();
         vehiclesCombined = new ArrayList<>();
 
         mRecyclerView = view.findViewById(R.id.id_paid_tariff_recycler_view);
+
+        args2 = new Bundle();
 
         setupToolbar(view);
         //populateTariffs();
@@ -112,7 +117,7 @@ public class PaidTariffFragment extends Fragment implements TariffInactiveSessio
                                 try {
                                     Log.d(TAG, "onSuccess: " + snapshot.getId());
                                     tariff = snapshot.toObject(Session.class);
-                                    tariffItems.add(tariff);
+                                    paidTariffItems.add(tariff);
 
                                 } catch (Exception e) {
                                     Log.d(TAG, "onSuccess: " + e.getMessage());
@@ -143,7 +148,7 @@ public class PaidTariffFragment extends Fragment implements TariffInactiveSessio
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLayoutManager);
-        mAdapter = new TariffInactiveSessionRecyclerViewAdapter(tariffItems, getActivity(), this);
+        mAdapter = new TariffInactiveSessionRecyclerViewAdapter(paidTariffItems, getActivity(), this);
         mRecyclerView.setAdapter(mAdapter);
         mAdapter.notifyDataSetChanged();
     }
@@ -166,8 +171,33 @@ public class PaidTariffFragment extends Fragment implements TariffInactiveSessio
     }
 
     @Override
-    public void onTariffClick(int position)
+    public void onInactiveTariffClick(int position)
     {
+
+        Session tariff_item = paidTariffItems.get(position);
+        Date start_time = tariff_item.getStart_datetime();
+        //Log.d(TAG, "onSuccess: " + start_time);
+        Date end_time = tariff_item.getEnd_datetime();
+        //Log.d(TAG, "onSuccess: " + end_time);
+        String vehicleNum = tariff_item.getVehicle();
+        //Log.d(TAG, "onSuccess: " + vehicleNum);
+        String parking_spot = tariff_item.getParking_id();
+        //Log.d(TAG, "onSuccess: " + parking_spot);
+        char parking_level = tariff_item.getParking_id().charAt(0);
+        //Log.d(TAG, "onSuccess: " + parking_level);
+        double tariff_amt = tariff_item.getTariff_amount();
+        String avenue_name = tariff_item.getAvenue_name();
+
+        if (start_time != null) args2.putSerializable("start_time5", start_time);
+        if (end_time != null) args2.putSerializable("end_time5", end_time);
+        if (avenue_name != null) args2.putString("avenue_name5", avenue_name);
+        args2.putString("vehicle_num5", vehicleNum);
+        args2.putString("parking_spot5", parking_spot);
+        args2.putChar("parking_level5", parking_level);
+        args2.putDouble("tariff5", tariff_amt);
+
+        getActivity().getSupportFragmentManager().setFragmentResult("requestKeyFromPaidTariff", args2);
+
         Fragment fragment = new CurrentSessionFragment();
         getActivity().getSupportFragmentManager()
                 .beginTransaction()
