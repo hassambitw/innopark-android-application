@@ -43,7 +43,7 @@ public class ParkingHistoryRecyclerViewAdapter extends RecyclerView.Adapter<Park
         ParkingHistoryData phd = parkingHistoryList.get(position);
 
         holder.parkingHistoryArea.setText(phd.getLocation());
-        holder.parkingHistoryDate.setText(phd.getDate());
+        holder.parkingHistoryDate.setText((CharSequence) phd.getDate());
         holder.parkingHistorySpot.setText(phd.getParkingLevel());
         holder.parkingHistoryTime.setText(phd.getDuration());
 

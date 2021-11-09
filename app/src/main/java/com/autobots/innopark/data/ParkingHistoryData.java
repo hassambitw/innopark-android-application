@@ -1,9 +1,11 @@
 package com.autobots.innopark.data;
 
+import java.util.Date;
+
 public class ParkingHistoryData
 {
     String location;
-    String date;
+    Date date;
     String parkingLevel;
     String[] drivers;
     String carLicense;
@@ -15,7 +17,7 @@ public class ParkingHistoryData
     int tariffPrice;
     int finePrice;
 
-    public ParkingHistoryData(String location, String date, String parkingLevel, String[] drivers, String carLicense, String carName, String duration, boolean paidStatus, String paidMessage, int tariffPrice, int finePrice, boolean finePaidStatus)
+    public ParkingHistoryData(String location, Date date, String parkingLevel, String[] drivers, String carLicense, String carName, String duration, boolean paidStatus, String paidMessage, int tariffPrice, int finePrice, boolean finePaidStatus)
     {
         this.location = location;
         this.date = date;
@@ -32,7 +34,7 @@ public class ParkingHistoryData
 
     }
 
-    public ParkingHistoryData(String location, String date, String parkingLevel, String[] drivers, String carLicense, String carName, boolean finePaidStatus, String paidMessage, int finePrice) {
+    public ParkingHistoryData(String location, Date date, String parkingLevel, String[] drivers, String carLicense, String carName, boolean finePaidStatus, String paidMessage, int finePrice) {
         this.location = location;
         this.date = date;
         this.parkingLevel = parkingLevel;
@@ -87,11 +89,11 @@ public class ParkingHistoryData
         this.location = location;
     }
 
-    public String getDate() {
+    public Date getDate() {
         return date;
     }
 
-    public void setDate(String date) {
+    public void setDate(Date date) {
         this.date = date;
     }
 

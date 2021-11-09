@@ -30,6 +30,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
@@ -106,6 +107,7 @@ public class PaidTariffFragment extends Fragment implements TariffInactiveSessio
                 .whereNotEqualTo("end_datetime", null)
                 .whereEqualTo("is_paid", true)
                 .whereIn("vehicle", vehiclesCombined)
+                .orderBy("end_datetime", Query.Direction.DESCENDING)
                 .get()
                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override

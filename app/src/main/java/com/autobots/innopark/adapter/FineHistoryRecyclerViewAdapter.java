@@ -43,7 +43,7 @@ public class FineHistoryRecyclerViewAdapter extends RecyclerView.Adapter<FineHis
         ParkingHistoryData phd = parkingHistoryList.get(position);
 
         holder.fineHistoryArea.setText(phd.getLocation());
-        holder.fineHistoryDate.setText(phd.getDate());
+        holder.fineHistoryDate.setText((CharSequence) phd.getDate());
         holder.fineHistoryTime.setText(phd.getDuration());
 
         String vehicleDrivers = Arrays.asList(phd.getDrivers()).toString();

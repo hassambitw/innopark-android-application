@@ -43,7 +43,7 @@ public class ParkingHistoryFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_parking_history, container, false);
         parkingHistoryDataList = new ArrayList<ParkingHistoryData>();
 
-        setupData();
+//        setupData();
 
         if (strMessage.toLowerCase().contains("from parking history card")) {
             setupPHToolbar(view);
@@ -56,6 +56,18 @@ public class ParkingHistoryFragment extends Fragment {
 
 
         return view;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        loadParkingHistoryData();
+    }
+
+    private void loadParkingHistoryData()
+    {
+
     }
 
     private void setupFHToolbar(View view)
@@ -75,14 +87,14 @@ public class ParkingHistoryFragment extends Fragment {
         });
     }
 
-    private void setupData()
-    {
-        parkingHistoryDataList.add(new ParkingHistoryData("UOWD", "02/09/2021", "B1", new String[]{"Hassam Shaukat"}, "A12345", "Toyota Corolla", "1 Hour", Boolean.TRUE, "Paid", 50, 100, Boolean.TRUE));
-        parkingHistoryDataList.add(new ParkingHistoryData("UOWD", "02/09/2021", "B1", new String[]{"Hassam Shaukat"}, "A12345", "Toyota Corolla", "1 Hour", Boolean.FALSE, "Unpaid", 50, 100, Boolean.FALSE));
-        parkingHistoryDataList.add(new ParkingHistoryData("UOWD", "02/09/2021", "B1", new String[]{"Hassam Shaukat"}, "A12345", "Toyota Corolla", "1 Hour", Boolean.TRUE, "Paid", 50, 100, Boolean.FALSE));
-        parkingHistoryDataList.add(new ParkingHistoryData("UOWD", "02/09/2021", "B1", new String[]{"Hassam Shaukat"}, "A12345", "Toyota Corolla", "1 Hour", Boolean.FALSE, "Unpaid", 50, 100, Boolean.TRUE));
-        parkingHistoryDataList.add(new ParkingHistoryData("UOWD", "02/09/2021", "B1", new String[]{"Hassam Shaukat"}, "A12345", "Toyota Corolla", "1 Hour", Boolean.FALSE, "Unpaid", 50, 100, Boolean.TRUE));
-    }
+//    private void setupData()
+//    {
+//        parkingHistoryDataList.add(new ParkingHistoryData("UOWD", "02/09/2021", "B1", new String[]{"Hassam Shaukat"}, "A12345", "Toyota Corolla", "1 Hour", Boolean.TRUE, "Paid", 50, 100, Boolean.TRUE));
+//        parkingHistoryDataList.add(new ParkingHistoryData("UOWD", "02/09/2021", "B1", new String[]{"Hassam Shaukat"}, "A12345", "Toyota Corolla", "1 Hour", Boolean.FALSE, "Unpaid", 50, 100, Boolean.FALSE));
+//        parkingHistoryDataList.add(new ParkingHistoryData("UOWD", "02/09/2021", "B1", new String[]{"Hassam Shaukat"}, "A12345", "Toyota Corolla", "1 Hour", Boolean.TRUE, "Paid", 50, 100, Boolean.FALSE));
+//        parkingHistoryDataList.add(new ParkingHistoryData("UOWD", "02/09/2021", "B1", new String[]{"Hassam Shaukat"}, "A12345", "Toyota Corolla", "1 Hour", Boolean.FALSE, "Unpaid", 50, 100, Boolean.TRUE));
+//        parkingHistoryDataList.add(new ParkingHistoryData("UOWD", "02/09/2021", "B1", new String[]{"Hassam Shaukat"}, "A12345", "Toyota Corolla", "1 Hour", Boolean.FALSE, "Unpaid", 50, 100, Boolean.TRUE));
+//    }
 
 
     private void setupRecyclerView(View view)

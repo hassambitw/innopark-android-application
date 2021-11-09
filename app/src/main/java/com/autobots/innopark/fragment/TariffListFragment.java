@@ -1,5 +1,6 @@
 package com.autobots.innopark.fragment;
 
+
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -27,6 +28,7 @@ import com.autobots.innopark.data.Session;
 import com.autobots.innopark.data.UserApi;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
@@ -35,9 +37,14 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 
 public class TariffListFragment extends Fragment implements TariffActiveSessionRecyclerViewAdapter.OnTariffClickListener, TariffInactiveSessionRecyclerViewAdapter.OnTariffClickListener {
@@ -54,6 +61,8 @@ public class TariffListFragment extends Fragment implements TariffActiveSessionR
     ArrayList<Avenue> avenueItems;
     private ArrayList<Session> tariffItems2;
     private ArrayList<Session> finalTariff;
+    String formatted_date;
+    SimpleDateFormat formatter;
 
     private List<String> vehiclesCombined;
 
@@ -128,7 +137,11 @@ public class TariffListFragment extends Fragment implements TariffActiveSessionR
         super.onStart();
 
         loadActiveData();
-        loadUnpaidData();
+        try {
+            loadUnpaidData();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
     }
 
     private void loadActiveData()
@@ -178,19 +191,23 @@ public class TariffListFragment extends Fragment implements TariffActiveSessionR
 
     }
 
-    private void loadUnpaidData()
-    {
+    private void loadUnpaidData() throws ParseException {
 
         UserApi userApi = UserApi.getInstance();
         String email = userApi.getUserEmail();
         String currentUserUid = currentUser.getUid();
         vehiclesCombined = userApi.getVehiclesCombined();
 
+        Date currentDate = new Date();
+
+
+
+
         db.collectionGroup("sessions_info")
                 .whereNotEqualTo("end_datetime", null)
                 .whereEqualTo("is_paid", false)
                 .whereIn("vehicle", vehiclesCombined)
-                .limit(3)
+                .orderBy("end_datetime", Query.Direction.DESCENDING)
                 .get()
                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override
@@ -200,16 +217,50 @@ public class TariffListFragment extends Fragment implements TariffActiveSessionR
                             List<DocumentSnapshot> snapshotList = queryDocumentSnapshots.getDocuments();
                             for (DocumentSnapshot snapshot : snapshotList) {
                                 try {
-                                    Log.d(TAG, "onSuccess: Document ID of Unpaid: " + snapshot.getId());
+//                                    Log.d(TAG, "onSuccess: Document ID of Unpaid: " + snapshot.getId());
                                     tariff = snapshot.toObject(Session.class);
+//
+                                    Date due_datetime = tariff.getDue_datetime();
+////                                    String due_datetime_new = formatter.format(due_datetime);
+////
+////                                    formatter = new SimpleDateFormat("E MMM dd HH:mm:ss z y");
+////
+//                                    String pattern = "E MMM dd HH:mm:ss z y";
+////                                    SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+////
+                                        Date currentDate = new Date();
+////                                    formatter = new SimpleDateFormat("E MMM dd HH:mm:ss z y");
+////
+////                                    String newCurrentDate = formatter.format(currentDate);
+////                                    Date parsedDate = simpleDateFormat.parse(newCurrentDate);
+//
+                                    if (due_datetime.after(currentDate)) {
+                                        Log.d(TAG, "onSuccess: Due date is after current day where the due date is: " + due_datetime +
+                                                " and the current date is " + currentDate);
+                                        continue;
+                                    }
+//                                    } else {
+//                                        Log.d(TAG, "onSuccess: Due date is before current day where the due date is: " + due_datetime +
+//                                                " and the current date is " + currentDate);
+//                                    }
+
                                     unpaidTariffItems.add(tariff);
+
+                                    if (unpaidTariffItems.size() == 3) break;
+//                                    Log.d(TAG, "onSuccess: End date: " + );
+
+
+//                                    Log.d(TAG, "loadUnpaidData: " + newCurrentDate);
+//
+//                                    Log.d(TAG, "onSuccess: Due date: " + due_datetime);
+//                                    if ( instant > due_datetime ) Log.d(TAG, "onSuccess: Fine is overdue");
 
                                 } catch (Exception e) {
                                     Log.d(TAG, "onSuccess: " + e.getMessage());
                                 }
 
                                 parent_id = String.valueOf(snapshot.getReference().getParent().getParent().getId()); // parent doc id
-                                Log.d(TAG, "onSuccess: Parent Doc ID of Unpaid: " + parent_id);
+//                                Log.d(TAG, "onSuccess: Parent Doc ID of Unpaid: " + parent_id);
 
                             }
                             setupInactiveRecyclerView();

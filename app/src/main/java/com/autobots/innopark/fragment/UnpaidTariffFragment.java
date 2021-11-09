@@ -30,6 +30,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
@@ -127,6 +128,7 @@ public class UnpaidTariffFragment extends Fragment implements TariffInactiveSess
                 .whereNotEqualTo("end_datetime", null)
                 .whereEqualTo("is_paid", false)
                 .whereIn("vehicle", vehiclesCombined)
+                .orderBy("end_datetime", Query.Direction.DESCENDING)
                 .get()
                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override
@@ -136,9 +138,21 @@ public class UnpaidTariffFragment extends Fragment implements TariffInactiveSess
                             List<DocumentSnapshot> snapshotList = queryDocumentSnapshots.getDocuments();
                             for (DocumentSnapshot snapshot : snapshotList) {
                                 try {
-                                    Log.d(TAG, "onSuccess: Unpaid doc " + snapshot.getId());
                                     tariff = snapshot.toObject(Session.class);
+                                    //unpaidTariffItems.add(tariff);
+
+                                    Date due_datetime = tariff.getDue_datetime();
+                                    Date currentDate = new Date();
+
+
+                                    if (due_datetime.after(currentDate)) {
+                                        Log.d(TAG, "onSuccess: Due date is after current day where the due date is: " + due_datetime +
+                                                " and the current date is " + currentDate);
+                                        continue;
+                                    }
+
                                     unpaidTariffItems.add(tariff);
+
 
                                 } catch (Exception e) {
                                     Log.d(TAG, "onSuccess: " + e.getMessage());
