@@ -54,21 +54,6 @@
             android:textColor="@color/black"
             android:textSize="13sp" />
 
-        <TextView
-            android:id="@+id/id_notifications_time"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="20dp"
-            android:layout_weight="0.15"
-            android:fontFamily="@font/roboto_bold"
-            android:paddingLeft="10dp"
-            android:text="1H AGO"
-            android:letterSpacing="0.125"
-            android:textAlignment="textEnd"
-            android:textColor="@color/greytext"
-            android:textSize="13sp" />
-
-
 
     </LinearLayout>
 
