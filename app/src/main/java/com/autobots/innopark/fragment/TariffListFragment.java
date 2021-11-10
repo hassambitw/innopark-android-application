@@ -63,6 +63,7 @@ public class TariffListFragment extends Fragment implements TariffActiveSessionR
     private ArrayList<Session> finalTariff;
     String formatted_date;
     SimpleDateFormat formatter;
+    TextView emptyView;
 
     int i;
 
@@ -105,6 +106,7 @@ public class TariffListFragment extends Fragment implements TariffActiveSessionR
 
         paidTariff = view.findViewById(R.id.id_tariff_view_previous_tariff);
         unpaidTariff = view.findViewById(R.id.id_tariff_list_view_unpaid_sessions);
+        emptyView = view.findViewById(R.id.empty_view);
 
         mRecyclerViewActive = view.findViewById(R.id.id_recycler_view_tariff);
         mRecyclerViewInactive = view.findViewById(R.id.id_recycler_view_tariff_2);
@@ -168,6 +170,14 @@ public class TariffListFragment extends Fragment implements TariffActiveSessionR
                                     Log.d(TAG, "onSuccess: Document ID of Active: " + snapshot.getId());
                                     tariff = snapshot.toObject(Session.class);
                                     activeTariffItems.add(tariff);
+
+                                    if (activeTariffItems.size() == 0) {
+                                        mRecyclerViewActive.setVisibility(View.INVISIBLE);
+                                        emptyView.setVisibility(View.VISIBLE);
+                                    } else {
+                                        mRecyclerViewActive.setVisibility(View.VISIBLE);
+                                        emptyView.setVisibility(View.INVISIBLE);
+                                    }
 
                                 } catch (Exception e) {
                                     Log.d(TAG, "onSuccess: " + e.getMessage());

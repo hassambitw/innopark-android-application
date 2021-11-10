@@ -247,6 +247,7 @@ public class HomeFragment extends Fragment
                                             String avenue_name = session.getAvenue_name();
 
                                             if (avenue_name != null) activeSessionLocation.setText(avenue_name.trim());
+                                            else activeSessionLocation.setText("Ongoing Destination");
                                             //Log.d(TAG, "onSuccess: " + tariff);
 
                                             Log.d(TAG, "onSuccess: " + avenue_name);
@@ -281,6 +282,9 @@ public class HomeFragment extends Fragment
 //                                                        }
 //                                                    });
                                         }
+                                    } else {
+                                        activeSessionParking.setVisibility(View.INVISIBLE);
+                                        activeSessionLocation.setText("No Active Session!");
                                     }
 
                                 }
