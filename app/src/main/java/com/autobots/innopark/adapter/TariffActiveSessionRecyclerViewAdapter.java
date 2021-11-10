@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.autobots.innopark.R;
@@ -63,7 +64,11 @@ public class TariffActiveSessionRecyclerViewAdapter extends RecyclerView.Adapter
         ActiveViewHolder activeViewHolder = (ActiveViewHolder) holder;
 
         activeViewHolder.tariffAmount.setText(rate + " DHS/hr");
-        activeViewHolder.tariffParkingArea.setText(parking_location);
+        if (parking_location != null) activeViewHolder.tariffParkingArea.setText(parking_location);
+        else {
+            activeViewHolder.tariffParkingArea.setText("Ongoing Destination");
+            activeViewHolder.tariffParkingArea.setTextColor(ContextCompat.getColor(mContext,R.color.slategray));
+        }
         activeViewHolder.tariffParkingSpot.setText("Spot " + parking_spot);
         activeViewHolder.tariffParkingLevel.setText("L" + parking_lvl);
         activeViewHolder.tariffParkingDuration.setText("-");

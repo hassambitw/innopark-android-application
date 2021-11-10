@@ -238,7 +238,7 @@ public class TariffListFragment extends Fragment implements TariffActiveSessionR
 ////                                    String newCurrentDate = formatter.format(currentDate);
 ////                                    Date parsedDate = simpleDateFormat.parse(newCurrentDate);
 //
-                                    if (due_datetime.after(currentDate)) {
+                                    if (currentDate.after(due_datetime)) {
                                         Log.d(TAG, "onSuccess: Due date is after current day where the due date is: " + due_datetime +
                                                 " and the current date is " + currentDate);
                                         continue;
