@@ -1,150 +1,136 @@
 package com.autobots.innopark.data;
 
+import java.util.Date;
+
 public class ParkingHistoryData
 {
-    String location;
-    String date;
-    String parkingLevel;
-    String[] drivers;
-    String carLicense;
-    String carName;
-    String duration;
-    boolean tariffPaidStatus;
-    boolean finePaidStatus;
-    String paidMessage;
-    int tariffPrice;
-    int finePrice;
+    String avenue_name;
+    String parking_id;
+//    String[] drivers;
+    String first_name;
+    String last_name;
+    String vehicle;
+    String manufacturer;
+    String model;
+    Date start_datetime;
+    Date end_datetime;
+    Date due_datetime;
+    boolean is_paid;
+    double tariff;
+//    int finePrice;
 
-    public ParkingHistoryData(String location, String date, String parkingLevel, String[] drivers, String carLicense, String carName, String duration, boolean paidStatus, String paidMessage, int tariffPrice, int finePrice, boolean finePaidStatus)
-    {
-        this.location = location;
-        this.date = date;
-        this.parkingLevel = parkingLevel;
-        this.drivers = drivers;
-        this.carLicense = carLicense;
-        this.carName = carName;
-        this.duration = duration;
-        this.tariffPaidStatus = paidStatus;
-        this.paidMessage = paidMessage;
-        this.tariffPrice = tariffPrice;
-        this.finePaidStatus = finePaidStatus;
-        this.finePrice = finePrice;
 
+    public ParkingHistoryData() {}
+
+    public ParkingHistoryData(String avenue_name, String parking_id, String first_name, String last_name, String vehicle, String manufacturer, String model, Date start_datetime, Date end_datetime, Date due_datetime, boolean is_paid, double tariff) {
+        this.avenue_name = avenue_name;
+        this.parking_id = parking_id;
+        this.first_name = first_name;
+        this.last_name = last_name;
+        this.vehicle = vehicle;
+        this.manufacturer = manufacturer;
+        this.model = model;
+        this.start_datetime = start_datetime;
+        this.end_datetime = end_datetime;
+        this.due_datetime = due_datetime;
+        this.is_paid = is_paid;
+        this.tariff = tariff;
     }
 
-    public ParkingHistoryData(String location, String date, String parkingLevel, String[] drivers, String carLicense, String carName, boolean finePaidStatus, String paidMessage, int finePrice) {
-        this.location = location;
-        this.date = date;
-        this.parkingLevel = parkingLevel;
-        this.drivers = drivers;
-        this.carLicense = carLicense;
-        this.carName = carName;
-        this.finePaidStatus = finePaidStatus;
-        this.paidMessage = paidMessage;
-        this.finePrice = finePrice;
+    public String getAvenue_name() {
+        return avenue_name;
     }
 
-
-
-
-    public String getDuration() {
-        return duration;
-    }
-
-    public void setDuration(String duration) {
-        this.duration = duration;
-    }
-
-    public boolean isTariffPaidStatus() {
-        return tariffPaidStatus;
-    }
-
-    public void setTariffPaidStatus(boolean tariffPaidStatus) {
-        this.tariffPaidStatus = tariffPaidStatus;
-    }
-
-    public boolean isFinePaidStatus() {
-        return finePaidStatus;
-    }
-
-    public void setFinePaidStatus(boolean finePaidStatus) {
-        this.finePaidStatus = finePaidStatus;
-    }
-
-    public int getFinePrice() {
-        return finePrice;
-    }
-
-    public void setFinePrice(int finePrice) {
-        this.finePrice = finePrice;
-    }
-
-    public String getLocation() {
-        return location;
-    }
-
-    public void setLocation(String location) {
-        this.location = location;
-    }
-
-    public String getDate() {
-        return date;
-    }
-
-    public void setDate(String date) {
-        this.date = date;
-    }
-
-    public String getParkingLevel() {
-        return parkingLevel;
-    }
-
-    public void setParkingLevel(String parkingLevel) {
-        this.parkingLevel = parkingLevel;
-    }
-
-    public String[] getDrivers() {
-        return drivers;
-    }
-
-    public void setDrivers(String[] drivers) {
-        this.drivers = drivers;
-    }
-
-    public String getCarLicense() {
-        return carLicense;
-    }
-
-    public void setCarLicense(String carLicense) {
-        this.carLicense = carLicense;
-    }
-
-    public String getCarName() {
-        return carName;
-    }
-
-    public void setCarName(String carName) {
-        this.carName = carName;
+    public void setAvenue_name(String location) {
+        this.avenue_name = location;
     }
 
 
-    public void setPaidStatus(boolean paidStatus) {
-        this.tariffPaidStatus = paidStatus;
+    public String getParking_id() {
+        return parking_id;
     }
 
-    public String getPaidMessage() {
-        return paidMessage;
+    public void setParking_id(String parking_id) {
+        this.parking_id = parking_id;
     }
 
-    public void setPaidMessage(String paidMessage) {
-        this.paidMessage = paidMessage;
+    public String getFirst_name() {
+        return first_name;
     }
 
-    public int getTariffPrice() {
-        return tariffPrice;
+    public void setFirst_name(String first_name) {
+        this.first_name = first_name;
     }
 
-    public void setTariffPrice(int tariffPrice) {
-        this.tariffPrice = tariffPrice;
+    public String getLast_name() {
+        return last_name;
+    }
+
+    public void setLast_name(String last_name) {
+        this.last_name = last_name;
+    }
+
+    public String getVehicle() {
+        return vehicle;
+    }
+
+    public void setVehicle(String vehicle) {
+        this.vehicle = vehicle;
+    }
+
+    public String getManufacturer() {
+        return manufacturer;
+    }
+
+    public void setManufacturer(String manufacturer) {
+        this.manufacturer = manufacturer;
+    }
+
+    public String getModel() {
+        return model;
+    }
+
+    public void setModel(String model) {
+        this.model = model;
+    }
+
+    public Date getStart_datetime() {
+        return start_datetime;
+    }
+
+    public void setStart_datetime(Date start_datetime) {
+        this.start_datetime = start_datetime;
+    }
+
+    public Date getEnd_datetime() {
+        return end_datetime;
+    }
+
+    public void setEnd_datetime(Date end_datetime) {
+        this.end_datetime = end_datetime;
+    }
+
+    public Date getDue_datetime() {
+        return due_datetime;
+    }
+
+    public void setDue_datetime(Date due_datetime) {
+        this.due_datetime = due_datetime;
+    }
+
+    public boolean isIs_paid() {
+        return is_paid;
+    }
+
+    public void setIs_paid(boolean is_paid) {
+        this.is_paid = is_paid;
+    }
+
+    public double getTariff() {
+        return tariff;
+    }
+
+    public void setTariff(double tariff) {
+        this.tariff = tariff;
     }
 }

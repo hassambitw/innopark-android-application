@@ -1,5 +1,6 @@
 package com.autobots.innopark.fragment;
 
+
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -27,16 +28,23 @@ import com.autobots.innopark.data.Session;
 import com.autobots.innopark.data.UserApi;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 
 public class TariffListFragment extends Fragment implements TariffActiveSessionRecyclerViewAdapter.OnTariffClickListener, TariffInactiveSessionRecyclerViewAdapter.OnTariffClickListener {
@@ -53,6 +61,11 @@ public class TariffListFragment extends Fragment implements TariffActiveSessionR
     ArrayList<Avenue> avenueItems;
     private ArrayList<Session> tariffItems2;
     private ArrayList<Session> finalTariff;
+    String formatted_date;
+    SimpleDateFormat formatter;
+    TextView emptyView;
+
+    int i;
 
     private List<String> vehiclesCombined;
 
@@ -93,6 +106,7 @@ public class TariffListFragment extends Fragment implements TariffActiveSessionR
 
         paidTariff = view.findViewById(R.id.id_tariff_view_previous_tariff);
         unpaidTariff = view.findViewById(R.id.id_tariff_list_view_unpaid_sessions);
+        emptyView = view.findViewById(R.id.empty_view);
 
         mRecyclerViewActive = view.findViewById(R.id.id_recycler_view_tariff);
         mRecyclerViewInactive = view.findViewById(R.id.id_recycler_view_tariff_2);
@@ -127,7 +141,11 @@ public class TariffListFragment extends Fragment implements TariffActiveSessionR
         super.onStart();
 
         loadActiveData();
-        loadUnpaidData();
+        try {
+            loadUnpaidData();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
     }
 
     private void loadActiveData()
@@ -138,6 +156,8 @@ public class TariffListFragment extends Fragment implements TariffActiveSessionR
         db.collectionGroup("sessions_info")
                 .whereEqualTo("end_datetime", null)
                 .whereIn("vehicle", vehiclesCombined)
+                .orderBy("start_datetime", Query.Direction.DESCENDING)
+                .limit(1)
                 .get()
                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override
@@ -150,6 +170,14 @@ public class TariffListFragment extends Fragment implements TariffActiveSessionR
                                     Log.d(TAG, "onSuccess: Document ID of Active: " + snapshot.getId());
                                     tariff = snapshot.toObject(Session.class);
                                     activeTariffItems.add(tariff);
+
+                                    if (activeTariffItems.size() == 0) {
+                                        mRecyclerViewActive.setVisibility(View.INVISIBLE);
+                                        emptyView.setVisibility(View.VISIBLE);
+                                    } else {
+                                        mRecyclerViewActive.setVisibility(View.VISIBLE);
+                                        emptyView.setVisibility(View.INVISIBLE);
+                                    }
 
                                 } catch (Exception e) {
                                     Log.d(TAG, "onSuccess: " + e.getMessage());
@@ -175,19 +203,23 @@ public class TariffListFragment extends Fragment implements TariffActiveSessionR
 
     }
 
-    private void loadUnpaidData()
-    {
+    private void loadUnpaidData() throws ParseException {
 
         UserApi userApi = UserApi.getInstance();
         String email = userApi.getUserEmail();
         String currentUserUid = currentUser.getUid();
         vehiclesCombined = userApi.getVehiclesCombined();
 
+        Date currentDate = new Date();
+
+
+
+
         db.collectionGroup("sessions_info")
                 .whereNotEqualTo("end_datetime", null)
                 .whereEqualTo("is_paid", false)
                 .whereIn("vehicle", vehiclesCombined)
-                .limit(3)
+                .orderBy("end_datetime", Query.Direction.DESCENDING)
                 .get()
                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override
@@ -196,41 +228,55 @@ public class TariffListFragment extends Fragment implements TariffActiveSessionR
                         if (!queryDocumentSnapshots.isEmpty()) {
                             List<DocumentSnapshot> snapshotList = queryDocumentSnapshots.getDocuments();
                             for (DocumentSnapshot snapshot : snapshotList) {
+                                int i = 0;
                                 try {
-                                    Log.d(TAG, "onSuccess: Document ID of Unpaid: " + snapshot.getId());
+//                                    Log.d(TAG, "onSuccess: Document ID of Unpaid: " + snapshot.getId());
                                     tariff = snapshot.toObject(Session.class);
-                                    unpaidTariffItems.add(tariff);
+                                    //unpaidTariffItems.add(unpaidTariffItems.get(i)).getEnd_datetime();
 //
-//                                    Date start_time = tariff.getStart_datetime();
-//                                    //Log.d(TAG, "onSuccess: " + start_time);
-//                                    Date end_time = tariff.getEnd_datetime();
-//                                    //Log.d(TAG, "onSuccess: " + end_time);
-//                                    String vehicleNum = tariff.getVehicle();
-//                                    //Log.d(TAG, "onSuccess: " + vehicleNum);
-//                                    String parking_spot = tariff.getParking_id();
-//                                    //Log.d(TAG, "onSuccess: " + parking_spot);
-//                                    char parking_level = tariff.getParking_id().charAt(0);
-//                                    //Log.d(TAG, "onSuccess: " + parking_level);
-//                                    double tariff_amt = tariff.getTariff_amount();
-//                                    String avenue_name = tariff.getAvenue_name();
+                                    Date due_datetime = tariff.getDue_datetime();
+////                                    String due_datetime_new = formatter.format(due_datetime);
+////
+////                                    formatter = new SimpleDateFormat("E MMM dd HH:mm:ss z y");
+////
+//                                    String pattern = "E MMM dd HH:mm:ss z y";
+////                                    SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+////
+                                        Date currentDate = new Date();
+////                                    formatter = new SimpleDateFormat("E MMM dd HH:mm:ss z y");
+////
+////                                    String newCurrentDate = formatter.format(currentDate);
+////                                    Date parsedDate = simpleDateFormat.parse(newCurrentDate);
 //
-//                                    if (start_time != null) args2.putSerializable("start_time2", start_time);
-//                                    if (end_time != null) args2.putSerializable("end_time2", end_time);
-//                                    args2.putString("avenue_name2", avenue_name);
-//                                    args2.putString("vehicle_num2", vehicleNum);
-//                                    args2.putString("parking_spot2", parking_spot);
-//                                    args2.putChar("parking_level2", parking_level);
-//                                    args2.putDouble("tariff2", tariff_amt);
-//
-//                                    getActivity().getSupportFragmentManager().setFragmentResult("requestKeyFromUnpaidTariffList", args2);
+                                    if (currentDate.after(due_datetime)) {
+                                        Log.d(TAG, "onSuccess: Due date is after current day where the due date is: " + due_datetime +
+                                                " and the current date is " + currentDate);
+                                        continue;
+                                    }
+//                                    } else {
+//                                        Log.d(TAG, "onSuccess: Due date is before current day where the due date is: " + due_datetime +
+//                                                " and the current date is " + currentDate);
+//                                    }
 
+                                    unpaidTariffItems.add(tariff);
+
+                                    i++;
+
+                                    if (unpaidTariffItems.size() == 3) break;
+//                                    Log.d(TAG, "onSuccess: End date: " + );
+
+
+//                                    Log.d(TAG, "loadUnpaidData: " + newCurrentDate);
+//
+//                                    Log.d(TAG, "onSuccess: Due date: " + due_datetime);
+//                                    if ( instant > due_datetime ) Log.d(TAG, "onSuccess: Fine is overdue");
 
                                 } catch (Exception e) {
                                     Log.d(TAG, "onSuccess: " + e.getMessage());
                                 }
 
                                 parent_id = String.valueOf(snapshot.getReference().getParent().getParent().getId()); // parent doc id
-                                Log.d(TAG, "onSuccess: Parent Doc ID of Unpaid: " + parent_id);
+//                                Log.d(TAG, "onSuccess: Parent Doc ID of Unpaid: " + parent_id);
 
                             }
                             setupInactiveRecyclerView();
@@ -315,7 +361,7 @@ public class TariffListFragment extends Fragment implements TariffActiveSessionR
     }
 
     @Override
-    public void onTariffClick(int position)
+    public void onInactiveTariffClick(int position)
     {
         Session tariff_item = unpaidTariffItems.get(position);
         Date start_time = tariff_item.getStart_datetime();
@@ -333,7 +379,7 @@ public class TariffListFragment extends Fragment implements TariffActiveSessionR
 
         if (start_time != null) args2.putSerializable("start_time2", start_time);
         if (end_time != null) args2.putSerializable("end_time2", end_time);
-        args2.putString("avenue_name2", avenue_name);
+        if (avenue_name != null) args2.putString("avenue_name2", avenue_name);
         args2.putString("vehicle_num2", vehicleNum);
         args2.putString("parking_spot2", parking_spot);
         args2.putChar("parking_level2", parking_level);
@@ -349,5 +395,45 @@ public class TariffListFragment extends Fragment implements TariffActiveSessionR
                 .setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_right, R.anim.enter_from_right, R.anim.exit_to_right)
                 .replace(R.id.id_fragment_container_view, fragment)
                 .commit();
+    }
+
+    @Override
+    public void onActiveTariffClick(int position)
+    {
+
+        Session tariff_item = activeTariffItems.get(position);
+        Date start_time = tariff_item.getStart_datetime();
+        //Log.d(TAG, "onSuccess: " + start_time);
+        Date end_time = tariff_item.getEnd_datetime();
+        //Log.d(TAG, "onSuccess: " + end_time);
+        String vehicleNum = tariff_item.getVehicle();
+        //Log.d(TAG, "onSuccess: " + vehicleNum);
+        String parking_spot = tariff_item.getParking_id();
+        //Log.d(TAG, "onSuccess: " + parking_spot);
+        char parking_level = tariff_item.getParking_id().charAt(0);
+        //Log.d(TAG, "onSuccess: " + parking_level);
+        double tariff_amt = tariff_item.getTariff_amount();
+        String avenue_name = tariff_item.getAvenue_name();
+
+        if (start_time != null) args2.putSerializable("start_time3", start_time);
+        if (end_time != null) args2.putSerializable("end_time3", end_time);
+        if (avenue_name != null) args2.putString("avenue_name3", avenue_name);
+        args2.putString("vehicle_num3", vehicleNum);
+        args2.putString("parking_spot3", parking_spot);
+        args2.putChar("parking_level3", parking_level);
+        args2.putDouble("tariff3", tariff_amt);
+
+        getActivity().getSupportFragmentManager().setFragmentResult("requestKeyFromActiveTariffList", args2);
+
+
+        Fragment fragment = new CurrentSessionFragment();
+        getActivity().getSupportFragmentManager()
+                .beginTransaction()
+                .setReorderingAllowed(true)
+                .addToBackStack(null)
+                .setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_right, R.anim.enter_from_right, R.anim.exit_to_right)
+                .replace(R.id.id_fragment_container_view, fragment)
+                .commit();
+
     }
 }

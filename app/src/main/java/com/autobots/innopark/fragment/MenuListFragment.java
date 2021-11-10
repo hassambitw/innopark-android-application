@@ -1,9 +1,11 @@
 package com.autobots.innopark.fragment;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -50,7 +52,15 @@ public class MenuListFragment extends Fragment implements MenuRecyclerViewAdapte
     private FirebaseUser user;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
 
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
 
+        user = firebaseAuth.getCurrentUser();
+        if (user == null) {
+            startActivity(new Intent(getActivity(), LoginActivity.class));
+        }
+    }
 
     public MenuListFragment()
     {

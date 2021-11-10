@@ -1,7 +1,6 @@
 package com.autobots.innopark.adapter;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,7 +18,6 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
@@ -101,7 +99,7 @@ public class TariffInactiveSessionRecyclerViewAdapter extends RecyclerView.Adapt
         }
         //Log.d(TAG, "onBindViewHolder: " + difference_in_hours + " " + difference_in_minutes + difference_in_seconds);
 
-        String words[] = avenue_name.split(" ");
+//        String words[] = avenue_name.split(" ");
 
 //        String avenue_name_initials = "";
 //
@@ -155,12 +153,12 @@ public class TariffInactiveSessionRecyclerViewAdapter extends RecyclerView.Adapt
         @Override
         public void onClick(View view)
         {
-            onTariffClickListener.onTariffClick(getAdapterPosition());
+            onTariffClickListener.onInactiveTariffClick(getAdapterPosition());
         }
     }
 
     public interface OnTariffClickListener
     {
-        public void onTariffClick(int position);
+        public void onInactiveTariffClick(int position);
     }
 }

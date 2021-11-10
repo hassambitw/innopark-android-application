@@ -56,21 +56,6 @@ public class CurrentSessionFragment extends Fragment
         return instance;
     }
 
-//    public static CurrentSessionFragment newInstance2(Date startTime, Date endTime, String vehicle, String parkingSpot, char parking_level, String avenue_name, double tariff) {
-//        final Bundle creationArgs = new Bundle();
-//        creationArgs.putSerializable("start_time2", startTime);
-//        creationArgs.putSerializable("end_time2", endTime);
-//        creationArgs.putString("vehicle_num2", vehicle);
-//        creationArgs.putString("avenue_name2", avenue_name);
-//        creationArgs.putString("parking_spot2", parkingSpot);
-//        creationArgs.putChar("parking_level2", parking_level);
-//        creationArgs.putDouble("tariff2", tariff);
-//
-//        final CurrentSessionFragment instance = new CurrentSessionFragment();
-//        instance.setArguments(creationArgs);
-//
-//        return instance;
-//    }
 
     public interface CurrentSessionFragmentListener {
 
@@ -120,7 +105,7 @@ public class CurrentSessionFragment extends Fragment
                 formatter = new SimpleDateFormat("E, dd MMM, HH:mm aa");
                 formatted_date = formatter.format(startTime);
                 startTimeTV.setText(formatted_date);
-                locationTV.setText("To " + location.trim());
+                if (location != null) locationTV.setText("To " + location.trim());
                 parkingSpotTV.setText(parkingSpot.trim() + " (Level " + parkingLevel + ")");
                 vehicleTV.setText(vehicle);
                 tariffTV.setText(Double.toString(tariff));
@@ -153,7 +138,107 @@ public class CurrentSessionFragment extends Fragment
                 formatter = new SimpleDateFormat("E, dd MMM, HH:mm aa");
                 formatted_date = formatter.format(startTime);
                 startTimeTV.setText(formatted_date);
-                locationTV.setText("To " + location.trim());
+                if (location != null) locationTV.setText("To " + location.trim());
+                parkingSpotTV.setText(parkingSpot.trim() + " (Level " + parkingLevel + ")");
+                vehicleTV.setText(vehicle);
+                tariffTV.setText(Double.toString(tariff));
+
+
+            }
+        });
+
+        getActivity().getSupportFragmentManager().setFragmentResultListener("requestKeyFromActiveTariffList", this, new FragmentResultListener() {
+            @Override
+            public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle bundle) {
+
+                startTime = (Date) bundle.getSerializable("start_time3");
+                if ((Date) bundle.getSerializable("end_time3") != null ) {
+                    endTime = (Date) bundle.getSerializable("end_time3");
+                    formatter = new SimpleDateFormat("E, dd MMM, HH:mm aa");
+                    formatted_date = formatter.format(endTime);
+                    endTimeTV.setText(formatted_date);
+                } else {
+                    endTimeTV.setText("-");
+                }
+                location = bundle.getString("avenue_name3");
+                parkingSpot = bundle.getString("parking_spot3");
+                parkingLevel = bundle.getChar("parking_level3");
+                vehicle = bundle.getString("vehicle_num3");
+                tariff = bundle.getDouble("tariff3");
+
+
+
+                startTime = (Date) bundle.getSerializable("start_time3");
+                formatter = new SimpleDateFormat("E, dd MMM, HH:mm aa");
+                formatted_date = formatter.format(startTime);
+                startTimeTV.setText(formatted_date);
+                if (location != null) locationTV.setText("To " + location.trim());
+                parkingSpotTV.setText(parkingSpot.trim() + " (Level " + parkingLevel + ")");
+                vehicleTV.setText(vehicle);
+                tariffTV.setText(Double.toString(tariff));
+            }
+        });
+
+        getActivity().getSupportFragmentManager().setFragmentResultListener("requestKeyFromUnpaid", this, new FragmentResultListener() {
+            @Override
+            public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle bundle) {
+
+                startTime = (Date) bundle.getSerializable("start_time4");
+                if ((Date) bundle.getSerializable("end_time4") != null ) {
+                    endTime = (Date) bundle.getSerializable("end_time4");
+                    formatter = new SimpleDateFormat("E, dd MMM, HH:mm aa");
+                    formatted_date = formatter.format(endTime);
+                    endTimeTV.setText(formatted_date);
+                } else {
+                    endTimeTV.setText("-");
+                }
+                location = bundle.getString("avenue_name4");
+                parkingSpot = bundle.getString("parking_spot4");
+                parkingLevel = bundle.getChar("parking_level4");
+                vehicle = bundle.getString("vehicle_num4");
+                tariff = bundle.getDouble("tariff4");
+
+
+
+                startTime = (Date) bundle.getSerializable("start_time4");
+                formatter = new SimpleDateFormat("E, dd MMM, HH:mm aa");
+                formatted_date = formatter.format(startTime);
+                startTimeTV.setText(formatted_date);
+                if (location != null) locationTV.setText("To " + location.trim());
+                parkingSpotTV.setText(parkingSpot.trim() + " (Level " + parkingLevel + ")");
+                vehicleTV.setText(vehicle);
+                tariffTV.setText(Double.toString(tariff));
+
+
+            }
+        });
+
+        getActivity().getSupportFragmentManager().setFragmentResultListener("requestKeyFromPaidTariff", this, new FragmentResultListener() {
+            @Override
+            public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle bundle) {
+
+                startTime = (Date) bundle.getSerializable("start_time5");
+                if ((Date) bundle.getSerializable("end_time5") != null ) {
+                    endTime = (Date) bundle.getSerializable("end_time5");
+                    formatter = new SimpleDateFormat("E, dd MMM, HH:mm aa");
+                    formatted_date = formatter.format(endTime);
+                    endTimeTV.setText(formatted_date);
+                } else {
+                    endTimeTV.setText("-");
+                }
+                location = bundle.getString("avenue_name5");
+                parkingSpot = bundle.getString("parking_spot5");
+                parkingLevel = bundle.getChar("parking_level5");
+                vehicle = bundle.getString("vehicle_num5");
+                tariff = bundle.getDouble("tariff5");
+
+
+
+                startTime = (Date) bundle.getSerializable("start_time5");
+                formatter = new SimpleDateFormat("E, dd MMM, HH:mm aa");
+                formatted_date = formatter.format(startTime);
+                startTimeTV.setText(formatted_date);
+                if (location != null) locationTV.setText("To " + location.trim());
                 parkingSpotTV.setText(parkingSpot.trim() + " (Level " + parkingLevel + ")");
                 vehicleTV.setText(vehicle);
                 tariffTV.setText(Double.toString(tariff));

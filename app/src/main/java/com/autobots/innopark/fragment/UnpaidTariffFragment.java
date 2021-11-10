@@ -30,9 +30,11 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class UnpaidTariffFragment extends Fragment implements TariffInactiveSessionRecyclerViewAdapter.OnTariffClickListener
@@ -44,8 +46,10 @@ public class UnpaidTariffFragment extends Fragment implements TariffInactiveSess
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
-    ArrayList<Session> tariffItems;
+    ArrayList<Session> unpaidTariffItems;
     private List<String> vehiclesCombined;
+
+    Bundle args2;
 
     final FirebaseAuth firebaseAuth = DatabaseUtils.firebaseAuth;
     FirebaseUser currentUser;
@@ -73,8 +77,10 @@ public class UnpaidTariffFragment extends Fragment implements TariffInactiveSess
 
         View view = inflater.inflate(R.layout.fragment_unpaid_tariff, container, false);
 
-        tariffItems = new ArrayList<>();
+        unpaidTariffItems = new ArrayList<>();
         vehiclesCombined = new ArrayList<>();
+
+        args2 = new Bundle();
 
 
         mRecyclerView = view.findViewById(R.id.id_unpaid_sessions_recycler_view);
@@ -122,6 +128,7 @@ public class UnpaidTariffFragment extends Fragment implements TariffInactiveSess
                 .whereNotEqualTo("end_datetime", null)
                 .whereEqualTo("is_paid", false)
                 .whereIn("vehicle", vehiclesCombined)
+                .orderBy("end_datetime", Query.Direction.DESCENDING)
                 .get()
                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override
@@ -131,16 +138,28 @@ public class UnpaidTariffFragment extends Fragment implements TariffInactiveSess
                             List<DocumentSnapshot> snapshotList = queryDocumentSnapshots.getDocuments();
                             for (DocumentSnapshot snapshot : snapshotList) {
                                 try {
-                                    Log.d(TAG, "onSuccess: " + snapshot.getId());
                                     tariff = snapshot.toObject(Session.class);
-                                    tariffItems.add(tariff);
+                                    //unpaidTariffItems.add(tariff);
+
+                                    Date due_datetime = tariff.getDue_datetime();
+                                    Date currentDate = new Date();
+
+
+                                    if (due_datetime.after(currentDate)) {
+                                        Log.d(TAG, "onSuccess: Due date is after current day where the due date is: " + due_datetime +
+                                                " and the current date is " + currentDate);
+                                        continue;
+                                    }
+
+                                    unpaidTariffItems.add(tariff);
+
 
                                 } catch (Exception e) {
                                     Log.d(TAG, "onSuccess: " + e.getMessage());
                                 }
 
                                 String parent_id = String.valueOf(snapshot.getReference().getParent().getParent().getId()); // parent doc id
-                                Log.d(TAG, "onSuccess: " + parent_id);
+                                Log.d(TAG, "onSuccess: Unpaid Parent " + parent_id);
 
                             }
                             setupUnpaidRecyclerView();
@@ -163,14 +182,40 @@ public class UnpaidTariffFragment extends Fragment implements TariffInactiveSess
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLayoutManager);
-        mAdapter = new TariffInactiveSessionRecyclerViewAdapter(tariffItems, getActivity(), this);
+        mAdapter = new TariffInactiveSessionRecyclerViewAdapter(unpaidTariffItems, getActivity(), this);
         mRecyclerView.setAdapter(mAdapter);
         mAdapter.notifyDataSetChanged();
     }
 
     @Override
-    public void onTariffClick(int position)
+    public void onInactiveTariffClick(int position)
     {
+
+        Session tariff_item = unpaidTariffItems.get(position);
+        Date start_time = tariff_item.getStart_datetime();
+        //Log.d(TAG, "onSuccess: " + start_time);
+        Date end_time = tariff_item.getEnd_datetime();
+        //Log.d(TAG, "onSuccess: " + end_time);
+        String vehicleNum = tariff_item.getVehicle();
+        //Log.d(TAG, "onSuccess: " + vehicleNum);
+        String parking_spot = tariff_item.getParking_id();
+        //Log.d(TAG, "onSuccess: " + parking_spot);
+        char parking_level = tariff_item.getParking_id().charAt(0);
+        //Log.d(TAG, "onSuccess: " + parking_level);
+        double tariff_amt = tariff_item.getTariff_amount();
+        String avenue_name = tariff_item.getAvenue_name();
+
+        if (start_time != null) args2.putSerializable("start_time4", start_time);
+        if (end_time != null) args2.putSerializable("end_time4", end_time);
+        if (avenue_name != null) args2.putString("avenue_name4", avenue_name);
+        args2.putString("vehicle_num4", vehicleNum);
+        args2.putString("parking_spot4", parking_spot);
+        args2.putChar("parking_level4", parking_level);
+        args2.putDouble("tariff4", tariff_amt);
+
+        getActivity().getSupportFragmentManager().setFragmentResult("requestKeyFromUnpaid", args2);
+
+
         Fragment fragment = new CurrentSessionFragment();
         getActivity().getSupportFragmentManager()
                 .beginTransaction()

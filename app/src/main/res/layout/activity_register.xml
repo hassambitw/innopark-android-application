@@ -97,6 +97,7 @@
             android:layout_marginEnd="32dp"
             android:background="@drawable/editext_border"
             android:hint="Password"
+            android:inputType="textPassword"
             android:paddingLeft="15dp"
             android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"

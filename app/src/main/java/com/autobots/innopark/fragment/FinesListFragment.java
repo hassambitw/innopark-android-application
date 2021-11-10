@@ -1,7 +1,10 @@
 package com.autobots.innopark.fragment;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -11,9 +14,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.autobots.innopark.LoginActivity;
 import com.autobots.innopark.R;
 import com.autobots.innopark.adapter.FinesRecyclerViewAdapter;
+import com.autobots.innopark.data.DatabaseUtils;
 import com.autobots.innopark.data.Fine;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 
@@ -25,6 +34,24 @@ public class FinesListFragment extends Fragment implements FinesRecyclerViewAdap
     private RecyclerView.LayoutManager mLayoutManager;
     private TextView paidFines;
     private ArrayList<Fine> fineItems;
+
+    final FirebaseAuth firebaseAuth = DatabaseUtils.firebaseAuth;
+    FirebaseUser currentUser;
+
+    //firestore connection
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+    private CollectionReference collectionReference = db.collection("avenues");
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+
+        currentUser = firebaseAuth.getCurrentUser();
+        if (currentUser == null) {
+            startActivity(new Intent(getActivity(), LoginActivity.class));
+        }
+    }
 
     public FinesListFragment()
     {
