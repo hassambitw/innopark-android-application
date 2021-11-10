@@ -1,7 +1,10 @@
 package com.autobots.innopark.fragment;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
@@ -14,11 +17,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.autobots.innopark.LoginActivity;
 import com.autobots.innopark.R;
 import com.autobots.innopark.adapter.FineHistoryRecyclerViewAdapter;
 import com.autobots.innopark.adapter.ParkingHistoryRecyclerViewAdapter;
 import com.autobots.innopark.adapter.VehicleRecyclerViewAdapter;
+import com.autobots.innopark.data.DatabaseUtils;
 import com.autobots.innopark.data.ParkingHistoryData;
+import com.autobots.innopark.data.Session;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 
@@ -32,6 +43,26 @@ public class ParkingHistoryFragment extends Fragment {
     private RecyclerView.LayoutManager mLayoutManager;
     private ArrayList<ParkingHistoryData> parkingHistoryDataList;
 
+    final FirebaseAuth firebaseAuth = DatabaseUtils.firebaseAuth;
+    FirebaseUser currentUser;
+
+    //firestore connection
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+    private CollectionReference collectionReference = db.collection("avenues");
+
+    Session tariff;
+
+    @Override
+    public void onAttach(@NonNull Context context)
+    {
+        super.onAttach(context);
+
+        currentUser = firebaseAuth.getCurrentUser();
+        if (currentUser == null) {
+            startActivity(new Intent(getActivity(), LoginActivity.class));
+        }
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -51,7 +82,7 @@ public class ParkingHistoryFragment extends Fragment {
         }
         else if (strMessage.toLowerCase().contains("from fine history card")) {
             setupFHToolbar(view);
-            setupFineRecyclerView(view);
+            //setupFineRecyclerView(view);
         }
 
 
@@ -67,7 +98,7 @@ public class ParkingHistoryFragment extends Fragment {
 
     private void loadParkingHistoryData()
     {
-
+//        Task subCollectionQuery =
     }
 
     private void setupFHToolbar(View view)
@@ -108,16 +139,16 @@ public class ParkingHistoryFragment extends Fragment {
         mRecyclerView.setAdapter(mAdapter);
     }
 
-    private void setupFineRecyclerView(View view)
-    {
-        mRecyclerView = view.findViewById(R.id.id_parking_history_recycler_view);
-        mRecyclerView.setHasFixedSize(true);
-        mLayoutManager = new LinearLayoutManager(getActivity());
-        mRecyclerView.setLayoutManager(mLayoutManager);
-        mRecyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), LinearLayoutManager.VERTICAL));
-        mAdapter = new FineHistoryRecyclerViewAdapter(parkingHistoryDataList, getActivity());
-        mRecyclerView.setAdapter(mAdapter);
-    }
+//    private void setupFineRecyclerView(View view)
+//    {
+//        mRecyclerView = view.findViewById(R.id.id_parking_history_recycler_view);
+//        mRecyclerView.setHasFixedSize(true);
+//        mLayoutManager = new LinearLayoutManager(getActivity());
+//        mRecyclerView.setLayoutManager(mLayoutManager);
+//        mRecyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), LinearLayoutManager.VERTICAL));
+//        mAdapter = new FineHistoryRecyclerViewAdapter(parkingHistoryDataList, getActivity());
+//        mRecyclerView.setAdapter(mAdapter);
+//    }
 
     private void setupPHToolbar(View view)
     {

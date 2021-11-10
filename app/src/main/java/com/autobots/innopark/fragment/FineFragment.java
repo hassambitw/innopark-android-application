@@ -1,5 +1,7 @@
 package com.autobots.innopark.fragment;
 
+import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -17,7 +19,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 
+import com.autobots.innopark.LoginActivity;
 import com.autobots.innopark.R;
+import com.autobots.innopark.data.DatabaseUtils;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class FineFragment extends Fragment
 {
@@ -28,6 +36,22 @@ public class FineFragment extends Fragment
     Button payFine;
     Button disputeFine;
 
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+    private CollectionReference collectionReference = db.collection("avenues");
+
+    final FirebaseAuth firebaseAuth = DatabaseUtils.firebaseAuth;
+    FirebaseUser currentUser;
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+
+        currentUser = firebaseAuth.getCurrentUser();
+        if (currentUser == null) {
+            startActivity(new Intent(getActivity(), LoginActivity.class));
+        }
+    }
 
     @Nullable
     @Override

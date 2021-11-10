@@ -42,22 +42,22 @@ public class FineHistoryRecyclerViewAdapter extends RecyclerView.Adapter<FineHis
     {
         ParkingHistoryData phd = parkingHistoryList.get(position);
 
-        holder.fineHistoryArea.setText(phd.getLocation());
-        holder.fineHistoryDate.setText((CharSequence) phd.getDate());
-        holder.fineHistoryTime.setText(phd.getDuration());
-
-        String vehicleDrivers = Arrays.asList(phd.getDrivers()).toString();
-        holder.fineHistoryDrivers.setText(vehicleDrivers.substring(1, vehicleDrivers.length() - 1));
-
-        holder.fineHistoryCar.setText(phd.getCarLicense() + " " + phd.getCarName());
-        if (phd.isTariffPaidStatus() == true) {
-            holder.fineHistoryTariffStatus.setText(phd.getPaidMessage());
-            holder.fineHistoryTariffStatus.setBackground(ContextCompat.getDrawable(mContext, R.drawable.parking_history_paid_bg));
-        } else {
-            holder.fineHistoryTariffStatus.setBackground(ContextCompat.getDrawable(mContext, R.drawable.parking_history_unpaid_bg));
-        }
-
-        holder.fineHistoryFineAmt.setText(String.valueOf(phd.getFinePrice()));
+//        holder.fineHistoryArea.setText(phd.getLocation());
+//        holder.fineHistoryDate.setText((CharSequence) phd.getDate());
+//        holder.fineHistoryTime.setText(phd.getDuration());
+//
+//        String vehicleDrivers = Arrays.asList(phd.getDrivers()).toString();
+//        holder.fineHistoryDrivers.setText(vehicleDrivers.substring(1, vehicleDrivers.length() - 1));
+//
+//        holder.fineHistoryCar.setText(phd.getCarLicense() + " " + phd.getCarName());
+//        if (phd.isTariffPaidStatus() == true) {
+//            holder.fineHistoryTariffStatus.setText(phd.getPaidMessage());
+//            holder.fineHistoryTariffStatus.setBackground(ContextCompat.getDrawable(mContext, R.drawable.parking_history_paid_bg));
+//        } else {
+//            holder.fineHistoryTariffStatus.setBackground(ContextCompat.getDrawable(mContext, R.drawable.parking_history_unpaid_bg));
+//        }
+//
+//        holder.fineHistoryFineAmt.setText(String.valueOf(phd.getFinePrice()));
 
     }
 

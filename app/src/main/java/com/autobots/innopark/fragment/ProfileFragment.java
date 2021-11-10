@@ -1,8 +1,10 @@
 package com.autobots.innopark.fragment;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
@@ -14,6 +16,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import androidx.appcompat.widget.Toolbar;
 
+import com.autobots.innopark.LoginActivity;
 import com.autobots.innopark.R;
 import com.autobots.innopark.data.Callbacks.HashmapCallback;
 import com.autobots.innopark.data.DatabaseUtils;
@@ -41,8 +44,18 @@ public class ProfileFragment extends Fragment
     EditText cardET;
     FirebaseAuth firebaseAuth = DatabaseUtils.firebaseAuth;
     private FirebaseAuth.AuthStateListener authStateListener;
-    private FirebaseUser user;
+    private FirebaseUser currentUser;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+
+        currentUser = firebaseAuth.getCurrentUser();
+        if (currentUser == null) {
+            startActivity(new Intent(getActivity(), LoginActivity.class));
+        }
+    }
 
     public ProfileFragment()
     {

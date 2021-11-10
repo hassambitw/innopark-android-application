@@ -64,6 +64,8 @@ public class TariffListFragment extends Fragment implements TariffActiveSessionR
     String formatted_date;
     SimpleDateFormat formatter;
 
+    int i;
+
     private List<String> vehiclesCombined;
 
     String parent_id;
@@ -216,9 +218,11 @@ public class TariffListFragment extends Fragment implements TariffActiveSessionR
                         if (!queryDocumentSnapshots.isEmpty()) {
                             List<DocumentSnapshot> snapshotList = queryDocumentSnapshots.getDocuments();
                             for (DocumentSnapshot snapshot : snapshotList) {
+                                int i = 0;
                                 try {
 //                                    Log.d(TAG, "onSuccess: Document ID of Unpaid: " + snapshot.getId());
                                     tariff = snapshot.toObject(Session.class);
+                                    //unpaidTariffItems.add(unpaidTariffItems.get(i)).getEnd_datetime();
 //
                                     Date due_datetime = tariff.getDue_datetime();
 ////                                    String due_datetime_new = formatter.format(due_datetime);
@@ -245,6 +249,8 @@ public class TariffListFragment extends Fragment implements TariffActiveSessionR
 //                                    }
 
                                     unpaidTariffItems.add(tariff);
+
+                                    i++;
 
                                     if (unpaidTariffItems.size() == 3) break;
 //                                    Log.d(TAG, "onSuccess: End date: " + );

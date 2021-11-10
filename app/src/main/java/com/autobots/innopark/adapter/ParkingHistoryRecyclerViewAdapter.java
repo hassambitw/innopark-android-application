@@ -42,24 +42,25 @@ public class ParkingHistoryRecyclerViewAdapter extends RecyclerView.Adapter<Park
     {
         ParkingHistoryData phd = parkingHistoryList.get(position);
 
-        holder.parkingHistoryArea.setText(phd.getLocation());
-        holder.parkingHistoryDate.setText((CharSequence) phd.getDate());
-        holder.parkingHistorySpot.setText(phd.getParkingLevel());
-        holder.parkingHistoryTime.setText(phd.getDuration());
+        holder.parkingHistoryArea.setText(phd.getAvenue_name());
+//        holder.parkingHistoryDate.setText((CharSequence) phd.getEnd_datetime());
+//        holder.parkingHistorySpot.setText(phd.getParkingLevel());
+//        holder.parkingHistoryTime.setText(phd.getDuration());
 
-        String vehicleDrivers = Arrays.asList(phd.getDrivers()).toString();
-        holder.parkingHistoryDrivers.setText(vehicleDrivers.substring(1, vehicleDrivers.length() - 1));
+//        String vehicleDrivers = Arrays.asList(phd.getDrivers()).toString();
+//        holder.parkingHistoryDrivers.setText(vehicleDrivers.substring(1, vehicleDrivers.length() - 1));
 
-        holder.parkingHistoryCar.setText(phd.getCarLicense() + " " + phd.getCarName());
-        if (phd.isTariffPaidStatus() == true) {
-            holder.parkingHistoryTariffStatus.setText(phd.getPaidMessage());
+        holder.parkingHistoryCar.setText(phd.getVehicle() + " " + phd.getManufacturer() + " " + phd.getModel());
+        if (phd.isIs_paid() == true) {
+            holder.parkingHistoryTariffStatus.setText("Paid");
             holder.parkingHistoryTariffStatus.setBackground(ContextCompat.getDrawable(mContext, R.drawable.parking_history_paid_bg));
         } else {
+            holder.parkingHistoryTariffStatus.setText("Unpaid");
             holder.parkingHistoryTariffStatus.setBackground(ContextCompat.getDrawable(mContext, R.drawable.parking_history_unpaid_bg));
         }
 
-        holder.parkingHistoryTariffStatus.setText(phd.getPaidMessage());
-        holder.parkingHistoryTariffAmt.setText(String.valueOf(phd.getTariffPrice()));
+//        holder.parkingHistoryTariffStatus.setText(phd.getPaidMessage());
+        holder.parkingHistoryTariffAmt.setText(String.valueOf(phd.getTariff()));
 
     }
 
