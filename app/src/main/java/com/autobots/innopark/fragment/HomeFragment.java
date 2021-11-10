@@ -241,6 +241,7 @@ public class HomeFragment extends Fragment
                                             double tariff = session.getTariff_amount();
                                             String avenue_name = session.getAvenue_name();
                                             if (avenue_name!=null) activeSessionLocation.setText(avenue_name.trim());
+                                            else Log.d(TAG, "Error: avenue name not found");
                                             //Log.d(TAG, "onSuccess: " + tariff);
 
 

@@ -28,9 +28,12 @@ import com.autobots.innopark.fragment.HomeFragment;
 import com.autobots.innopark.fragment.MenuFragment;
 import com.autobots.innopark.fragment.NotificationFragment;
 import com.autobots.innopark.fragment.ParkingFragment;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationBarView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.HashMap;
 
@@ -65,8 +68,6 @@ public class DashboardActivity extends AppCompatActivity {
         {
             bottom_nav.setSelectedItemId(R.id.id_bottom_nav_home);
         }
-
-
     }
 
     public static void setStatusBarGradiant(Activity activity)

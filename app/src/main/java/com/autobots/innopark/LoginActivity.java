@@ -8,7 +8,10 @@ import com.autobots.innopark.data.DatabaseUtils;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -22,12 +25,16 @@ import com.autobots.innopark.data.Tags;
 import com.autobots.innopark.data.Tariff;
 import com.autobots.innopark.data.User;
 import com.autobots.innopark.data.UserApi;
+import com.autobots.innopark.fragment.NotificationService;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -52,6 +59,9 @@ public class LoginActivity extends AppCompatActivity
     //firestore connection
     private FirebaseFirestore db = DatabaseUtils.db;
 
+    //firebase messaging
+    private static final String channel_id = Config.channel_id;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -59,6 +69,11 @@ public class LoginActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        createNotificationChannel();
+        getRegistrationToken();
+
+        FirebaseMessaging firebaseMessaging = FirebaseMessaging.getInstance();
+        firebaseMessaging.subscribeToTopic("welcome_to_innopark");
 
         register_tv = findViewById(R.id.id_register_text);
         login_btn = findViewById(R.id.id_login_btn);
@@ -82,6 +97,40 @@ public class LoginActivity extends AppCompatActivity
 
     }
 
+    private void getRegistrationToken(){
+        FirebaseMessaging.getInstance().getToken().addOnCompleteListener(new OnCompleteListener<String>() {
+            @Override
+            public void onComplete(@NonNull Task<String> task) {
+                if(!task.isSuccessful()){
+                    Log.w("Get Token", "onComplete: Failed to get registration token of device");
+                    return;
+                }
+
+
+                String token = task.getResult();
+
+                if(Config.current_user_token == null) Config.current_user_token = token;
+
+                Log.w("Get Token", "onComplete: "+ token);
+            }
+        });
+    }
+
+    private void createNotificationChannel() {
+        String channel_name = "innopark_notification_channel";
+        String channel_description = "receive test notification";
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            CharSequence name = channel_name;
+            String description = channel_description;
+            int importance = NotificationManager.IMPORTANCE_HIGH;
+            NotificationChannel channel = new NotificationChannel(channel_id, name, importance);
+            channel.setDescription(description);
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
+    }
+
     private void loginUser()
     {
         String email = email_et.getText().toString().toLowerCase().trim();
@@ -94,9 +143,37 @@ public class LoginActivity extends AppCompatActivity
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()) {
+                                if (Config.new_token_status) {
+                                    NotificationService.sendRegistrationTokenToServer(Config.current_user_token);
+                                    Config.new_token_status = false;
+                                }
 
                                 UserApi userApi = UserApi.getInstance();
                                 userApi.setUserEmail(email);
+
+                                if (Config.current_user_email == null){
+                                    Config.current_user_email = email;
+
+                                    DatabaseUtils.db.collection("users_tokens")
+                                            .whereEqualTo("token_id", Config.current_user_token)
+                                            .get()
+                                            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                                @Override
+                                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                                    if (task.isSuccessful()) {
+                                                        for (QueryDocumentSnapshot document : task.getResult()) {
+                                                            Log.d(Tags.SUCCESS.name(), document.getId() + " => " + document.getData());
+
+                                                            DatabaseUtils.updateData("users_tokens",
+                                                                    document.getId(), "email_address", email);
+
+                                                        }
+                                                    } else {
+                                                        Log.d(Tags.FAILURE.name(), "LOGIN ACTIVITY: Token_id doesn't exist: ", task.getException());
+                                                    }
+                                                }
+                                            });
+                                }
 
                                 Log.d("TAG", "onComplete: " + currentUserName);
 
