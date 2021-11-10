@@ -130,7 +130,7 @@ public class UnpaidTariffFragment extends Fragment implements TariffInactiveSess
                 .whereIn("vehicle", vehiclesCombined)
                 .orderBy("end_datetime", Query.Direction.DESCENDING)
                 .get()
-                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override
                     public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                         Log.d(TAG, "onSuccess: Inside");

@@ -59,6 +59,7 @@ public class TariffListFragment extends Fragment implements TariffActiveSessionR
     private ArrayList<Session> unpaidTariffItems;
     private ArrayList<Session> activeTariffItems;
     ArrayList<Avenue> avenueItems;
+
     private ArrayList<Session> tariffItems2;
     private ArrayList<Session> finalTariff;
     String formatted_date;

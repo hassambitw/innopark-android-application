@@ -12,18 +12,20 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.autobots.innopark.R;
 import com.autobots.innopark.data.NotificationData;
+import com.autobots.innopark.data.UsersTokens;
 import com.chauthai.swipereveallayout.SwipeRevealLayout;
 import com.chauthai.swipereveallayout.ViewBinderHelper;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class NotificationsRecyclerViewAdapter extends RecyclerView.Adapter<NotificationsRecyclerViewAdapter.MySwipeViewHolder> {
 
     private static Context context;
-    private ArrayList<NotificationData> notifications;
+    private ArrayList<UsersTokens> notifications;
     private final ViewBinderHelper vbh = new ViewBinderHelper();
 
-    public NotificationsRecyclerViewAdapter(Context context, ArrayList<NotificationData> notifications)
+    public NotificationsRecyclerViewAdapter(Context context, ArrayList<UsersTokens> notifications)
     {
         this.context = context;
         this.notifications = notifications;
@@ -40,11 +42,16 @@ public class NotificationsRecyclerViewAdapter extends RecyclerView.Adapter<Notif
     @Override
     public void onBindViewHolder(@NonNull NotificationsRecyclerViewAdapter.MySwipeViewHolder holder, int position)
     {
-        NotificationData mNotifs = notifications.get(position);
+        UsersTokens mNotifs = notifications.get(position);
         vbh.setOpenOnlyOne(true);
-        vbh.bind(holder.swipeLayout, String.valueOf(mNotifs.getNotification_id()));
-        vbh.closeLayout(String.valueOf(mNotifs.getNotification_info()));
-        holder.mNotificationText.setText(mNotifs.getNotification_info());
+
+       // List<String> data = new ArrayList<>();
+
+        vbh.bind(holder.swipeLayout, String.valueOf(mNotifs.getNotif_body()));
+        vbh.closeLayout(String.valueOf(mNotifs.getNotif_body()));
+        for (int i = 0; i < notifications.size(); i++) {
+            holder.mNotificationText.setText(mNotifs.getNotif_body().get(i));
+        }
     }
 
     @Override
