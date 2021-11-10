@@ -106,13 +106,13 @@ public class ProfileFragment extends Fragment
                     String username = (String) result.get("username");
                     String first_name = (String) result.get("first_name");
                     String last_name = (String) result.get("last_name");
-                    long cardId = (long) result.get("id_card_number");
+                    String cardId = (String) result.get("id_card_number");
 
                     emailET.setText(email);
                     usernameET.setText(username);
                     firstNameET.setText(first_name);
                     lastNameET.setText(last_name);
-                    cardET.setText(cardId +"");
+                    cardET.setText(cardId);
 
 //                    Bundle bundle = new Bundle();
 //                    bundle.putLong("cardId", cardId);
