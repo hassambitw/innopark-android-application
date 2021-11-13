@@ -16,20 +16,17 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.autobots.innopark.Config;
 import com.autobots.innopark.LoginActivity;
 import com.autobots.innopark.R;
-import com.autobots.innopark.adapter.MenuRecyclerViewAdapter;
 //import com.autobots.innopark.adapter.NotificationsRecyclerView2;
 import com.autobots.innopark.adapter.NotificationsRecyclerViewAdapter;
 import com.autobots.innopark.data.DatabaseUtils;
 import com.autobots.innopark.data.NotificationData;
-import com.autobots.innopark.data.Session;
 import com.autobots.innopark.data.Tags;
-import com.autobots.innopark.data.UsersTokens;
+import com.autobots.innopark.data.UserToken;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -37,10 +34,9 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 public class NotificationFragment extends Fragment {
 
@@ -51,14 +47,12 @@ public class NotificationFragment extends Fragment {
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     private TextView toolbar_title;
-    private ArrayList<UsersTokens> data;
+    private ArrayList<Map<String, Object>> notifs_array;
 
     final FirebaseAuth firebaseAuth = DatabaseUtils.firebaseAuth;
     FirebaseUser currentUser;
 
-    UsersTokens users_tokens;
-    ArrayList<String> notif_titles;
-    ArrayList<String> notif_bodies;
+    UserToken user_token;
 
     //firestore connection
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -86,7 +80,7 @@ public class NotificationFragment extends Fragment {
 
         mRecyclerView = view.findViewById(R.id.id_notifications_recycler_view);
 
-        data = new ArrayList<>();
+        notifs_array = new ArrayList<>();
 
         setupToolbar(view);
 
@@ -121,17 +115,12 @@ public class NotificationFragment extends Fragment {
                     List<DocumentSnapshot> snapshotList = queryDocumentSnapshots.getDocuments();
                     for (DocumentSnapshot snapshot : snapshotList) {
                         try {
-                            users_tokens = snapshot.toObject(UsersTokens.class);
-                            //unpaidTariffItems.add(tariff);
-                            data.add(users_tokens);
+                            user_token = snapshot.toObject(UserToken.class);
+
+                            notifs_array = user_token.getNotif();
                             Log.d(TAG, "onSuccess: Inside loop");
 
-                            notif_titles = users_tokens.getNotif_title();
-                            notif_bodies = users_tokens.getNotif_body();
-
-                            Log.d(TAG, "onSuccess: " + notif_bodies + " " + notif_titles);
-
-//                            Log.d(Tags.SUCCESS.name(), "Notification: DATA FETCHED"+ " "+notif_bodies);
+                            Log.d(Tags.SUCCESS.name(), "Notification: DATA FETCHED: "+ notifs_array);
 
 
                         } catch (Exception e) {
@@ -156,7 +145,7 @@ public class NotificationFragment extends Fragment {
         mLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), LinearLayoutManager.VERTICAL));
-        mAdapter = new NotificationsRecyclerViewAdapter(getActivity(), data);
+        mAdapter = new NotificationsRecyclerViewAdapter(getActivity(), notifs_array);
         mRecyclerView.setAdapter(mAdapter);
         mAdapter.notifyDataSetChanged();
     }

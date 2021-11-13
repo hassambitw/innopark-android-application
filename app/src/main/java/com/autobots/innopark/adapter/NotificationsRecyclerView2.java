@@ -10,7 +10,7 @@
 //import androidx.recyclerview.widget.RecyclerView;
 //
 //import com.autobots.innopark.R;
-//import com.autobots.innopark.data.UsersTokens;
+//import com.autobots.innopark.data.UserToken;
 //
 //import java.util.ArrayList;
 //
@@ -18,9 +18,9 @@
 //{
 //
 //    private static Context context;
-//    private ArrayList<UsersTokens> notifications;
+//    private ArrayList<UserToken> notifications;
 //
-//    public NotificationsRecyclerView2(Context context, ArrayList<UsersTokens> notifications) {
+//    public NotificationsRecyclerView2(Context context, ArrayList<UserToken> notifications) {
 //        this.context = context;
 //        this.notifications = notifications;
 //    }

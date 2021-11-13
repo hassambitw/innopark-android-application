@@ -24,7 +24,9 @@ import com.google.firebase.messaging.Constants;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 
 public class NotificationService extends FirebaseMessagingService {
@@ -49,10 +51,19 @@ public class NotificationService extends FirebaseMessagingService {
 
         Map<String, Object> token_data = new HashMap<>();
 //        token_data.put("email_address", Config.current_user_email);
+//        Map<String, Object> notif_data = new HashMap<>();
+
+        Map<String, Object> notif_data = new HashMap<>();
+
+        notif_data.put("notif_title", "");
+        notif_data.put("notif_body", "");
+        notif_data.put("notif_datetime", "");
+
+        ArrayList<Map<String, Object>> notif_array = new ArrayList<>();
+
         token_data.put("email_address", "");
         token_data.put("token_id", token);
-        token_data.put("notif_title", "");
-        token_data.put("notif_body", "");
+        token_data.put("notif", notif_array);
 
         DatabaseUtils.addData("users_tokens", token_data, new StringCallback(){
             @Override
