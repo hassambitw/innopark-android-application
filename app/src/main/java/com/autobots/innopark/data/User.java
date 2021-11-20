@@ -72,22 +72,6 @@ public class User {
         this.is_banned = false;
     }
 
-    
-    // Create a new user with a first and last name
-//    public static void addUser(String user_uid, Object u, StringCallback callback) {
-//        DatabaseUtils.addData(col, user_uid, u, new StringCallback(){
-//            public void passStringResult(String result){
-//                if(result.equals(Tags.SUCCESS.name())){
-//                    Log.w(Tags.SUCCESS.name(), "ADDED DATA");
-//                    callback.passStringResult(Tags.SUCCESS.name());
-//                }else {
-//                    Log.w(Tags.FAILURE.name(), "ERROR: FAILED TO ADD DATA");
-//                    callback.passStringResult(Tags.FAILURE.name());
-//                }
-//            }
-//        });
-//    }
-
     // wouldnt need a parameter when class is used for initialization of user
     public static void getEmail(String user_id, StringCallback callback){
         DatabaseUtils.db.collection(col).document(user_id)
@@ -130,10 +114,10 @@ public class User {
 
                                 callback.passHashmapResult(user);
 
-                            }else Log.w(Tags.FAILURE.name(), "ERROR: EMAIL NOT FOUND ");
+                            }else Log.w(Tags.FAILURE.name(), "ERROR: EMAIL NOT FOUND; User.java ");
 
                         } else {
-                            Log.w(Tags.FAILURE.name(), "ERROR: DOCUMENT NOT FOUND ", task.getException());
+                            Log.w(Tags.FAILURE.name(), "ERROR: DOCUMENT NOT FOUND; User.java ", task.getException());
                         }
                     }
                 });

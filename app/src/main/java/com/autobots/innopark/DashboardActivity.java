@@ -11,7 +11,9 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
@@ -20,10 +22,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Toast;
 
 import com.autobots.innopark.data.Tags;
 import com.autobots.innopark.data.User;
 import com.autobots.innopark.data.UserApi;
+import com.autobots.innopark.data.UserSessionManager;
 import com.autobots.innopark.fragment.HomeFragment;
 import com.autobots.innopark.fragment.MenuFragment;
 import com.autobots.innopark.fragment.NotificationFragment;
@@ -47,6 +51,8 @@ public class DashboardActivity extends AppCompatActivity {
     private String currentUserUid;
     private View decorView;
 
+    //shared preference for retrieving info from login state
+    SharedPreferences userSession;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -50,8 +50,6 @@ public class NotificationService extends FirebaseMessagingService {
 //        if (Config.current_user_email == null) Config.current_user_email = FirebaseAuth.getInstance().getCurrentUser().getEmail();
 
         Map<String, Object> token_data = new HashMap<>();
-//        token_data.put("email_address", Config.current_user_email);
-//        Map<String, Object> notif_data = new HashMap<>();
 
         Map<String, Object> notif_data = new HashMap<>();
 
@@ -101,6 +99,8 @@ public class NotificationService extends FirebaseMessagingService {
                 .setContentTitle(title)
                 .setContentText(message)
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                .setStyle(new NotificationCompat.BigTextStyle()
+                        .bigText(message))
                 // Below intent will fire when the notification is tapped
                 .setContentIntent(pendingIntent)
                 .setAutoCancel(true);

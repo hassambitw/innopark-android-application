@@ -10,7 +10,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -25,6 +27,7 @@ import com.autobots.innopark.data.Tags;
 import com.autobots.innopark.data.Tariff;
 import com.autobots.innopark.data.User;
 import com.autobots.innopark.data.UserApi;
+import com.autobots.innopark.data.UserSessionManager;
 import com.autobots.innopark.fragment.NotificationService;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -62,6 +65,11 @@ public class LoginActivity extends AppCompatActivity
     //firebase messaging
     private static final String channel_id = Config.channel_id;
 
+    //shared preference for saving login state
+    UserSessionManager userSessionManager;
+
+    UserSessionManager userSession;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -72,8 +80,8 @@ public class LoginActivity extends AppCompatActivity
         createNotificationChannel();
         getRegistrationToken();
 
-        FirebaseMessaging firebaseMessaging = FirebaseMessaging.getInstance();
-        firebaseMessaging.subscribeToTopic("welcome_to_innopark");
+//        FirebaseMessaging firebaseMessaging = FirebaseMessaging.getInstance();
+//        firebaseMessaging.subscribeToTopic("welcome_to_innopark");
 
         register_tv = findViewById(R.id.id_register_text);
         login_btn = findViewById(R.id.id_login_btn);
@@ -81,13 +89,35 @@ public class LoginActivity extends AppCompatActivity
         email_et = findViewById(R.id.id_email);
         password_et = findViewById(R.id.id_password);
 
+//        sharedPreferences = getApplicationContext().getSharedPreferences(Config.email_shared_key, Context.MODE_PRIVATE);
+//        if (sharedPreferences.contains(Config.email_shared_key)){
+//            startActivity(new Intent(LoginActivity.this, DashboardActivity.class));
+//        }
+
+//        sharedPreferences = getApplicationContext().getSharedPreferences(UserSessionManager.email_shared_key, MODE_PRIVATE);
+//        String login_email = sharedPreferences.getString(Config.email_shared_key, null);
+
+//
+//        if (login_email != null){
+//            UserApi userApi = UserApi.getInstance();
+//            userApi.setUserEmail(login_email);
+//            startActivity(new Intent(LoginActivity.this, DashboardActivity.class));
+//        }
+        userSession = new UserSessionManager(LoginActivity.this);
+        boolean loginStatus = userSession.checkLoginStatus();
+        if (loginStatus)
+        {
+            UserApi userApi = UserApi.getInstance();
+            userApi.setUserEmail(userSession.getUserEmail());
+            startActivity(new Intent(LoginActivity.this, DashboardActivity.class));
+        }
+
         register_tv.setOnClickListener(view -> {
             startActivity(new Intent(LoginActivity.this, RegisterActivity.class));
         });
 
         login_btn.setOnClickListener(view -> {
             loginUser();
-            //startActivity(new Intent(LoginActivity.this, DashboardActivity.class));
         });
 
         forgot_password_tv.setOnClickListener(view -> {
@@ -97,6 +127,7 @@ public class LoginActivity extends AppCompatActivity
 
     }
 
+    // once user opens the app, get token
     private void getRegistrationToken(){
         FirebaseMessaging.getInstance().getToken().addOnCompleteListener(new OnCompleteListener<String>() {
             @Override
@@ -118,7 +149,7 @@ public class LoginActivity extends AppCompatActivity
 
     private void createNotificationChannel() {
         String channel_name = "innopark_notification_channel";
-        String channel_description = "receive test notification";
+        String channel_description = "send welcoming notification";
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             CharSequence name = channel_name;
@@ -138,22 +169,23 @@ public class LoginActivity extends AppCompatActivity
 
         if (!TextUtils.isEmpty(email) && !TextUtils.isEmpty(password))
         {
+            Log.w("SUCCESS", "TOKEN IS "+Config.current_user_token);
+
             firebaseAuth.signInWithEmailAndPassword(email,password)
                     .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()) {
+                                // update token of user if needed
                                 if (Config.new_token_status) {
                                     NotificationService.sendRegistrationTokenToServer(Config.current_user_token);
                                     Config.new_token_status = false;
                                 }
 
-                                UserApi userApi = UserApi.getInstance();
-                                userApi.setUserEmail(email);
-
-                                if (Config.current_user_email == null){
+                                if (Config.current_user_email == null) {
                                     Config.current_user_email = email;
 
+                                    // add an email address to the new token id registered
                                     DatabaseUtils.db.collection("users_tokens")
                                             .whereEqualTo("token_id", Config.current_user_token)
                                             .get()
@@ -173,14 +205,25 @@ public class LoginActivity extends AppCompatActivity
                                                     }
                                                 }
                                             });
+
+                                    // add token and username to user session
+                                    userSession.createLoginSession(email);
+
+//                                SharedPreferences.Editor shared_preference_editor = getSharedPreferences(Config.login_activity_shared_key, MODE_PRIVATE).edit();
+//                                shared_preference_editor.putString(Config.email_shared_key, email);
+//                                shared_preference_editor.putString(Config.password_shared_key, password);
+//                                shared_preference_editor.commit();
+
+                                    UserApi userApi = UserApi.getInstance();
+                                    userApi.setUserEmail(email);
+
+                                    Log.d("TAG", "onComplete: " + currentUserName);
+
+                                    Toast.makeText(getApplicationContext(), "User logged in successfully", Toast.LENGTH_SHORT).show();
+                                    startActivity(new Intent(getApplicationContext(), DashboardActivity.class));
+                                } else {
+                                    Toast.makeText(getApplicationContext(), "Login error: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                                 }
-
-                                Log.d("TAG", "onComplete: " + currentUserName);
-
-                                Toast.makeText(getApplicationContext(), "User logged in successfully", Toast.LENGTH_SHORT).show();
-                                startActivity(new Intent(getApplicationContext(), DashboardActivity.class));
-                            } else {
-                                Toast.makeText(getApplicationContext(), "Login error: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                             }
                         }
                     });
