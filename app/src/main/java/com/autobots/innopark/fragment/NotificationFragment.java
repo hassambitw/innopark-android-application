@@ -106,7 +106,8 @@ public class NotificationFragment extends Fragment {
 
     private void loadNotifications()
     {
-        db.collection("users_tokens").whereEqualTo("token_id", Config.current_user_token)
+        db.collection("users_tokens")
+                .whereEqualTo("email_address", Config.current_user_email)
                 .get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {

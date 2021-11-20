@@ -66,9 +66,7 @@ public class LoginActivity extends AppCompatActivity
     private static final String channel_id = Config.channel_id;
 
     //shared preference for saving login state
-    UserSessionManager userSessionManager;
-
-    UserSessionManager userSession;
+    public static UserSessionManager userSession;
 
 
     @Override
@@ -80,35 +78,24 @@ public class LoginActivity extends AppCompatActivity
         createNotificationChannel();
         getRegistrationToken();
 
-//        FirebaseMessaging firebaseMessaging = FirebaseMessaging.getInstance();
-//        firebaseMessaging.subscribeToTopic("welcome_to_innopark");
-
         register_tv = findViewById(R.id.id_register_text);
         login_btn = findViewById(R.id.id_login_btn);
         forgot_password_tv = findViewById(R.id.id_forgot_password_txt);
         email_et = findViewById(R.id.id_email);
         password_et = findViewById(R.id.id_password);
 
-//        sharedPreferences = getApplicationContext().getSharedPreferences(Config.email_shared_key, Context.MODE_PRIVATE);
-//        if (sharedPreferences.contains(Config.email_shared_key)){
-//            startActivity(new Intent(LoginActivity.this, DashboardActivity.class));
-//        }
+        // ToDo: add a progress bar here
 
-//        sharedPreferences = getApplicationContext().getSharedPreferences(UserSessionManager.email_shared_key, MODE_PRIVATE);
-//        String login_email = sharedPreferences.getString(Config.email_shared_key, null);
-
-//
-//        if (login_email != null){
-//            UserApi userApi = UserApi.getInstance();
-//            userApi.setUserEmail(login_email);
-//            startActivity(new Intent(LoginActivity.this, DashboardActivity.class));
-//        }
+        // reset user details if user using saved session
         userSession = new UserSessionManager(LoginActivity.this);
+        Config.loginSession = userSession;
         boolean loginStatus = userSession.checkLoginStatus();
+
         if (loginStatus)
         {
             UserApi userApi = UserApi.getInstance();
             userApi.setUserEmail(userSession.getUserEmail());
+            Config.current_user_token = userSession.getUserToken();
             startActivity(new Intent(LoginActivity.this, DashboardActivity.class));
         }
 
@@ -149,7 +136,7 @@ public class LoginActivity extends AppCompatActivity
 
     private void createNotificationChannel() {
         String channel_name = "innopark_notification_channel";
-        String channel_description = "send welcoming notification";
+        String channel_description = "channel used to send notifications to user";
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             CharSequence name = channel_name;
@@ -177,16 +164,14 @@ public class LoginActivity extends AppCompatActivity
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()) {
                                 // update token of user if needed
-                                if (Config.new_token_status) {
-                                    NotificationService.sendRegistrationTokenToServer(Config.current_user_token);
-                                    Config.new_token_status = false;
-                                }
+                                NotificationService.sendRegistrationTokenToServer(Config.current_user_token, email);
 
                                 if (Config.current_user_email == null) {
                                     Config.current_user_email = email;
 
                                     // add an email address to the new token id registered
                                     DatabaseUtils.db.collection("users_tokens")
+                                            .whereEqualTo("email_address", "")
                                             .whereEqualTo("token_id", Config.current_user_token)
                                             .get()
                                             .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -207,7 +192,7 @@ public class LoginActivity extends AppCompatActivity
                                             });
 
                                     // add token and username to user session
-                                    userSession.createLoginSession(email);
+                                    userSession.createLoginSession(Config.current_user_token, email);
 
 //                                SharedPreferences.Editor shared_preference_editor = getSharedPreferences(Config.login_activity_shared_key, MODE_PRIVATE).edit();
 //                                shared_preference_editor.putString(Config.email_shared_key, email);

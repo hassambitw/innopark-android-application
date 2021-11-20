@@ -65,6 +65,16 @@ public class DashboardActivity extends AppCompatActivity {
         bottom_nav = findViewById(R.id.id_bottom_nav_menu);
         bottom_nav.setOnItemSelectedListener(navigationItemSelectedListener);
 
+//        System.out.println("Try to get shared pref!!!!!!!!!!!!");
+//        userSession = getSharedPreferences(UserSessionManager.login_activity_shared_key, Context.MODE_PRIVATE);
+//        if(userSession.contains(UserSessionManager.email_shared_key))
+//        {
+//            System.out.println("SHARED PREFERENCE RETRIEVED!!!!!!!!!!!!");
+//            String current_user_email = userSession.getString(UserSessionManager.email_shared_key, "");
+//            Config.current_user_email = current_user_email;
+//            Log.w("SUCCESS", "WELCOME "+current_user_email);
+//        }
+
         //getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         //getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
 

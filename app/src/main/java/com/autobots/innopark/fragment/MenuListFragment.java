@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
+import android.content.SharedPreferences;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -23,11 +24,13 @@ import android.widget.GridLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.autobots.innopark.Config;
 import com.autobots.innopark.data.DatabaseUtils;
 import com.autobots.innopark.LoginActivity;
 import com.autobots.innopark.R;
 import com.autobots.innopark.adapter.MenuRecyclerViewAdapter;
 import com.autobots.innopark.data.MenuItemList;
+import com.autobots.innopark.data.UserSessionManager;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -132,6 +135,7 @@ public class MenuListFragment extends Fragment implements MenuRecyclerViewAdapte
                         {
                             if (user != null && firebaseAuth != null )
                             {
+                                Config.loginSession.logoutFromSession();
                                 firebaseAuth.signOut();
                                 Toast.makeText(getActivity(), "User signed out", Toast.LENGTH_SHORT).show();
                                 startActivity(new Intent(getActivity(), LoginActivity.class));

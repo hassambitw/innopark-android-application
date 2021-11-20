@@ -24,14 +24,19 @@ public class UserSessionManager {
         editor_userSession = userSession.edit();
     }
 
-    public void createLoginSession(String email_address){
-//        editor_userSession.putString(token_shared_key, token);
+    public void createLoginSession(String token, String email_address){
+        editor_userSession.putString(token_shared_key, token);
         editor_userSession.putString(email_shared_key, email_address);
+        Config.current_user_email = email_address;
         editor_userSession.commit();
     }
 
     public String getUserEmail(){
         return userSession.getString(email_shared_key, null);
+    }
+
+    public String getUserToken(){
+        return userSession.getString(token_shared_key, null);
     }
 
     public boolean checkLoginStatus(){
@@ -42,6 +47,9 @@ public class UserSessionManager {
     }
 
     public void logoutFromSession(){
+        Config.current_user_token = null;
+        Config.current_user_email = null;
+
         editor_userSession.clear();
         editor_userSession.commit();
     }

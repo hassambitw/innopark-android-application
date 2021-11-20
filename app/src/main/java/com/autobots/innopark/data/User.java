@@ -32,25 +32,15 @@ public class User {
     private List<String> vehicles_driven;
     private boolean is_banned;
 
-    private String user_uid_field = "user_uid";
-    private String email_address_field = "email_address";
-    private String first_name_field =  "first_name";
-    private String last_name_field = "last_name";
-    private String user_id_card_number_field = "user_id_card_number";
-    private String phone_number_field = "phone_number";
-    private String vehicles_owned_field = "vehicles_owned";
-    private String vehicles_driven_field = "vehicles_driven";
-    private String is_banned_field = "is_banned";
-
-    public static String user_uid_field1 = "user_uid";
-    public static String email_address_field1 = "email_address";
-    public static String first_name_field1 =  "first_name";
-    public static String last_name_field1 = "last_name";
-    public static String user_id_card_number_field1 = "user_id_card_number";
-    public static String phone_number_field1 = "phone_number";
-    public static String vehicles_owned_field1 = "vehicles_owned";
-    public static String vehicles_driven_field1 = "vehicles_driven";
-    public static String is_banned_field1 = "is_banned";
+    public static String user_uid_field = "user_uid";
+    public static String email_address_field = "email_address";
+    public static String first_name_field =  "first_name";
+    public static String last_name_field = "last_name";
+    public static String user_id_card_number_field = "user_id_card_number";
+    public static String phone_number_field = "phone_number";
+    public static String vehicles_owned_field = "vehicles_owned";
+    public static String vehicles_driven_field = "vehicles_driven";
+    public static String is_banned_field = "is_banned";
 
     private String collection = Config.USERS_TABLE;
     public static String col = Config.USERS_TABLE;
@@ -82,7 +72,7 @@ public class User {
                         DocumentSnapshot document = task.getResult();
                         if (document != null && document.exists()) {
                             //Log.w("SUCCESS", document.getString(email_address_field1));
-                            callback.passStringResult(document.getString(email_address_field1));
+                            callback.passStringResult(document.getString(email_address_field));
                         } else {
                             Log.w(Tags.FAILURE.name(), "No such document");
                             callback.passStringResult("");
@@ -97,7 +87,7 @@ public class User {
     //change to private
     public static void getUser(String email_address, HashmapCallback callback){
         DatabaseUtils.db.collection(col)
-                .whereEqualTo(email_address_field1, email_address)
+                .whereEqualTo(email_address_field, email_address)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
