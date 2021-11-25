@@ -207,6 +207,12 @@ public class RegisterActivity extends AppCompatActivity {
                                                                             //create user map so we can add a user to user collection in firestore
                                                                             //change this to license number entered by user if he owns a vehicle
 
+                                                                            Map<String, Object> vehicle = new HashMap<>();
+
+
+//                                                                            db.collection("vehicles")
+//                                                                                    .add
+
                                                                             Map<String, Object> user = new HashMap<>();
                                                                             user.put("email_address", email);
                                                                             user.put("first_name", first_name);

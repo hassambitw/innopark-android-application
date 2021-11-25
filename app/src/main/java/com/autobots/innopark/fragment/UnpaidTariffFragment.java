@@ -145,9 +145,9 @@ public class UnpaidTariffFragment extends Fragment implements TariffInactiveSess
                                     Date currentDate = new Date();
 
 
-                                    if (due_datetime.after(currentDate)) {
-                                        Log.d(TAG, "onSuccess: Due date is after current day where the due date is: " + due_datetime +
-                                                " and the current date is " + currentDate);
+                                    if (currentDate.after(due_datetime)) {
+                                        Log.d(TAG, "onSuccess: Current date is after due date where the due date is: " + due_datetime +
+                                                " and the current date is " + currentDate + " so this is a fine and is skipped.");
                                         continue;
                                     }
 

@@ -52,6 +52,7 @@ import java.util.stream.Collectors;
 public class HomeFragment extends Fragment
 {
 
+    public static final String TAG = "HomeFragment";
     ImageView arrow;
     ImageView profile;
     CardView parkingCardView;
@@ -186,25 +187,35 @@ public class HomeFragment extends Fragment
                     String firstName = (String) result.get("first_name");
                     String lastName = (String) result.get("last_name");
                     String fullName = firstName + " " + lastName;
+                    boolean owned = false;
+                    boolean driven = false;
 
                     //getting vehicles owned
-                    vehiclesOwned = (List<String>) result.get("vehicles_owned");
-
-                    userApi.setVehiclesOwned((List<String>) result.get("vehicles_owned"));
+                    if (result.get("vehicles_owned") != null) {
+                        vehiclesOwned = (List<String>) result.get("vehicles_owned");
+                        userApi.setVehiclesOwned((List<String>) result.get("vehicles_owned"));
+                        owned = true;
+                    }
                     // Log.d("TAG", "passHashmapResult: " + userApi.getVehiclesOwned());
 
                     //vehicles driven
-                    vehiclesDriven = (List<String>) result.get("vehicles_driven");
-
-                    userApi.setVehiclesDriven((List<String>) result.get("vehicles_driven"));
+                    if (result.get("vehicles_driven") != null) {
+                        vehiclesDriven = (List<String>) result.get("vehicles_driven");
+                        userApi.setVehiclesDriven((List<String>) result.get("vehicles_driven"));
+                        driven = true;
+                    }
                     //Log.d("Tag", "passHashmapResult: " + userApi.getVehiclesDriven());
 
-                    vehiclesDriven.addAll(Objects.requireNonNull(vehiclesOwned));
+                    if (owned || driven) {
+                        vehiclesDriven.addAll(Objects.requireNonNull(vehiclesOwned));
 
-                    vehiclesCombined = vehiclesDriven
-                            .stream()
-                            .distinct()
-                            .collect(Collectors.toList());
+                        vehiclesCombined = vehiclesDriven
+                                .stream()
+                                .distinct()
+                                .collect(Collectors.toList());
+
+                        userApi.setVehiclesCombined(vehiclesCombined);
+                    }
 
                     //Log.d(TAG, "passHashmapResult: " + vehiclesCombined);
 
@@ -214,11 +225,10 @@ public class HomeFragment extends Fragment
                         userApi.setUserId(currentUserUid);
                     }
                     userApi.setUsername(fullName);
-                    userApi.setVehiclesCombined(vehiclesCombined);
 
-                    if (vehiclesCombined != null)
+                    if (!vehiclesCombined.isEmpty())
                     {
-                        Log.d(TAG, "passHashmapResult: Inside");
+//                        Log.d(TAG, "passHashmapResult: Inside" + " Vehicles combined: " + vehiclesCombined);
                         db.collectionGroup("sessions_info")
                                 .whereEqualTo("end_datetime", null)
                                 .whereIn("vehicle", Objects.requireNonNull(vehiclesCombined))

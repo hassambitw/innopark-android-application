@@ -112,7 +112,7 @@ public class TariffListFragment extends Fragment implements TariffActiveSessionR
         mRecyclerViewActive = view.findViewById(R.id.id_recycler_view_tariff);
         mRecyclerViewInactive = view.findViewById(R.id.id_recycler_view_tariff_2);
 
-       args2 = new Bundle();
+        args2 = new Bundle();
 
         vehiclesCombined = new ArrayList<>();
         unpaidTariffItems = new ArrayList<>();
@@ -142,11 +142,8 @@ public class TariffListFragment extends Fragment implements TariffActiveSessionR
         super.onStart();
 
         loadActiveData();
-        try {
-            loadUnpaidData();
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+        loadUnpaidData();
+
     }
 
     private void loadActiveData()
@@ -172,13 +169,13 @@ public class TariffListFragment extends Fragment implements TariffActiveSessionR
                                     tariff = snapshot.toObject(Session.class);
                                     activeTariffItems.add(tariff);
 
-                                    if (activeTariffItems.size() == 0) {
-                                        mRecyclerViewActive.setVisibility(View.INVISIBLE);
-                                        emptyView.setVisibility(View.VISIBLE);
-                                    } else {
-                                        mRecyclerViewActive.setVisibility(View.VISIBLE);
-                                        emptyView.setVisibility(View.INVISIBLE);
-                                    }
+//                                    if (activeTariffItems.size() == 0) {
+//                                        mRecyclerViewActive.setVisibility(View.INVISIBLE);
+//                                        emptyView.setVisibility(View.VISIBLE);
+//                                    } else {
+//                                        mRecyclerViewActive.setVisibility(View.VISIBLE);
+//                                        emptyView.setVisibility(View.INVISIBLE);
+//                                    }
 
                                 } catch (Exception e) {
                                     Log.d(TAG, "onSuccess: " + e.getMessage());
@@ -188,11 +185,15 @@ public class TariffListFragment extends Fragment implements TariffActiveSessionR
                                 Log.d(TAG, "onSuccess: Parent Doc ID of Active: " + parent_id);
 
                             }
-                            setupActiveRecyclerView();
+//                            setupActiveRecyclerView();
 
                         } else {
                             Log.d(TAG, "onSuccess: Query document snapshots empty");
+//                            mRecyclerViewActive.setVisibility(View.INVISIBLE);
+                            emptyView.setVisibility(View.VISIBLE);
                         }
+
+                        setupActiveRecyclerView();
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -204,7 +205,7 @@ public class TariffListFragment extends Fragment implements TariffActiveSessionR
 
     }
 
-    private void loadUnpaidData() throws ParseException {
+    private void loadUnpaidData() {
 
         UserApi userApi = UserApi.getInstance();
         String email = userApi.getUserEmail();
@@ -212,8 +213,6 @@ public class TariffListFragment extends Fragment implements TariffActiveSessionR
         vehiclesCombined = userApi.getVehiclesCombined();
 
         Date currentDate = new Date();
-
-
 
 
         db.collectionGroup("sessions_info")
@@ -250,8 +249,8 @@ public class TariffListFragment extends Fragment implements TariffActiveSessionR
 ////                                    Date parsedDate = simpleDateFormat.parse(newCurrentDate);
 //
                                     if (currentDate.after(due_datetime)) {
-                                        Log.d(TAG, "onSuccess: Due date is after current day where the due date is: " + due_datetime +
-                                                " and the current date is " + currentDate);
+                                        Log.d(TAG, "onSuccess: Current date is after due date where the due date is: " + due_datetime +
+                                                " and the current date is " + currentDate + " so it is a fine and is skipped");
                                         continue;
                                     }
 //                                    } else {
