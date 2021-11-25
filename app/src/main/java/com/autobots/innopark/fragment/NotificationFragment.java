@@ -32,9 +32,11 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -48,6 +50,7 @@ public class NotificationFragment extends Fragment {
     private RecyclerView.LayoutManager mLayoutManager;
     private TextView toolbar_title;
     private ArrayList<Map<String, Object>> notifs_array;
+//    private ArrayList<Map<String, Object>> reversed_notifs_array;
 
     final FirebaseAuth firebaseAuth = DatabaseUtils.firebaseAuth;
     FirebaseUser currentUser;
@@ -81,6 +84,7 @@ public class NotificationFragment extends Fragment {
         mRecyclerView = view.findViewById(R.id.id_notifications_recycler_view);
 
         notifs_array = new ArrayList<>();
+//        reversed_notifs_array = new ArrayList<>();
 
         setupToolbar(view);
 
@@ -111,7 +115,8 @@ public class NotificationFragment extends Fragment {
                 .get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                Log.d(Tags.SUCCESS.name(), "Successfully loading notification");
+//                Log.d(Tags.SUCCESS.name(), "Successfully loading notification");
+                Log.d(TAG, "onSuccess: Inside on Success" );
                 if (!queryDocumentSnapshots.isEmpty()) {
                     List<DocumentSnapshot> snapshotList = queryDocumentSnapshots.getDocuments();
                     for (DocumentSnapshot snapshot : snapshotList) {
@@ -119,20 +124,24 @@ public class NotificationFragment extends Fragment {
                             user_token = snapshot.toObject(UserToken.class);
 
                             notifs_array = user_token.getNotif();
+                            Collections.reverse(notifs_array);
                             Log.d(TAG, "onSuccess: Inside loop");
 
-                            Log.d(Tags.SUCCESS.name(), "Notification: DATA FETCHED: "+ notifs_array);
+//                            Log.d(Tags.SUCCESS.name(), "Notification: DATA FETCHED: "+ notifs_array);
+                            Log.d(TAG, "onSuccess: " + "Notification data fetched");
 
 
                         } catch (Exception e) {
-                            Log.d(Tags.SUCCESS.name(), "Notification: Failed to get users_tokens object " + e.getMessage());
+//                            Log.d(Tags.SUCCESS.name(), "Notification: Failed to get users_tokens object " + e.getMessage());
+                            Log.d(TAG, "onSuccess: " + "Notification: failed to get users_tokens object" + e.getMessage());
                         }
 
                     }
                     setupRecyclerView();
 
                 } else {
-                    Log.d(Tags.FAILURE.name(), "Notifications: no such user token exists in db");
+//                    Log.d(Tags.FAILURE.name(), "Notifications: no such user token exists in db");
+                    Log.d(TAG, "Notifications: no such user token exists in db");
                 }
             }
         });

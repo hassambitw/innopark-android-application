@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.firebase.Timestamp;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -18,16 +17,20 @@ import com.autobots.innopark.data.DatabaseUtils;
 import com.autobots.innopark.data.UserToken;
 import com.chauthai.swipereveallayout.SwipeRevealLayout;
 import com.chauthai.swipereveallayout.ViewBinderHelper;
+import com.google.firebase.Timestamp;
 import com.google.type.DateTime;
 
+import java.sql.Time;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 public class NotificationsRecyclerViewAdapter extends RecyclerView.Adapter<NotificationsRecyclerViewAdapter.MySwipeViewHolder> {
 
     private static Context context;
+    public static final String TAG = "NotificationsRecyclerViewAdapter";
     private ArrayList<Map<String, Object>> notifications;
     private final ViewBinderHelper vbh = new ViewBinderHelper();
 
@@ -63,10 +66,32 @@ public class NotificationsRecyclerViewAdapter extends RecyclerView.Adapter<Notif
 //        Log.d("ONSUCCESS", "DIFFERENCE BETWEEN THE TWO TIMESTAMPS: "+time_difference);
 
          Date current_time = new Date();
-         Date notif_time = (Date) mNotifs.get("notif_datetime");
-         long elapsed_time = current_time.getTime() - notif_time.getTime();
+         Timestamp notif_time = (Timestamp) mNotifs.get("notif_datetime");
+         Date notif_time_d = notif_time.toDate();
 
-         holder.mNotificationTime.setText(elapsed_time + "");
+         long elapsed_time = current_time.getTime() - notif_time_d.getTime();
+         long difference_in_seconds = TimeUnit.MILLISECONDS.toSeconds(elapsed_time) % 60;
+         long difference_in_minutes = TimeUnit.MILLISECONDS.toMinutes(elapsed_time) % 60;
+         long difference_in_hours = TimeUnit.MILLISECONDS.toHours(elapsed_time) % 24;
+         long difference_in_days = TimeUnit.MILLISECONDS.toDays(elapsed_time);
+
+        Log.d(TAG, "onBindViewHolder: " + "\n" + "Current time: " + current_time + "\n" + "Notif_time_d: " + notif_time_d + "\n" + "Elapsed time: " + elapsed_time + "\n" + "Seconds: " + difference_in_seconds + "\n" + "Minutes: " +
+                difference_in_minutes + "\n" + "Hours: " + difference_in_hours + "\n" + "Days: " + difference_in_days);
+
+         if (difference_in_minutes < 1)
+             holder.mNotificationTime.setText(difference_in_seconds + "s Ago");
+
+         if (difference_in_minutes >= 1 && difference_in_hours < 1)
+             holder.mNotificationTime.setText(difference_in_minutes + "m Ago");
+
+         if (difference_in_hours >= 1 && difference_in_days < 1)
+             holder.mNotificationTime.setText(difference_in_hours + "h ago");
+
+         if (difference_in_days >= 1)
+             holder.mNotificationTime.setText(difference_in_days + "d ago");
+
+
+         //holder.mNotificationTime.setText(elapsed_time + "");
 
     }
 
