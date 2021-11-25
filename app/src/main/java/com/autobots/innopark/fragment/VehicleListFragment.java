@@ -92,7 +92,7 @@ public class VehicleListFragment extends Fragment implements VehicleRecyclerView
         ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(false);
         ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         toolbarTitle = toolbar.findViewById(R.id.id_toolbar_title);
-        toolbarTitle.setText("Customer Support");
+        toolbarTitle.setText("Vehicles");
 
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override

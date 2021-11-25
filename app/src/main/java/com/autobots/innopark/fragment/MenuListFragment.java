@@ -109,7 +109,7 @@ public class MenuListFragment extends Fragment implements MenuRecyclerViewAdapte
         menuItem.add(new MenuItemList(R.drawable.menu_car, "Vehicles"));
         menuItem.add(new MenuItemList(R.drawable.menu_customer_service, "Customer Service"));
         menuItem.add(new MenuItemList(R.drawable.menu_faq, "FAQ"));
-        menuItem.add(new MenuItemList(R.drawable.menu_admin_panel, "Admin Panel"));
+//        menuItem.add(new MenuItemList(R.drawable.menu_admin_panel, "Admin Panel"));
     }
 
     private void setupRecyclerView(View view)
@@ -137,7 +137,7 @@ public class MenuListFragment extends Fragment implements MenuRecyclerViewAdapte
                             {
                                 Config.loginSession.logoutFromSession();
                                 firebaseAuth.signOut();
-                                Toast.makeText(getActivity(), "User signed out", Toast.LENGTH_SHORT).show();
+//                                Toast.makeText(getActivity(), "User signed out", Toast.LENGTH_SHORT).show();
                                 startActivity(new Intent(getActivity(), LoginActivity.class));
                             }
                         }
@@ -163,7 +163,7 @@ public class MenuListFragment extends Fragment implements MenuRecyclerViewAdapte
     public void onMenuClick(int position)
     {
         Log.d("TAG", "onMenuClick: " + position);
-        Toast.makeText(getActivity(), "Clicked " + position, Toast.LENGTH_SHORT).show();
+//        Toast.makeText(getActivity(), "Clicked " + position, Toast.LENGTH_SHORT).show();
         Fragment selectedFragment = null;
 
 
@@ -217,18 +217,18 @@ public class MenuListFragment extends Fragment implements MenuRecyclerViewAdapte
                         .commit();
                 break;
             }
-            case 4:
-            {
-                selectedFragment = new AdminPanelFragment();
-                getActivity().getSupportFragmentManager()
-                        .beginTransaction()
-                        .setReorderingAllowed(true)
-                        .setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_right, R.anim.enter_from_right, R.anim.exit_to_right)
-                        .addToBackStack(null)
-                        .replace(R.id.id_child_fragment_container_view, selectedFragment)
-                        .commit();
-                break;
-            }
+//            case 4:
+//            {
+//                selectedFragment = new AdminPanelFragment();
+//                getActivity().getSupportFragmentManager()
+//                        .beginTransaction()
+//                        .setReorderingAllowed(true)
+//                        .setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_right, R.anim.enter_from_right, R.anim.exit_to_right)
+//                        .addToBackStack(null)
+//                        .replace(R.id.id_child_fragment_container_view, selectedFragment)
+//                        .commit();
+//                break;
+//            }
 
 
         }

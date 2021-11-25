@@ -7,6 +7,7 @@ import com.autobots.innopark.data.DatabaseUtils;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -17,8 +18,10 @@ import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -53,6 +56,9 @@ public class LoginActivity extends AppCompatActivity
     private EditText password_et;
     private String currentUserName;
     private String currentUserId;
+    private ProgressBar progressBar;
+    ConstraintLayout layout;
+    TextView loadingText;
 
     //Firebase Auth
     private FirebaseAuth firebaseAuth = DatabaseUtils.firebaseAuth;
@@ -83,21 +89,28 @@ public class LoginActivity extends AppCompatActivity
         forgot_password_tv = findViewById(R.id.id_forgot_password_txt);
         email_et = findViewById(R.id.id_email);
         password_et = findViewById(R.id.id_password);
+        progressBar = findViewById(R.id.id_login_progress_bar);
+        layout = findViewById(R.id.id_login_second_constraint);
+        loadingText = findViewById(R.id.id_login_loading_text);
 
         // ToDo: add a progress bar here
+//        progressBar.setVisibility(View.VISIBLE);
 
         // reset user details if user using saved session
         userSession = new UserSessionManager(LoginActivity.this);
-        Config.loginSession = userSession;
-        boolean loginStatus = userSession.checkLoginStatus();
+            Config.loginSession = userSession;
+            boolean loginStatus = userSession.checkLoginStatus();
 
-        if (loginStatus)
-        {
-            UserApi userApi = UserApi.getInstance();
-            userApi.setUserEmail(userSession.getUserEmail());
-            Config.current_user_token = userSession.getUserToken();
-            startActivity(new Intent(LoginActivity.this, DashboardActivity.class));
-        }
+            if (loginStatus) {
+                layout.setVisibility(View.GONE);
+                progressBar.setVisibility(View.VISIBLE);
+                loadingText.setVisibility(View.VISIBLE);
+                UserApi userApi = UserApi.getInstance();
+                userApi.setUserEmail(userSession.getUserEmail());
+                Config.current_user_token = userSession.getUserToken();
+                startActivity(new Intent(LoginActivity.this, DashboardActivity.class));
+//                progressBar.setVisibility(View.GONE);
+            }
 
         register_tv.setOnClickListener(view -> {
             startActivity(new Intent(LoginActivity.this, RegisterActivity.class));
@@ -162,54 +175,61 @@ public class LoginActivity extends AppCompatActivity
                     .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
-                            if (task.isSuccessful()) {
-                                // update token of user if needed
-                                NotificationService.sendRegistrationTokenToServer(Config.current_user_token, email);
+                            currentUser = firebaseAuth.getCurrentUser();
+                            if (task.isSuccessful())
+                            {
+                                if (currentUser.isEmailVerified())
+                                {
+                                    // update token of user if needed
+                                    NotificationService.sendRegistrationTokenToServer(Config.current_user_token, email);
 
-                                if (Config.current_user_email == null) {
-                                    Config.current_user_email = email;
+                                    if (Config.current_user_email == null) {
+                                        Config.current_user_email = email;
 
-                                    // add an email address to the new token id registered
-                                    DatabaseUtils.db.collection("users_tokens")
-                                            .whereEqualTo("email_address", "")
-                                            .whereEqualTo("token_id", Config.current_user_token)
-                                            .get()
-                                            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                                                @Override
-                                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                                    if (task.isSuccessful()) {
-                                                        for (QueryDocumentSnapshot document : task.getResult()) {
-                                                            Log.d(Tags.SUCCESS.name(), document.getId() + " => " + document.getData());
+                                        // add an email address to the new token id registered
+                                        DatabaseUtils.db.collection("users_tokens")
+                                                .whereEqualTo("email_address", "")
+                                                .whereEqualTo("token_id", Config.current_user_token)
+                                                .get()
+                                                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                                    @Override
+                                                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                                        if (task.isSuccessful()) {
+                                                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                                                Log.d(Tags.SUCCESS.name(), document.getId() + " => " + document.getData());
 
-                                                            DatabaseUtils.updateData("users_tokens",
-                                                                    document.getId(), "email_address", email);
+                                                                DatabaseUtils.updateData("users_tokens",
+                                                                        document.getId(), "email_address", email);
 
+                                                            }
+                                                        } else {
+                                                            Log.d(Tags.FAILURE.name(), "LOGIN ACTIVITY: Token_id doesn't exist: ", task.getException());
                                                         }
-                                                    } else {
-                                                        Log.d(Tags.FAILURE.name(), "LOGIN ACTIVITY: Token_id doesn't exist: ", task.getException());
                                                     }
-                                                }
-                                            });
+                                                });
 
-                                    // add token and username to user session
-                                    userSession.createLoginSession(Config.current_user_token, email);
+                                        // add token and username to user session
+                                        userSession.createLoginSession(Config.current_user_token, email);
 
-//                                SharedPreferences.Editor shared_preference_editor = getSharedPreferences(Config.login_activity_shared_key, MODE_PRIVATE).edit();
-//                                shared_preference_editor.putString(Config.email_shared_key, email);
-//                                shared_preference_editor.putString(Config.password_shared_key, password);
-//                                shared_preference_editor.commit();
+    //                                SharedPreferences.Editor shared_preference_editor = getSharedPreferences(Config.login_activity_shared_key, MODE_PRIVATE).edit();
+    //                                shared_preference_editor.putString(Config.email_shared_key, email);
+    //                                shared_preference_editor.putString(Config.password_shared_key, password);
+    //                                shared_preference_editor.commit();
 
-                                    UserApi userApi = UserApi.getInstance();
-                                    userApi.setUserEmail(email);
+                                        UserApi userApi = UserApi.getInstance();
+                                        userApi.setUserEmail(email);
 
-                                    Log.d("TAG", "onComplete: " + currentUserName);
+                                        Log.d("TAG", "onComplete: " + currentUserName);
 
-                                    Toast.makeText(getApplicationContext(), "User logged in successfully", Toast.LENGTH_SHORT).show();
-                                    startActivity(new Intent(getApplicationContext(), DashboardActivity.class));
+                                        Toast.makeText(getApplicationContext(), "User logged in successfully", Toast.LENGTH_SHORT).show();
+                                        startActivity(new Intent(getApplicationContext(), DashboardActivity.class));
+                                    }
                                 } else {
+                                    Toast.makeText(getApplicationContext(), "The email is not verified.", Toast.LENGTH_SHORT).show();
+                                }
+                            } else {
                                     Toast.makeText(getApplicationContext(), "Login error: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                                 }
-                            }
                         }
                     });
         } else {

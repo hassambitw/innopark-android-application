@@ -73,7 +73,6 @@
                 android:layout_height="40dp"
                 android:layout_marginLeft="10dp"
                 android:enabled="false"
-                android:hint="Hello"
                 android:padding="5dp"
                 android:inputType="none"
                 android:paddingLeft="15dp"
@@ -168,7 +167,22 @@
                 android:paddingLeft="15dp"
                 android:textSize="18sp" />
 
+
+
         </LinearLayout>
+
+        <ProgressBar
+            android:id="@+id/id_profile_progress_bar"
+            style="?android:attr/progressBarStyle"
+            android:visibility="gone"
+            android:indeterminateTint="@color/brinkpink"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            app:layout_constraintBottom_toBottomOf="@+id/linearLayout4"
+            app:layout_constraintEnd_toEndOf="@+id/linearLayout4"
+            app:layout_constraintStart_toStartOf="@+id/linearLayout4"
+            app:layout_constraintTop_toTopOf="@+id/linearLayout4" />
 
         <LinearLayout
             android:id="@+id/linearLayout2"
@@ -239,8 +253,12 @@
         </LinearLayout>
 
         <Button
-            android:layout_width="wrap_content"
+            android:id="@+id/id_profile_delete"
+            android:layout_width="150dp"
             android:layout_height="wrap_content"
+            android:background="@drawable/button_bg"
+            android:textColor="@color/white"
+            android:fontFamily="@font/roboto_medium"
             android:layout_marginStart="32dp"
             android:layout_marginTop="32dp"
             android:layout_marginBottom="32dp"

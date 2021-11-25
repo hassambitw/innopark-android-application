@@ -176,13 +176,12 @@ public class HomeFragment extends Fragment
 
         UserApi userApi = UserApi.getInstance();
         String email = userApi.getUserEmail();
-        String currentUserUid = currentUser.getUid();
 
         //db query for getting fullname and vehicles
         User.getUser(email, new HashmapCallback() {
             @Override
             public void passHashmapResult(HashMap<String, Object> result) {
-                if(!result.isEmpty()){
+                if(!result.isEmpty()) {
 
                     String firstName = (String) result.get("first_name");
                     String lastName = (String) result.get("last_name");
@@ -192,7 +191,7 @@ public class HomeFragment extends Fragment
                     vehiclesOwned = (List<String>) result.get("vehicles_owned");
 
                     userApi.setVehiclesOwned((List<String>) result.get("vehicles_owned"));
-                   // Log.d("TAG", "passHashmapResult: " + userApi.getVehiclesOwned());
+                    // Log.d("TAG", "passHashmapResult: " + userApi.getVehiclesOwned());
 
                     //vehicles driven
                     vehiclesDriven = (List<String>) result.get("vehicles_driven");
@@ -203,68 +202,77 @@ public class HomeFragment extends Fragment
                     vehiclesDriven.addAll(Objects.requireNonNull(vehiclesOwned));
 
                     vehiclesCombined = vehiclesDriven
-                                        .stream()
-                                        .distinct()
-                                        .collect(Collectors.toList());
+                            .stream()
+                            .distinct()
+                            .collect(Collectors.toList());
 
                     //Log.d(TAG, "passHashmapResult: " + vehiclesCombined);
 
                     profileName.setText(fullName);
-                    userApi.setUserId(currentUserUid);
+                    if (currentUser != null) {
+                        String currentUserUid = currentUser.getUid();
+                        userApi.setUserId(currentUserUid);
+                    }
                     userApi.setUsername(fullName);
                     userApi.setVehiclesCombined(vehiclesCombined);
 
+                    if (vehiclesCombined != null)
+                    {
+                        Log.d(TAG, "passHashmapResult: Inside");
+                        db.collectionGroup("sessions_info")
+                                .whereEqualTo("end_datetime", null)
+                                .whereIn("vehicle", Objects.requireNonNull(vehiclesCombined))
+                                .orderBy("start_datetime", Query.Direction.DESCENDING)
+                                .limit(1)
+                                .get()
+                                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                                    @Override
+                                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                                        if (!queryDocumentSnapshots.isEmpty()) {
+                                            //Log.d("TAG", "onSuccess: Inside onSuccess");
+                                            List<DocumentSnapshot> snapshotList = queryDocumentSnapshots.getDocuments();
+                                            for (DocumentSnapshot snapshot : snapshotList) {
+                                                Session session = snapshot.toObject(Session.class);
 
-                    db.collectionGroup("sessions_info")
-                            .whereEqualTo("end_datetime", null)
-                            .whereIn("vehicle", vehiclesCombined)
-                            .orderBy("start_datetime", Query.Direction.DESCENDING)
-                            .limit(1)
-                            .get()
-                            .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-                                @Override
-                                public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                                    if (!queryDocumentSnapshots.isEmpty()) {
-                                        //Log.d("TAG", "onSuccess: Inside onSuccess");
-                                        List<DocumentSnapshot> snapshotList = queryDocumentSnapshots.getDocuments();
-                                        for (DocumentSnapshot snapshot: snapshotList) {
-                                            Session session = snapshot.toObject(Session.class);
+                                                Log.d(TAG, "onSuccess: Active Doc ID: " + snapshot.getId());
 
-                                            Log.d(TAG, "onSuccess: Active Doc ID: " + snapshot.getId());
+                                                activeSessionParking.setText("Level " + session.getParking_id().charAt(0));
+                                                Date start_time = session.getStart_datetime();
+                                                //Log.d(TAG, "onSuccess: " + start_time);
+                                                Date end_time = session.getEnd_datetime();
+                                                //Log.d(TAG, "onSuccess: " + end_time);
+                                                String vehicleNum = session.getVehicle();
+                                                //Log.d(TAG, "onSuccess: " + vehicleNum);
+                                                String parking_spot = session.getParking_id();
+                                                //Log.d(TAG, "onSuccess: " + parking_spot);
+                                                char parking_level = session.getParking_id().charAt(0);
+                                                //Log.d(TAG, "onSuccess: " + parking_level);
+                                                double tariff = session.getTariff_amount();
+                                                String avenue_name = session.getAvenue_name();
 
-                                            activeSessionParking.setText("Level " + session.getParking_id().charAt(0));
-                                            Date start_time = session.getStart_datetime();
-                                            //Log.d(TAG, "onSuccess: " + start_time);
-                                            Date end_time = session.getEnd_datetime();
-                                            //Log.d(TAG, "onSuccess: " + end_time);
-                                            String vehicleNum = session.getVehicle();
-                                            //Log.d(TAG, "onSuccess: " + vehicleNum);
-                                            String parking_spot = session.getParking_id();
-                                            //Log.d(TAG, "onSuccess: " + parking_spot);
-                                            char parking_level = session.getParking_id().charAt(0);
-                                            //Log.d(TAG, "onSuccess: " + parking_level);
-                                            double tariff = session.getTariff_amount();
-                                            String avenue_name = session.getAvenue_name();
+                                                if (avenue_name != null)
+                                                    activeSessionLocation.setText(avenue_name.trim());
+                                                else
+                                                    activeSessionLocation.setText("Ongoing Destination");
+                                                //Log.d(TAG, "onSuccess: " + tariff);
 
-                                            if (avenue_name != null) activeSessionLocation.setText(avenue_name.trim());
-                                            else activeSessionLocation.setText("Ongoing Destination");
-                                            //Log.d(TAG, "onSuccess: " + tariff);
+                                                Log.d(TAG, "onSuccess: " + avenue_name);
 
-                                            Log.d(TAG, "onSuccess: " + avenue_name);
-
-                                            CurrentSessionFragment currentSessionFragment = new CurrentSessionFragment();
-                                            if (start_time != null) args.putSerializable("start_time", start_time);
-                                            if (end_time != null) args.putSerializable("end_time", end_time);
-                                            args.putString("vehicle_num", vehicleNum);
-                                            args.putString("parking_spot", parking_spot);
-                                            args.putChar("parking_level", parking_level);
-                                            args.putDouble("tariff", tariff);
-                                            args.putString("avenue_name", avenue_name);
+                                                CurrentSessionFragment currentSessionFragment = new CurrentSessionFragment();
+                                                if (start_time != null)
+                                                    args.putSerializable("start_time", start_time);
+                                                if (end_time != null)
+                                                    args.putSerializable("end_time", end_time);
+                                                args.putString("vehicle_num", vehicleNum);
+                                                args.putString("parking_spot", parking_spot);
+                                                args.putChar("parking_level", parking_level);
+                                                args.putDouble("tariff", tariff);
+                                                args.putString("avenue_name", avenue_name);
 //                                            currentSessionFragment.setArguments(args);
-                                            getActivity().getSupportFragmentManager().setFragmentResult("requestKeyFromActive_Home", args);
+                                                getActivity().getSupportFragmentManager().setFragmentResult("requestKeyFromActive_Home", args);
 
-                                            parent_id = String.valueOf(snapshot.getReference().getParent().getParent().getId());
-                                            //Log.d(TAG, "onSuccess: " + parent_id);
+                                                parent_id = String.valueOf(snapshot.getReference().getParent().getParent().getId());
+                                                //Log.d(TAG, "onSuccess: " + parent_id);
 
 //                                            db.collection("avenues").document(parent_id)
 //                                                    .get()
@@ -281,21 +289,26 @@ public class HomeFragment extends Fragment
 //                                                            currentSessionFragment.setArguments(args);
 //                                                        }
 //                                                    });
+                                            }
+                                        } else {
+                                            activeSessionParking.setVisibility(View.INVISIBLE);
+                                            activeSessionLocation.setText("No Active Session!");
+                                            activeSessionView.setOnClickListener(null);
                                         }
-                                    } else {
-                                        activeSessionParking.setVisibility(View.INVISIBLE);
-                                        activeSessionLocation.setText("No Active Session!");
+
                                     }
-
-                                }
-                            })
-                            .addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
-                                    Log.d("TAG", "onFailure of subcollection: Not reached inside query" + e.getMessage());
-                                }
-                            });
-
+                                })
+                                .addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Log.d("TAG", "onFailure of subcollection: Not reached inside query" + e.getMessage());
+                                    }
+                                });
+                    } else {
+                        activeSessionParking.setVisibility(View.INVISIBLE);
+                        activeSessionLocation.setText("No Active Session!");
+                        activeSessionView.setOnClickListener(null);
+                    }
 
                     Log.w(Tags.SUCCESS.name(), result.toString());
 

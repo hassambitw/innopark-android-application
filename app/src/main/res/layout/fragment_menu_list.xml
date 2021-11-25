@@ -15,38 +15,38 @@
         android:id="@+id/id_menu_toolbar"
         layout="@layout/toolbar" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/id_menu_recycler_view"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginTop="32dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginLeft="@dimen/_20sdp"
-        android:layout_marginRight="@dimen/_20sdp"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/id_menu_toolbar" />
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/id_menu_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginLeft="@dimen/_20sdp"
+            android:layout_marginTop="50dp"
+            android:layout_marginRight="@dimen/_20sdp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/id_menu_toolbar" />
 
         <Button
             android:id="@+id/id_sign_out_btn"
             android:layout_width="@dimen/_120sdp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
+            android:layout_marginStart="26dp"
             android:layout_marginTop="24dp"
-            android:layout_marginBottom="32dp"
+            android:layout_marginBottom="64dp"
             android:background="@drawable/button_bg"
             android:fontFamily="@font/roboto_medium"
-            android:textSize="16dp"
             android:text="Sign Out"
             android:textAlignment="center"
             android:textAllCaps="false"
             android:textColor="@color/white"
+            android:textSize="16dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.032"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/id_menu_recycler_view"
-            app:layout_constraintVertical_bias="0.239" />
+            app:layout_constraintVertical_bias="0.921" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
