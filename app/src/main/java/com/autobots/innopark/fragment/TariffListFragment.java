@@ -65,6 +65,7 @@ public class TariffListFragment extends Fragment implements TariffActiveSessionR
     String formatted_date;
     SimpleDateFormat formatter;
     TextView emptyView;
+    TextView unpaidEmptyView;
 
     int i;
 
@@ -108,6 +109,7 @@ public class TariffListFragment extends Fragment implements TariffActiveSessionR
         paidTariff = view.findViewById(R.id.id_tariff_view_previous_tariff);
         unpaidTariff = view.findViewById(R.id.id_tariff_list_view_unpaid_sessions);
         emptyView = view.findViewById(R.id.empty_view);
+        unpaidEmptyView = view.findViewById(R.id.unpaid_empty_view);
 
         mRecyclerViewActive = view.findViewById(R.id.id_recycler_view_tariff);
         mRecyclerViewInactive = view.findViewById(R.id.id_recycler_view_tariff_2);
@@ -151,57 +153,60 @@ public class TariffListFragment extends Fragment implements TariffActiveSessionR
         UserApi userApi = UserApi.getInstance();
         vehiclesCombined = userApi.getVehiclesCombined();
 
-        db.collectionGroup("sessions_info")
-                .whereEqualTo("end_datetime", null)
-                .whereIn("vehicle", vehiclesCombined)
-                .orderBy("start_datetime", Query.Direction.DESCENDING)
-                .limit(1)
-                .get()
-                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-                    @Override
-                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                        Log.d(TAG, "onSuccess: Inside");
-                        if (!queryDocumentSnapshots.isEmpty()) {
-                            List<DocumentSnapshot> snapshotList = queryDocumentSnapshots.getDocuments();
-                            for (DocumentSnapshot snapshot : snapshotList) {
-                                try {
-                                    Log.d(TAG, "onSuccess: Document ID of Active: " + snapshot.getId());
-                                    tariff = snapshot.toObject(Session.class);
-                                    activeTariffItems.add(tariff);
+        if (!vehiclesCombined.isEmpty()) {
+            db.collectionGroup("sessions_info")
+                    .whereEqualTo("end_datetime", null)
+                    .whereIn("vehicle", vehiclesCombined)
+                    .orderBy("start_datetime", Query.Direction.DESCENDING)
+                    .limit(1)
+                    .get()
+                    .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                        @Override
+                        public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                            Log.d(TAG, "onSuccess: Inside");
+                            if (!queryDocumentSnapshots.isEmpty()) {
+                                List<DocumentSnapshot> snapshotList = queryDocumentSnapshots.getDocuments();
+                                for (DocumentSnapshot snapshot : snapshotList) {
+                                    try {
+                                        Log.d(TAG, "onSuccess: Document ID of Active: " + snapshot.getId());
+                                        tariff = snapshot.toObject(Session.class);
+                                        activeTariffItems.add(tariff);
+//                                        if (activeTariffItems.size() == 0) {
+//                                            mRecyclerViewActive.setVisibility(View.INVISIBLE);
+//                                            emptyView.setVisibility(View.VISIBLE);
+//                                        } else {
+//                                            mRecyclerViewActive.setVisibility(View.VISIBLE);
+//                                            emptyView.setVisibility(View.INVISIBLE);
+//                                        }
 
-//                                    if (activeTariffItems.size() == 0) {
-//                                        mRecyclerViewActive.setVisibility(View.INVISIBLE);
-//                                        emptyView.setVisibility(View.VISIBLE);
-//                                    } else {
-//                                        mRecyclerViewActive.setVisibility(View.VISIBLE);
-//                                        emptyView.setVisibility(View.INVISIBLE);
-//                                    }
+                                    } catch (Exception e) {
+                                        Log.d(TAG, "onSuccess: " + e.getMessage());
+                                    }
 
-                                } catch (Exception e) {
-                                    Log.d(TAG, "onSuccess: " + e.getMessage());
+                                    parent_id = String.valueOf(snapshot.getReference().getParent().getParent().getId()); // parent doc id
+                                    Log.d(TAG, "onSuccess: Parent Doc ID of Active: " + parent_id);
+
                                 }
+                                //                            setupActiveRecyclerView();
 
-                                parent_id = String.valueOf(snapshot.getReference().getParent().getParent().getId()); // parent doc id
-                                Log.d(TAG, "onSuccess: Parent Doc ID of Active: " + parent_id);
-
+                            } else {
+                                Log.d(TAG, "onSuccess: Query document snapshots empty");
+                                //                            mRecyclerViewActive.setVisibility(View.INVISIBLE);
+                                emptyView.setVisibility(View.VISIBLE);
                             }
-//                            setupActiveRecyclerView();
 
-                        } else {
-                            Log.d(TAG, "onSuccess: Query document snapshots empty");
-//                            mRecyclerViewActive.setVisibility(View.INVISIBLE);
-                            emptyView.setVisibility(View.VISIBLE);
+                            setupActiveRecyclerView();
                         }
-
-                        setupActiveRecyclerView();
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.d(TAG, "onFailure: " + e.getMessage());
-                    }
-                });
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Log.d(TAG, "onFailure: " + e.getMessage());
+                        }
+                    });
+        } else {
+            emptyView.setVisibility(View.VISIBLE);
+        }
 
     }
 
@@ -214,27 +219,27 @@ public class TariffListFragment extends Fragment implements TariffActiveSessionR
 
         Date currentDate = new Date();
 
-
-        db.collectionGroup("sessions_info")
-                .whereNotEqualTo("end_datetime", null)
-                .whereEqualTo("is_paid", false)
-                .whereIn("vehicle", vehiclesCombined)
-                .orderBy("end_datetime", Query.Direction.DESCENDING)
-                .get()
-                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-                    @Override
-                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                        Log.d(TAG, "onSuccess: Inside");
-                        if (!queryDocumentSnapshots.isEmpty()) {
-                            List<DocumentSnapshot> snapshotList = queryDocumentSnapshots.getDocuments();
-                            for (DocumentSnapshot snapshot : snapshotList) {
-                                int i = 0;
-                                try {
+        if (!vehiclesCombined.isEmpty()) {
+            db.collectionGroup("sessions_info")
+                    .whereNotEqualTo("end_datetime", null)
+                    .whereEqualTo("is_paid", false)
+                    .whereIn("vehicle", vehiclesCombined)
+                    .orderBy("end_datetime", Query.Direction.DESCENDING)
+                    .get()
+                    .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                        @Override
+                        public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                            Log.d(TAG, "onSuccess: Inside");
+                            if (!queryDocumentSnapshots.isEmpty()) {
+                                List<DocumentSnapshot> snapshotList = queryDocumentSnapshots.getDocuments();
+                                for (DocumentSnapshot snapshot : snapshotList) {
+                                    int i = 0;
+                                    try {
 //                                    Log.d(TAG, "onSuccess: Document ID of Unpaid: " + snapshot.getId());
-                                    tariff = snapshot.toObject(Session.class);
-                                    //unpaidTariffItems.add(unpaidTariffItems.get(i)).getEnd_datetime();
+                                        tariff = snapshot.toObject(Session.class);
+                                        //unpaidTariffItems.add(unpaidTariffItems.get(i)).getEnd_datetime();
 //
-                                    Date due_datetime = tariff.getDue_datetime();
+                                        Date due_datetime = tariff.getDue_datetime();
 ////                                    String due_datetime_new = formatter.format(due_datetime);
 ////
 ////                                    formatter = new SimpleDateFormat("E MMM dd HH:mm:ss z y");
@@ -248,21 +253,21 @@ public class TariffListFragment extends Fragment implements TariffActiveSessionR
 ////                                    String newCurrentDate = formatter.format(currentDate);
 ////                                    Date parsedDate = simpleDateFormat.parse(newCurrentDate);
 //
-                                    if (currentDate.after(due_datetime)) {
-                                        Log.d(TAG, "onSuccess: Current date is after due date where the due date is: " + due_datetime +
-                                                " and the current date is " + currentDate + " so it is a fine and is skipped");
-                                        continue;
-                                    }
+                                        if (currentDate.after(due_datetime)) {
+                                            Log.d(TAG, "onSuccess: Current date is after due date where the due date is: " + due_datetime +
+                                                    " and the current date is " + currentDate + " so it is a fine and is skipped");
+                                            continue;
+                                        }
 //                                    } else {
 //                                        Log.d(TAG, "onSuccess: Due date is before current day where the due date is: " + due_datetime +
 //                                                " and the current date is " + currentDate);
 //                                    }
 
-                                    unpaidTariffItems.add(tariff);
+                                        unpaidTariffItems.add(tariff);
 
-                                    i++;
+                                        i++;
 
-                                    if (unpaidTariffItems.size() == 3) break;
+                                        if (unpaidTariffItems.size() == 3) break;
 //                                    Log.d(TAG, "onSuccess: End date: " + );
 
 
@@ -271,27 +276,30 @@ public class TariffListFragment extends Fragment implements TariffActiveSessionR
 //                                    Log.d(TAG, "onSuccess: Due date: " + due_datetime);
 //                                    if ( instant > due_datetime ) Log.d(TAG, "onSuccess: Fine is overdue");
 
-                                } catch (Exception e) {
-                                    Log.d(TAG, "onSuccess: " + e.getMessage());
-                                }
+                                    } catch (Exception e) {
+                                        Log.d(TAG, "onSuccess: " + e.getMessage());
+                                    }
 
-                                parent_id = String.valueOf(snapshot.getReference().getParent().getParent().getId()); // parent doc id
+                                    parent_id = String.valueOf(snapshot.getReference().getParent().getParent().getId()); // parent doc id
 //                                Log.d(TAG, "onSuccess: Parent Doc ID of Unpaid: " + parent_id);
 
-                            }
-                            setupInactiveRecyclerView();
+                                }
+                                setupInactiveRecyclerView();
 
-                        } else {
-                            Log.d(TAG, "onSuccess: Query document snapshots empty");
+                            } else {
+                                Log.d(TAG, "onSuccess: Query document snapshots empty");
+                            }
                         }
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.d(TAG, "onFailure: " + e.getMessage());
-                    }
-                });
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Log.d(TAG, "onFailure: " + e.getMessage());
+                        }
+                    });
+        } else {
+            unpaidEmptyView.setVisibility(View.VISIBLE);
+        }
 
     }
 

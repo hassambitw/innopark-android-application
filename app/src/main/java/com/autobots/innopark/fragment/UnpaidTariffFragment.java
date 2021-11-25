@@ -48,6 +48,7 @@ public class UnpaidTariffFragment extends Fragment implements TariffInactiveSess
     private RecyclerView.LayoutManager mLayoutManager;
     ArrayList<Session> unpaidTariffItems;
     private List<String> vehiclesCombined;
+    TextView emptyView;
 
     Bundle args2;
 
@@ -79,6 +80,7 @@ public class UnpaidTariffFragment extends Fragment implements TariffInactiveSess
 
         unpaidTariffItems = new ArrayList<>();
         vehiclesCombined = new ArrayList<>();
+        emptyView = view.findViewById(R.id.id_unpaid_sessions_empty_view);
 
         args2 = new Bundle();
 
@@ -124,57 +126,61 @@ public class UnpaidTariffFragment extends Fragment implements TariffInactiveSess
         UserApi userApi = UserApi.getInstance();
         vehiclesCombined = userApi.getVehiclesCombined();
 
-        db.collectionGroup("sessions_info")
-                .whereNotEqualTo("end_datetime", null)
-                .whereEqualTo("is_paid", false)
-                .whereIn("vehicle", vehiclesCombined)
-                .orderBy("end_datetime", Query.Direction.DESCENDING)
-                .get()
+        if (!vehiclesCombined.isEmpty()) {
+            db.collectionGroup("sessions_info")
+                    .whereNotEqualTo("end_datetime", null)
+                    .whereEqualTo("is_paid", false)
+                    .whereIn("vehicle", vehiclesCombined)
+                    .orderBy("end_datetime", Query.Direction.DESCENDING)
+                    .get()
                     .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-                    @Override
-                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                        Log.d(TAG, "onSuccess: Inside");
-                        if (!queryDocumentSnapshots.isEmpty()) {
-                            List<DocumentSnapshot> snapshotList = queryDocumentSnapshots.getDocuments();
-                            for (DocumentSnapshot snapshot : snapshotList) {
-                                try {
-                                    tariff = snapshot.toObject(Session.class);
-                                    //unpaidTariffItems.add(tariff);
+                        @Override
+                        public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                            Log.d(TAG, "onSuccess: Inside");
+                            if (!queryDocumentSnapshots.isEmpty()) {
+                                List<DocumentSnapshot> snapshotList = queryDocumentSnapshots.getDocuments();
+                                for (DocumentSnapshot snapshot : snapshotList) {
+                                    try {
+                                        tariff = snapshot.toObject(Session.class);
+                                        //unpaidTariffItems.add(tariff);
 
-                                    Date due_datetime = tariff.getDue_datetime();
-                                    Date currentDate = new Date();
+                                        Date due_datetime = tariff.getDue_datetime();
+                                        Date currentDate = new Date();
 
 
-                                    if (currentDate.after(due_datetime)) {
-                                        Log.d(TAG, "onSuccess: Current date is after due date where the due date is: " + due_datetime +
-                                                " and the current date is " + currentDate + " so this is a fine and is skipped.");
-                                        continue;
+                                        if (currentDate.after(due_datetime)) {
+                                            Log.d(TAG, "onSuccess: Current date is after due date where the due date is: " + due_datetime +
+                                                    " and the current date is " + currentDate + " so this is a fine and is skipped.");
+                                            continue;
+                                        }
+
+                                        unpaidTariffItems.add(tariff);
+
+
+                                    } catch (Exception e) {
+                                        Log.d(TAG, "onSuccess: " + e.getMessage());
                                     }
 
-                                    unpaidTariffItems.add(tariff);
+                                    String parent_id = String.valueOf(snapshot.getReference().getParent().getParent().getId()); // parent doc id
+                                    Log.d(TAG, "onSuccess: Unpaid Parent " + parent_id);
 
-
-                                } catch (Exception e) {
-                                    Log.d(TAG, "onSuccess: " + e.getMessage());
                                 }
+                                setupUnpaidRecyclerView();
 
-                                String parent_id = String.valueOf(snapshot.getReference().getParent().getParent().getId()); // parent doc id
-                                Log.d(TAG, "onSuccess: Unpaid Parent " + parent_id);
-
+                            } else {
+                                Log.d(TAG, "onSuccess: Query document snapshots empty");
                             }
-                            setupUnpaidRecyclerView();
-
-                        } else {
-                            Log.d(TAG, "onSuccess: Query document snapshots empty");
                         }
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.d(TAG, "onFailure: " + e.getMessage());
-                    }
-                });
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Log.d(TAG, "onFailure: " + e.getMessage());
+                        }
+                    });
+        } else {
+            emptyView.setVisibility(View.VISIBLE);
+        }
     }
 
         private void setupUnpaidRecyclerView()

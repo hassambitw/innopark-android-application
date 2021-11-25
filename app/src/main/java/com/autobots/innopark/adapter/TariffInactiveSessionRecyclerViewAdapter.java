@@ -86,6 +86,7 @@ public class TariffInactiveSessionRecyclerViewAdapter extends RecyclerView.Adapt
 
         Date start_time = tariff.getStart_datetime();
         Date end_time = tariff.getEnd_datetime();
+        Date date = new Date();
 
         if (end_time != null) {
             long difference_in_time = end_time.getTime() - start_time.getTime();

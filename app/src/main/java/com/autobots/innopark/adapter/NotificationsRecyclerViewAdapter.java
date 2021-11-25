@@ -61,7 +61,12 @@ public class NotificationsRecyclerViewAdapter extends RecyclerView.Adapter<Notif
 //        int time_difference = (int) (Math.ceil((current_time - notif_time)/3600));
 //
 //        Log.d("ONSUCCESS", "DIFFERENCE BETWEEN THE TWO TIMESTAMPS: "+time_difference);
-//        holder.mNotificationTime.setText(time_difference);
+
+         Date current_time = new Date();
+         Date notif_time = (Date) mNotifs.get("notif_datetime");
+         long elapsed_time = current_time.getTime() - notif_time.getTime();
+
+         holder.mNotificationTime.setText(elapsed_time + "");
 
     }
 

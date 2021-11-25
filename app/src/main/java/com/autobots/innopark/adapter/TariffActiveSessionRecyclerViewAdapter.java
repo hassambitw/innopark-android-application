@@ -14,6 +14,8 @@ import com.autobots.innopark.R;
 import com.autobots.innopark.data.Session;
 
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 public class TariffActiveSessionRecyclerViewAdapter extends RecyclerView.Adapter
 {
@@ -71,7 +73,19 @@ public class TariffActiveSessionRecyclerViewAdapter extends RecyclerView.Adapter
         }
         activeViewHolder.tariffParkingSpot.setText("Spot " + parking_spot);
         activeViewHolder.tariffParkingLevel.setText("L" + parking_lvl);
-        activeViewHolder.tariffParkingDuration.setText("-");
+
+        Date start_time = tariff.getStart_datetime();
+        Date current_date = new Date();
+        long elapsed_time = current_date.getTime() - start_time.getTime();
+        long difference_in_seconds = TimeUnit.MILLISECONDS.toSeconds(elapsed_time) % 60;
+        long difference_in_minutes = TimeUnit.MILLISECONDS.toMinutes(elapsed_time) % 60;
+        long difference_in_hours = TimeUnit.MILLISECONDS.toHours(elapsed_time) % 24;
+
+        activeViewHolder.tariffParkingDuration.setText(difference_in_hours + "h : " + difference_in_minutes + "m : " + difference_in_seconds + "s");
+
+//        if (difference_in_seconds < 60) {  activeViewHolder.tariffParkingDuration.setText(difference_in_seconds + "s"); }
+//        else if (difference_in_seconds == 60) { activeViewHolder.tariffParkingDuration.setText(difference_in_minutes + "m: " + difference_in_seconds + " s"); }
+//        else if (difference_in_minutes == 60) { activeViewHolder.tariffParkingDuration.setText(difference_in_hours + "h : " + difference_in_minutes + "m : " + difference_in_seconds + " s"); }
 
 
 

@@ -48,6 +48,7 @@ public class PaidTariffFragment extends Fragment implements TariffInactiveSessio
     private RecyclerView.LayoutManager mLayoutManager;
     private ArrayList<Session> paidTariffItems;
     private List<String> vehiclesCombined;
+    TextView emptyView;
 
     Bundle args2;
 
@@ -81,6 +82,7 @@ public class PaidTariffFragment extends Fragment implements TariffInactiveSessio
         vehiclesCombined = new ArrayList<>();
 
         mRecyclerView = view.findViewById(R.id.id_paid_tariff_recycler_view);
+        emptyView = view.findViewById(R.id.id_paid_tariff_empty_view);
 
         args2 = new Bundle();
 
@@ -103,45 +105,49 @@ public class PaidTariffFragment extends Fragment implements TariffInactiveSessio
         UserApi userApi = UserApi.getInstance();
         vehiclesCombined = userApi.getVehiclesCombined();
 
-        db.collectionGroup("sessions_info")
-                .whereNotEqualTo("end_datetime", null)
-                .whereEqualTo("is_paid", true)
-                .whereIn("vehicle", vehiclesCombined)
-                .orderBy("end_datetime", Query.Direction.DESCENDING)
-                .get()
-                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-                    @Override
-                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                        Log.d(TAG, "onSuccess: Inside");
-                        if (!queryDocumentSnapshots.isEmpty()) {
-                            List<DocumentSnapshot> snapshotList = queryDocumentSnapshots.getDocuments();
-                            for (DocumentSnapshot snapshot : snapshotList) {
-                                try {
-                                    Log.d(TAG, "onSuccess: " + snapshot.getId());
-                                    tariff = snapshot.toObject(Session.class);
-                                    paidTariffItems.add(tariff);
+        if (!vehiclesCombined.isEmpty()) {
+            db.collectionGroup("sessions_info")
+                    .whereNotEqualTo("end_datetime", null)
+                    .whereEqualTo("is_paid", true)
+                    .whereIn("vehicle", vehiclesCombined)
+                    .orderBy("end_datetime", Query.Direction.DESCENDING)
+                    .get()
+                    .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                        @Override
+                        public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                            Log.d(TAG, "onSuccess: Inside");
+                            if (!queryDocumentSnapshots.isEmpty()) {
+                                List<DocumentSnapshot> snapshotList = queryDocumentSnapshots.getDocuments();
+                                for (DocumentSnapshot snapshot : snapshotList) {
+                                    try {
+                                        Log.d(TAG, "onSuccess: " + snapshot.getId());
+                                        tariff = snapshot.toObject(Session.class);
+                                        paidTariffItems.add(tariff);
 
-                                } catch (Exception e) {
-                                    Log.d(TAG, "onSuccess: " + e.getMessage());
+                                    } catch (Exception e) {
+                                        Log.d(TAG, "onSuccess: " + e.getMessage());
+                                    }
+
+                                    String parent_id = String.valueOf(snapshot.getReference().getParent().getParent().getId()); // parent doc id
+                                    Log.d(TAG, "onSuccess: " + parent_id);
+
                                 }
+                                setupPaidRecyclerView();
 
-                                String parent_id = String.valueOf(snapshot.getReference().getParent().getParent().getId()); // parent doc id
-                                Log.d(TAG, "onSuccess: " + parent_id);
-
+                            } else {
+                                Log.d(TAG, "onSuccess: Query document snapshots empty");
                             }
-                            setupPaidRecyclerView();
-
-                        } else {
-                            Log.d(TAG, "onSuccess: Query document snapshots empty");
                         }
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.d(TAG, "onFailure: " + e.getMessage());
-                    }
-                });
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Log.d(TAG, "onFailure: " + e.getMessage());
+                        }
+                    });
+        } else {
+            emptyView.setVisibility(View.VISIBLE);
+        }
     }
 
 

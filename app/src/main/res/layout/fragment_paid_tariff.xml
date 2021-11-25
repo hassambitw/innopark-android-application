@@ -24,5 +24,19 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/id_menu_toolbar" />
 
+    <TextView
+        android:id="@+id/id_paid_tariff_empty_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="No paid sessions to show."
+        android:textColor="@color/brinkpink"
+        android:fontFamily="@font/open_sans_semibold"
+        android:visibility="gone"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        app:layout_constraintBottom_toBottomOf="@+id/id_paid_tariff_recycler_view"
+        app:layout_constraintEnd_toEndOf="@+id/id_paid_tariff_recycler_view"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/id_menu_toolbar" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
