@@ -136,6 +136,7 @@ public class PaidTariffFragment extends Fragment implements TariffInactiveSessio
 
                             } else {
                                 Log.d(TAG, "onSuccess: Query document snapshots empty");
+                                emptyView.setVisibility(View.VISIBLE);
                             }
                         }
                     })

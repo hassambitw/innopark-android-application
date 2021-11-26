@@ -7,13 +7,18 @@ import com.autobots.innopark.data.DatabaseUtils;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
+import android.Manifest;
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
@@ -32,6 +37,8 @@ import com.autobots.innopark.fragment.HomeFragment;
 import com.autobots.innopark.fragment.MenuFragment;
 import com.autobots.innopark.fragment.NotificationFragment;
 import com.autobots.innopark.fragment.ParkingFragment;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationBarView;
@@ -50,6 +57,7 @@ public class DashboardActivity extends AppCompatActivity {
     private FirebaseUser currentUser;
     private String currentUserUid;
     private View decorView;
+    public static final String TAG = "DashboardActivity";
 
     //shared preference for retrieving info from login state
     SharedPreferences userSession;
@@ -189,5 +197,30 @@ public class DashboardActivity extends AppCompatActivity {
         } else {
             super.onBackPressed();
         }
+    }
+
+    @Override
+    protected void onPostResume()
+    {
+        super.onPostResume();
+
+        int errorCode = GoogleApiAvailability.getInstance()
+                .isGooglePlayServicesAvailable(this);
+
+        if (errorCode != ConnectionResult.SUCCESS) {
+            Dialog errorDialog = GoogleApiAvailability.getInstance()
+                    .getErrorDialog(this, errorCode, errorCode, new DialogInterface.OnCancelListener() {
+                        @Override
+                        public void onCancel(DialogInterface dialogInterface) {
+                            Toast.makeText(getApplicationContext(), "No services", Toast.LENGTH_SHORT).show();
+                            finish();
+                        }
+                    });
+
+            errorDialog.show();
+        } else {
+            Log.d(TAG, "onPostResume: " + "Location services working fine.");
+        }
+
     }
 }

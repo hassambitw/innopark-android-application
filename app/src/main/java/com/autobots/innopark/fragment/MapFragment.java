@@ -1,35 +1,87 @@
 package com.autobots.innopark.fragment;
 
+import android.Manifest;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentSender;
+import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
+import android.location.Location;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Looper;
+import android.provider.Settings;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.core.content.PermissionChecker;
 import androidx.fragment.app.Fragment;
 
 import com.autobots.innopark.LoginActivity;
 import com.autobots.innopark.R;
 import com.autobots.innopark.data.DatabaseUtils;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.ResolvableApiException;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationCallback;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.location.LocationSettingsRequest;
+import com.google.android.gms.location.LocationSettingsResponse;
+import com.google.android.gms.location.SettingsClient;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapView;
+import com.google.android.gms.maps.MapsInitializer;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.CameraPosition;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-public class MapFragment extends Fragment
-{
+import java.io.IOException;
+import java.lang.ref.Reference;
+import java.util.List;
+
+public class MapFragment extends Fragment {
 
     Toolbar toolbar;
     TextView toolbarTitle;
+    final int REQUEST_CODE_FINE_LOCATION = 1234;
+    private static final String TAG = "MapFragment";
 
     final FirebaseAuth firebaseAuth = DatabaseUtils.firebaseAuth;
     FirebaseUser currentUser;
+
+    FusedLocationProviderClient fusedLocationProviderClient;
+    LocationRequest locationRequest;
+    LocationCallback locationCallback;
+
+    MapView mapView;
+    private GoogleMap googleMap;
+    Geocoder geocoder;
 
     //firestore connection
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -48,20 +100,153 @@ public class MapFragment extends Fragment
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
-    {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_map, container, false);
+
+        //map stuff
+        mapView = view.findViewById(R.id.id_maps_mapview);
+        mapView.onCreate(savedInstanceState);
+
+        geocoder = new Geocoder(getActivity());
+
+        mapView.onResume();
+
+        try {
+            MapsInitializer.initialize(getActivity().getApplicationContext());
+        } catch (Exception e) {
+            Log.d(TAG, "onCreateView: Exception in MapsInitializer: " + e.getMessage());
+        }
+
+        mapView.getMapAsync(new OnMapReadyCallback() {
+            @Override
+            public void onMapReady(@NonNull GoogleMap mMap) {
+                googleMap = mMap;
+
+                if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                    return;
+                }
+                googleMap.setMyLocationEnabled(true);
+                googleMap.getUiSettings().setZoomControlsEnabled(true);
+                googleMap.getUiSettings().setZoomGesturesEnabled(true);
+                googleMap.getUiSettings().setScrollGesturesEnabled(true);
+
+                getLastLocation();
+
+
+
+                //dropping marker at a point on map
+//                LatLng sydney = new LatLng(-34, 151);
+//                googleMap.addMarker(new MarkerOptions().position(sydney).title("Sydney").snippet("Sample body"));
+//
+//                //zooming in to location of marker
+//                CameraPosition cameraPosition = new CameraPosition.Builder()
+//                        .target(sydney)
+//                        .zoom(12)
+//                        .build();
+//
+//                googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+
+                try {
+                    List<Address> addresses =  geocoder.getFromLocationName("Current Location", 1);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        });
+
+        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(getActivity());
+
+        locationRequest = LocationRequest.create();
+        locationRequest.setInterval(4000);  // 4 seconds
+        locationRequest.setFastestInterval(2000);
+        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+
+        locationCallback = new LocationCallback() {
+            @Override
+            public void onLocationResult(@NonNull LocationResult locationResult) {
+                super.onLocationResult(locationResult);
+                if (locationResult == null) return;
+
+                for (Location location : locationResult.getLocations()) {
+                    Log.d(TAG, "onLocationResult: Locations: " + location.toString() + "\n");
+                }
+            }
+        };
 
         setupToolbar(view);
 
         return view;
     }
 
-    private void setupToolbar(View view)
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+//            getLastLocation();
+            checkSettingsAndStartLocationUpdates();
+        } else {
+            askLocationPermission();
+        }
+
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mapView.onResume();
+    }
+
+    private void checkSettingsAndStartLocationUpdates() {
+        LocationSettingsRequest locationSettingsRequest = new LocationSettingsRequest.Builder()
+                .addLocationRequest(locationRequest).build();
+
+        SettingsClient settingsClient = LocationServices.getSettingsClient(getActivity());
+
+        Task<LocationSettingsResponse> locationSettingsResponseTask = settingsClient.checkLocationSettings(locationSettingsRequest);
+
+        locationSettingsResponseTask
+                .addOnSuccessListener(new OnSuccessListener<LocationSettingsResponse>() {
+                    @Override
+                    public void onSuccess(LocationSettingsResponse locationSettingsResponse) {
+                        Log.d(TAG, "onSuccess: Settings of device satisfied");
+                        startLocationUpdates();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.d(TAG, "onFailure: Settings of device not satisfied: " + e.getMessage());
+                        if (e instanceof ResolvableApiException) {
+                            ResolvableApiException resolvableApiException = (ResolvableApiException) e;
+                            try {
+                                startIntentSenderForResult(resolvableApiException.getResolution().getIntentSender(), 1001, null, 0, 0, 0, null);
+                            } catch (IntentSender.SendIntentException sendIntentException) {
+                                sendIntentException.printStackTrace();
+                            }
+                        }
+                    }
+                });
+
+    }
+
+    private void startLocationUpdates() {
+        if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            return;
+        }
+        fusedLocationProviderClient.requestLocationUpdates(locationRequest, locationCallback, Looper.getMainLooper());
+    }
+
+    private void stopLocationUpdates()
     {
+        fusedLocationProviderClient.removeLocationUpdates(locationCallback);
+    }
+
+    private void setupToolbar(View view) {
         toolbar = view.findViewById(R.id.id_map_toolbar);
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
-        ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(false);
         toolbarTitle = toolbar.findViewById(R.id.id_toolbar_title);
         toolbarTitle.setText("Map");
@@ -73,4 +258,135 @@ public class MapFragment extends Fragment
             }
         });
     }
+
+
+    private void askLocationPermission() {
+        if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) && ActivityCompat.shouldShowRequestPermissionRationale(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION)) {
+                new AlertDialog.Builder(getActivity())
+                        .setMessage("We value your privacy, but we need to access your location in order for you to see our parking locations and available parking spots in each area.")
+                        .setCancelable(false)
+                        .setTitle("Hey there!")
+                        .setPositiveButton("Okay", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_CODE_FINE_LOCATION);
+                            }
+                        })
+                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                getActivity().onBackPressed();
+                            }
+                        })
+                        .show();
+            } else {
+                requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, REQUEST_CODE_FINE_LOCATION);
+            }
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+
+//        Log.d(TAG, "onRequestPermissionsResult: Inside method");
+
+        boolean dontAsk = false;
+
+        if (requestCode == REQUEST_CODE_FINE_LOCATION) {
+//            Log.d(TAG, "onRequestPermissionsResult: Inside first if");
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+//                Log.d(TAG, "onRequestPermissionsResult: Inside");
+//                getLastLocation();
+                checkSettingsAndStartLocationUpdates();
+            } else if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION)) {
+                Log.d(TAG, "onRequestPermissionsResult: User has denied permission");
+                getActivity().onBackPressed();
+
+            } else if (PermissionChecker.checkCallingOrSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PermissionChecker.PERMISSION_GRANTED) {
+                dontAsk = true;
+                getActivity().onBackPressed();
+                Toast.makeText(getActivity(), "Sorry, you cannot view the map without enabling location services.", Toast.LENGTH_SHORT).show();
+
+            }
+        }
+
+        if (dontAsk)
+            startActivity(new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, Uri.parse("package:" + getActivity().getPackageName())));
+    }
+
+    private void getLastLocation() {
+        if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            return;
+        }
+
+        Task<Location> locationTask = fusedLocationProviderClient.getLastLocation();
+        locationTask.addOnSuccessListener(new OnSuccessListener<Location>() {
+            @Override
+            public void onSuccess(Location location) {
+                if (location != null) {
+                    //we have location
+                    Log.d(TAG, "onSuccess: " + location.toString());
+                    Log.d(TAG, "onSuccess: Latitude: " + location.getLatitude());
+                    Log.d(TAG, "onSuccess: Longitude: " + location.getLongitude());
+
+                    LatLng currentPos = new LatLng(location.getLatitude(), location.getLongitude());
+                    googleMap.addMarker(new MarkerOptions().position(currentPos).title("Current Location"));
+
+                    //zooming in to location of marker
+                    CameraPosition cameraPosition = new CameraPosition.Builder()
+                            .target(currentPos)
+                            .zoom(15)
+                            .build();
+
+                    googleMap.moveCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+
+                } else {
+                    Log.d(TAG, "onSuccess: Location was null ");
+                }
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.d(TAG, "onFailure: " + e.getMessage());
+                    }
+                });
+
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        mapView.onPause();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        stopLocationUpdates();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mapView.onDestroy();
+    }
+
+    @Override
+    public void onLowMemory() {
+        super.onLowMemory();
+        mapView.onLowMemory();
+    }
+
+    //    private ActivityResultLauncher<String> requestPermissionLauncher = registerForActivityResult(new ActivityResultContracts.RequestPermission(), isGranted -> {
+//        if (isGranted) {
+//            //location granted
+//            getLastLocation();
+//
+//        } else {
+//            getActivity().onBackPressed();
+//            Toast.makeText(getActivity(), "Sorry, you cannot view the map without enabling location services.", Toast.LENGTH_SHORT).show();
+//        }
+//    });
+
 }

@@ -288,6 +288,7 @@ public class TariffListFragment extends Fragment implements TariffActiveSessionR
 
                             } else {
                                 Log.d(TAG, "onSuccess: Query document snapshots empty");
+                                unpaidEmptyView.setVisibility(View.VISIBLE);
                             }
                         }
                     })

@@ -169,6 +169,7 @@ public class UnpaidTariffFragment extends Fragment implements TariffInactiveSess
 
                             } else {
                                 Log.d(TAG, "onSuccess: Query document snapshots empty");
+                                emptyView.setVisibility(View.VISIBLE);
                             }
                         }
                     })
