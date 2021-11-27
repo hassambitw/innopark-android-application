@@ -14,7 +14,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.autobots.innopark.JavaMailAPI;
 import com.autobots.innopark.R;
+import com.autobots.innopark.data.UserApi;
+
+import org.w3c.dom.Text;
 
 
 public class CustomerServiceFragment extends Fragment {
@@ -22,7 +26,7 @@ public class CustomerServiceFragment extends Fragment {
     private Toolbar toolbar;
     private TextView toolbarTitle;
     private Button sendButton;
-    private EditText toEditText;
+    private TextView fromEditText;
     private EditText subjectEditText;
     private EditText messageEditText;
 
@@ -34,7 +38,7 @@ public class CustomerServiceFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_customer_service, container, false);
 
         sendButton = view.findViewById(R.id.id_customer_service_send_btn);
-        toEditText = view.findViewById(R.id.id_customer_service_to);
+//        fromEditText = view.findViewById(R.id.id_customer_service_from);
         subjectEditText = view.findViewById(R.id.id_customer_service_subject);
         messageEditText = view.findViewById(R.id.id_customer_service_message);
 
@@ -49,14 +53,23 @@ public class CustomerServiceFragment extends Fragment {
 
     private void sendMail()
     {
-        String recipients = toEditText.getText().toString();
-        String[] recipientsSplit = recipients.split(",");
+//        UserApi userApi = UserApi.getInstance();
+//        String userEmail = userApi.getUserEmail();
+        String[] toEmail = {"fromEmail@gmail.com"};
+
+//        fromEditText.setText(userEmail);
 
         String subject = subjectEditText.getText().toString();
         String message = messageEditText.getText().toString();
 
+//        JavaMailAPI javaMailAPI = new JavaMailAPI(getActivity(), toEmail, subject, message);
+//
+//        javaMailAPI.execute();
+
+
+//        String[] recipientsSplit = recipients.split(",");
         Intent intent = new Intent(Intent.ACTION_SEND);
-        intent.putExtra(Intent.EXTRA_EMAIL, recipientsSplit);
+        intent.putExtra(Intent.EXTRA_EMAIL, toEmail);
         intent.putExtra(Intent.EXTRA_SUBJECT, subject);
         intent.putExtra(Intent.EXTRA_TEXT, message);
 

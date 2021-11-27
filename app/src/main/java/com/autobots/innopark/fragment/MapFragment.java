@@ -34,7 +34,9 @@ import androidx.fragment.app.Fragment;
 
 import com.autobots.innopark.LoginActivity;
 import com.autobots.innopark.R;
+import com.autobots.innopark.data.Avenue;
 import com.autobots.innopark.data.DatabaseUtils;
+import com.autobots.innopark.data.UserApi;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResolvableApiException;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -59,11 +61,17 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.GeoPoint;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.io.IOException;
 import java.lang.ref.Reference;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 public class MapFragment extends Fragment {
 
@@ -85,8 +93,11 @@ public class MapFragment extends Fragment {
 
     //firestore connection
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
-
     private CollectionReference collectionReference = db.collection("avenues");
+
+    List<String> vehicles;
+    List<GeoPoint> avenueInfo;
+
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -106,6 +117,9 @@ public class MapFragment extends Fragment {
         //map stuff
         mapView = view.findViewById(R.id.id_maps_mapview);
         mapView.onCreate(savedInstanceState);
+
+        vehicles = new ArrayList<>();
+        avenueInfo = new ArrayList<>();
 
         geocoder = new Geocoder(getActivity());
 
@@ -131,8 +145,6 @@ public class MapFragment extends Fragment {
                 googleMap.getUiSettings().setScrollGesturesEnabled(true);
 
                 getLastLocation();
-
-
 
                 //dropping marker at a point on map
 //                LatLng sydney = new LatLng(-34, 151);
@@ -169,7 +181,7 @@ public class MapFragment extends Fragment {
                 if (locationResult == null) return;
 
                 for (Location location : locationResult.getLocations()) {
-                    Log.d(TAG, "onLocationResult: Locations: " + location.toString() + "\n");
+//                    Log.d(TAG, "onLocationResult: Locations: " + location.toString() + "\n");
                 }
             }
         };
@@ -189,6 +201,34 @@ public class MapFragment extends Fragment {
         } else {
             askLocationPermission();
         }
+
+        UserApi userApi = UserApi.getInstance();
+        vehicles = userApi.getVehiclesCombined();
+
+        //get all avenue GPS points
+       db.collection("avenues")
+               .get()
+               .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                   @Override
+                   public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                       Log.d(TAG, "onSuccess: Main query successful");
+                       List<DocumentSnapshot> snapshotList = queryDocumentSnapshots.getDocuments();
+                       for (DocumentSnapshot snapshot : snapshotList) {
+//                           avenueInfo = (List<Map<String, Object>>) snapshot.get("gps_coordinate");
+//                           avenueInfo = (List<GeoPoint>) snapshot.get("gps_coordinate");
+//                           Avenue avenue = snapshot.toObject(Avenue.class);
+                           GeoPoint geopoint = snapshot.getGeoPoint("gps_coordinate");
+
+                           Log.d(TAG, "onSuccess: GPS coordinates: " + geopoint + "\n");
+                       }
+                   }
+               })
+               .addOnFailureListener(new OnFailureListener() {
+                   @Override
+                   public void onFailure(@NonNull Exception e) {
+                       Log.d(TAG, "onFailure: Query failed: " + e.getMessage());
+                   }
+               });
 
     }
 
@@ -326,9 +366,9 @@ public class MapFragment extends Fragment {
             public void onSuccess(Location location) {
                 if (location != null) {
                     //we have location
-                    Log.d(TAG, "onSuccess: " + location.toString());
-                    Log.d(TAG, "onSuccess: Latitude: " + location.getLatitude());
-                    Log.d(TAG, "onSuccess: Longitude: " + location.getLongitude());
+//                    Log.d(TAG, "onSuccess: " + location.toString());
+//                    Log.d(TAG, "onSuccess: Latitude: " + location.getLatitude());
+//                    Log.d(TAG, "onSuccess: Longitude: " + location.getLongitude());
 
                     LatLng currentPos = new LatLng(location.getLatitude(), location.getLongitude());
                     googleMap.addMarker(new MarkerOptions().position(currentPos).title("Current Location"));
