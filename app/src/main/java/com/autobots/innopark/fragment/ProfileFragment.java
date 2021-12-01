@@ -34,6 +34,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import org.w3c.dom.Text;
+
 import java.util.HashMap;
 
 
@@ -42,17 +44,23 @@ public class ProfileFragment extends Fragment
 
     private static final String TAG = "ProfileFragment";
     Toolbar toolbar;
+
     TextView toolbar_title;
     TextView editProfile;
+    TextView changePassword;
+//    TextView changeEmail;
+
     EditText emailET;
-    EditText usernameET;
     EditText passwordET;
     EditText firstNameET;
     EditText lastNameET;
     EditText cardET;
     Button deleteAccount;
+
     AlertDialog deleteDialog;
     ProgressBar progressBar;
+
+
     FirebaseAuth firebaseAuth = DatabaseUtils.firebaseAuth;
     private FirebaseAuth.AuthStateListener authStateListener;
     private FirebaseUser currentUser;
@@ -85,10 +93,11 @@ public class ProfileFragment extends Fragment
 
 
         emailET = view.findViewById(R.id.id_profile_email);
-        usernameET = view.findViewById(R.id.id_profile_username);
         passwordET = view.findViewById(R.id.id_profile_password);
         firstNameET = view.findViewById(R.id.id_profile_first_name);
         lastNameET = view.findViewById(R.id.id_profile_last_name);
+//        changeEmail = view.findViewById(R.id.id_profile_change_email);
+        changePassword = view.findViewById(R.id.id_profile_change_password);
         cardET = view.findViewById(R.id.id_profile_card_id);
         deleteAccount = view.findViewById(R.id.id_profile_delete);
         progressBar = view.findViewById(R.id.id_profile_progress_bar);
@@ -97,10 +106,42 @@ public class ProfileFragment extends Fragment
             editProfileFragment();
         });
 
+        changePassword.setOnClickListener((v) -> {
+            changePasswordFragment();
+        });
+
+//        changeEmail.setOnClickListener((v) -> {
+//            changeEmailFragment();
+//        });
+
         setupToolbar(view);
         setupDeleteAccount(view);
 
         return view;
+    }
+
+//    private void changeEmailFragment()
+//    {
+//        Fragment selectedFragment = new ChangeEmailFragment();
+//        getActivity().getSupportFragmentManager()
+//                .beginTransaction()
+//                .setReorderingAllowed(true)
+//                .setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_right, R.anim.enter_from_right, R.anim.exit_to_right)
+//                .addToBackStack(null)
+//                .replace(R.id.id_child_fragment_container_view, selectedFragment)
+//                .commit();
+//    }
+
+    private void changePasswordFragment()
+    {
+        Fragment selectedFragment = new ChangePasswordFragment();
+        getActivity().getSupportFragmentManager()
+                .beginTransaction()
+                .setReorderingAllowed(true)
+                .setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_right, R.anim.enter_from_right, R.anim.exit_to_right)
+                .addToBackStack(null)
+                .replace(R.id.id_child_fragment_container_view, selectedFragment)
+                .commit();
     }
 
     private void setupDeleteAccount(View view)
@@ -145,7 +186,6 @@ public class ProfileFragment extends Fragment
 
         UserApi userApi = UserApi.getInstance();
         String userEmail = userApi.getUserEmail();
-        String username = userApi.getUsername();
 
         User.getUser(userEmail, new HashmapCallback() {
             @Override
@@ -153,13 +193,11 @@ public class ProfileFragment extends Fragment
                 if (!result.isEmpty()){
                     // DO SOMETHING WITH THE USER INFO
                     String email = (String) result.get("email_address");
-                    String username = (String) result.get("username");
                     String first_name = (String) result.get("first_name");
                     String last_name = (String) result.get("last_name");
                     String cardId = (String) result.get("id_card_number");
 
                     emailET.setText(email);
-                    usernameET.setText(username);
                     firstNameET.setText(first_name);
                     lastNameET.setText(last_name);
                     cardET.setText(cardId);
@@ -199,7 +237,7 @@ public class ProfileFragment extends Fragment
                 .setReorderingAllowed(true)
                 .setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_right, R.anim.enter_from_right, R.anim.exit_to_right)
                 .addToBackStack(null)
-                .replace(R.id.id_fragment_container_view, selectedFragment)
+                .replace(R.id.id_child_fragment_container_view, selectedFragment)
                 .commit();
 
     }
