@@ -58,6 +58,8 @@ public class RegisterActivity extends AppCompatActivity {
     boolean add = true;
     List<String> vehicles_owned;
 
+    boolean sameID = false;
+
     //Firebase Auth
 
     private FirebaseAuth firebaseAuth = DatabaseUtils.firebaseAuth;
@@ -167,7 +169,7 @@ public class RegisterActivity extends AppCompatActivity {
             if (ownVehicle) vehicles_owned.add(licenseNum);
 
             currentUser = firebaseAuth.getCurrentUser();
-            assert currentUser != null;
+//            assert currentUser != null;
 //            String currentUserID = currentUser.getUid();
         if (ownVehicle) {
             Log.d(TAG, "setupRegisterAction: After adding vehicle " + vehicles_owned);
@@ -191,52 +193,69 @@ public class RegisterActivity extends AppCompatActivity {
                                         Log.d(TAG, "onComplete: After clearing vehicles " + vehicles_owned);
                                 } else {
                                     Log.d(TAG, "onFailure: " + "No document exists where the same vehicle is owned.");
-                                    firebaseAuth.createUserWithEmailAndPassword(email, password)
-                                            .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+
+                                    Map<String, Object> user = new HashMap<>();
+                                    user.put("email_address", email);
+                                    user.put("first_name", first_name);
+                                    user.put("id_card_number", id);
+                                    user.put("is_banned", false);
+                                    user.put("last_name", last_name);
+                                    user.put("phone_number", phoneNumber);
+                                    user.put("vehicles_owned", vehicles_owned);
+
+                                    db.collection("users")
+                                            .whereEqualTo("id_card_number", id)
+                                            .get()
+                                            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                                                 @Override
-                                                public void onComplete(@NonNull Task<AuthResult> task) {
-                                                    progressBar.setVisibility(View.VISIBLE);
-                                                    if (task.isSuccessful()) {
-
-                                                        currentUser.sendEmailVerification()
-                                                                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                                    if (!task.getResult().isEmpty()) {
+                                                        //ID exists
+                                                        Toast.makeText(getApplicationContext(), "This ID is already in use.", Toast.LENGTH_SHORT).show();
+                                                        Log.d(TAG, "onComplete: Same ID exists");
+                                                        id_et.setError("Already exists");
+                                                    } else {
+                                                        Log.d(TAG, "onComplete: Same ID doesn't exist");
+                                                        firebaseAuth.createUserWithEmailAndPassword(email, password)
+                                                                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                                                                     @Override
-                                                                    public void onComplete(@NonNull Task<Void> task) {
-                                                                        progressBar.setVisibility(View.GONE);
+                                                                    public void onComplete(@NonNull Task<AuthResult> task) {
+                                                                        progressBar.setVisibility(View.VISIBLE);
                                                                         if (task.isSuccessful()) {
-                                                                            //create user map so we can add a user to user collection in firestore
-                                                                            //change this to license number entered by user if he owns a vehicle
+                                                                            currentUser.sendEmailVerification()
+                                                                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                                                        @Override
+                                                                                        public void onComplete(@NonNull Task<Void> task) {
+                                                                                            progressBar.setVisibility(View.GONE);
+                                                                                            if (task.isSuccessful()) {
+                                                                                                //create user map so we can add a user to user collection in firestore
+                                                                                                //change this to license number entered by user if he owns a vehicle
+                                                                                                Map<String, Object> vehicle = new HashMap<>();
 
-                                                                            Map<String, Object> vehicle = new HashMap<>();
+                                                                                                DatabaseUtils.addData(collection, currentUser.getUid(), user, new StringCallback() {
+                                                                                                    public void passStringResult(String result) {
+                                                                                                        if (result.equals(Tags.SUCCESS.name())) {
+                                                                                                            Log.w(Tags.SUCCESS.name(), "ADDED DATA");
+                                                                                                            Toast.makeText(getApplicationContext(), "User Registration link sent!", Toast.LENGTH_SHORT).show();
+                                                                                                            startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+                                                                                                        } else {
+                                                                                                            Toast.makeText(getApplicationContext(), "Failure to add data!", Toast.LENGTH_SHORT).show();
+                                                                                                            Log.w(Tags.FAILURE.name(), "FAILED TO ADD DATA");
+                                                                                                        }
+                                                                                                    }
+                                                                                                });
 
 
-//                                                                            db.collection("vehicles")
-//                                                                                    .add
-
-                                                                            Map<String, Object> user = new HashMap<>();
-                                                                            user.put("email_address", email);
-                                                                            user.put("first_name", first_name);
-                                                                            user.put("id_card_number", id);
-                                                                            user.put("is_banned", false);
-                                                                            user.put("last_name", last_name);
-                                                                            user.put("phone_number", phoneNumber);
-                                                                            user.put("vehicles_owned", vehicles_owned);
-
-                                                                            DatabaseUtils.addData(collection, currentUser.getUid(), user, new StringCallback() {
-                                                                                public void passStringResult(String result) {
-                                                                                    if (result.equals(Tags.SUCCESS.name())) {
-                                                                                        Log.w(Tags.SUCCESS.name(), "ADDED DATA");
-                                                                                        Toast.makeText(getApplicationContext(), "User Registration link sent!", Toast.LENGTH_SHORT).show();
-                                                                                        startActivity(new Intent(getApplicationContext(), LoginActivity.class));
-                                                                                    } else {
-                                                                                        Toast.makeText(getApplicationContext(), "Failure to add data!", Toast.LENGTH_SHORT).show();
-                                                                                        Log.w(Tags.FAILURE.name(), "FAILED TO ADD DATA");
-                                                                                    }
-                                                                                }
-                                                                            });
-
-//                                                                    startActivity(new Intent(getApplicationContext(), LoginActivity.class));
-//                                                                    Toast.makeText(getApplicationContext(), "User Registration link sent!", Toast.LENGTH_SHORT).show();
+                                                                                            }
+                                                                                        }
+                                                                                    })
+                                                                                    .addOnFailureListener(new OnFailureListener() {
+                                                                                        @Override
+                                                                                        public void onFailure(@NonNull Exception e) {
+                                                                                            progressBar.setVisibility(View.GONE);
+                                                                                            Log.d(TAG, "onFailure: User email not sent due to exception " + e.getMessage());
+                                                                                        }
+                                                                                    });
                                                                         }
                                                                     }
                                                                 })
@@ -244,75 +263,87 @@ public class RegisterActivity extends AppCompatActivity {
                                                                     @Override
                                                                     public void onFailure(@NonNull Exception e) {
                                                                         progressBar.setVisibility(View.GONE);
-                                                                        Log.d(TAG, "onFailure: User email not sent due to exception " + e.getMessage());
+                                                                        Toast.makeText(getApplicationContext(), "Registration Error: " + e.getMessage().toString(), Toast.LENGTH_SHORT).show();
                                                                     }
                                                                 });
                                                     }
                                                 }
-                                            })
-                                            .addOnFailureListener(new OnFailureListener() {
-                                                @Override
-                                                public void onFailure(@NonNull Exception e) {
-                                                    progressBar.setVisibility(View.GONE);
-                                                    Toast.makeText(getApplicationContext(), "Registration Error: " + e.getMessage().toString(), Toast.LENGTH_SHORT).show();
-                                                }
-                                            });
-                                }
+                                            }).addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception e) {
+                                            Log.d(TAG, "onFailure: ID Query failed (with vehicle owned): " + e.getMessage());
+                                        }
+                                    });
 
-//                                add = false;
+
+
+                                }
                             }
                         }
                     });
-//                    .addOnFailureListener(new OnFailureListener() {
-//                        @Override
-//                        public void onFailure(@NonNull Exception e) {
-//                            Log.d(TAG, "onFailure: " + "No document exists where the same vehicle is owned.");
 //
-//
-//                        }
-//                    });
         } else {
-            firebaseAuth.createUserWithEmailAndPassword(email, password)
-                    .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+            Map<String, Object> user = new HashMap<>();
+            user.put("email_address", email);
+            user.put("first_name", first_name);
+            user.put("id_card_number", id);
+            user.put("is_banned", false);
+            user.put("last_name", last_name);
+            user.put("phone_number", phoneNumber);
+            user.put("vehicles_driven", null);
+            user.put("vehicles_owned", null);
+
+            db.collection("users")
+                    .whereEqualTo("id_card_number", id)
+                    .get()
+                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                         @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-                            progressBar.setVisibility(View.VISIBLE);
-                            if (task.isSuccessful()) {
-
-                                currentUser.sendEmailVerification()
-                                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            if (!task.getResult().isEmpty()) {
+                                //found same ID
+                                Toast.makeText(getApplicationContext(), "This ID is already in use.", Toast.LENGTH_SHORT).show();
+                                id_et.setError("Already exists");
+                                Log.d(TAG, "onComplete: Same ID exists (no car)");
+                            } else {
+                                Log.d(TAG, "onComplete: ID should be added here.");
+                                firebaseAuth.createUserWithEmailAndPassword(email, password)
+                                        .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                                             @Override
-                                            public void onComplete(@NonNull Task<Void> task) {
-                                                progressBar.setVisibility(View.GONE);
+                                            public void onComplete(@NonNull Task<AuthResult> task) {
+                                                progressBar.setVisibility(View.VISIBLE);
                                                 if (task.isSuccessful()) {
-                                                    //create user map so we can add a user to user collection in firestore
-                                                    //change this to license number entered by user if he owns a vehicle
 
-                                                    Map<String, Object> user = new HashMap<>();
-                                                    user.put("email_address", email);
-                                                    user.put("first_name", first_name);
-                                                    user.put("id_card_number", id);
-                                                    user.put("is_banned", false);
-                                                    user.put("last_name", last_name);
-                                                    user.put("phone_number", phoneNumber);
-                                                    user.put("vehicles_driven", null);
-                                                    user.put("vehicles_owned", null);
+                                                    currentUser.sendEmailVerification()
+                                                            .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                                @Override
+                                                                public void onComplete(@NonNull Task<Void> task) {
+                                                                    progressBar.setVisibility(View.GONE);
+                                                                    if (task.isSuccessful()) {
+                                                                        //create user map so we can add a user to user collection in firestore
+                                                                        //change this to license number entered by user if he owns a vehicle
 
-                                                    DatabaseUtils.addData(collection, currentUser.getUid(), user, new StringCallback() {
-                                                        public void passStringResult(String result) {
-                                                            if (result.equals(Tags.SUCCESS.name())) {
-                                                                Log.w(Tags.SUCCESS.name(), "ADDED DATA");
-                                                                Toast.makeText(getApplicationContext(), "User Registration link sent!", Toast.LENGTH_SHORT).show();
-                                                                startActivity(new Intent(getApplicationContext(), LoginActivity.class));
-                                                            } else {
-                                                                Toast.makeText(getApplicationContext(), "Failure to add data!", Toast.LENGTH_SHORT).show();
-                                                                Log.w(Tags.FAILURE.name(), "FAILED TO ADD DATA");
-                                                            }
-                                                        }
-                                                    });
-
-//                                                    startActivity(new Intent(getApplicationContext(), LoginActivity.class));
-//                                                    Toast.makeText(getApplicationContext(), "User Registration link sent!", Toast.LENGTH_SHORT).show();
+                                                                        DatabaseUtils.addData(collection, currentUser.getUid(), user, new StringCallback() {
+                                                                            public void passStringResult(String result) {
+                                                                                if (result.equals(Tags.SUCCESS.name())) {
+                                                                                    Log.w(Tags.SUCCESS.name(), "ADDED DATA");
+                                                                                    Toast.makeText(getApplicationContext(), "User Registration link sent!", Toast.LENGTH_SHORT).show();
+                                                                                    startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+                                                                                } else {
+                                                                                    Toast.makeText(getApplicationContext(), "Failure to add data!", Toast.LENGTH_SHORT).show();
+                                                                                    Log.w(Tags.FAILURE.name(), "FAILED TO ADD DATA");
+                                                                                }
+                                                                            }
+                                                                        });
+                                                                    }
+                                                                }
+                                                            })
+                                                            .addOnFailureListener(new OnFailureListener() {
+                                                                @Override
+                                                                public void onFailure(@NonNull Exception e) {
+                                                                    progressBar.setVisibility(View.GONE);
+                                                                    Log.d(TAG, "onFailure: User email not sent due to exception " + e.getMessage());
+                                                                }
+                                                            });
                                                 }
                                             }
                                         })
@@ -320,19 +351,17 @@ public class RegisterActivity extends AppCompatActivity {
                                             @Override
                                             public void onFailure(@NonNull Exception e) {
                                                 progressBar.setVisibility(View.GONE);
-                                                Log.d(TAG, "onFailure: User email not sent due to exception " + e.getMessage());
+                                                Toast.makeText(getApplicationContext(), "Registration Error: " + e.getMessage().toString(), Toast.LENGTH_SHORT).show();
                                             }
                                         });
                             }
                         }
-                    })
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            progressBar.setVisibility(View.GONE);
-                            Toast.makeText(getApplicationContext(), "Registration Error: " + e.getMessage().toString(), Toast.LENGTH_SHORT).show();
-                        }
-                    });
+                    }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Log.d(TAG, "onFailure: ID query failed (w/out vehicle): " + e.getMessage());
+                }
+            });
         }
         });
     }
