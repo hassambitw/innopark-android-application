@@ -54,6 +54,7 @@ import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -69,6 +70,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.io.IOException;
 import java.lang.ref.Reference;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -97,6 +99,8 @@ public class MapFragment extends Fragment {
 
     List<String> vehicles;
     List<GeoPoint> avenueInfo;
+
+    Marker myMarker;
 
 
     @Override
@@ -136,15 +140,19 @@ public class MapFragment extends Fragment {
             public void onMapReady(@NonNull GoogleMap mMap) {
                 googleMap = mMap;
 
-                if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                    return;
-                }
-                googleMap.setMyLocationEnabled(true);
+                getLastLocation();
+
+
                 googleMap.getUiSettings().setZoomControlsEnabled(true);
                 googleMap.getUiSettings().setZoomGesturesEnabled(true);
                 googleMap.getUiSettings().setScrollGesturesEnabled(true);
 
-                getLastLocation();
+                if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                    return;
+                }
+
+                googleMap.setMyLocationEnabled(true);
+
 
                 //dropping marker at a point on map
 //                LatLng sydney = new LatLng(-34, 151);
@@ -214,11 +222,47 @@ public class MapFragment extends Fragment {
                        Log.d(TAG, "onSuccess: Main query successful");
                        List<DocumentSnapshot> snapshotList = queryDocumentSnapshots.getDocuments();
                        for (DocumentSnapshot snapshot : snapshotList) {
-//                           avenueInfo = (List<Map<String, Object>>) snapshot.get("gps_coordinate");
-//                           avenueInfo = (List<GeoPoint>) snapshot.get("gps_coordinate");
-//                           Avenue avenue = snapshot.toObject(Avenue.class);
                            GeoPoint geopoint = snapshot.getGeoPoint("gps_coordinate");
+                           Object avenueName = snapshot.get("name");
 
+
+                           LatLng storedParkings = new LatLng(geopoint.getLatitude(), geopoint.getLongitude());
+                           Log.d(TAG, "onSuccess: Parkings: " + avenueName.toString());
+                           myMarker = googleMap.addMarker(new MarkerOptions().position(storedParkings).title(avenueName.toString()).snippet("Click here to view parking layout!"));
+
+
+
+//                               googleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+//                                   @Override
+//                                   public boolean onMarkerClick(@NonNull Marker marker) {
+//                                           if (marker.getTitle().equals("The University of Wollongong in Dubai")) {
+//                                               Log.d(TAG, "onMarkerClick: In UOWD on click");
+////                                               setupUOWDParkingLayoutFragment();
+//                                           }
+//
+//                                           if (marker.getTitle().equals("Dubai Mall")) {
+//                                                   Log.d(TAG, "onMarkerClick: In Dubai Mall");
+////                                                   setupDubaiMallParkingLayoutFragment();
+//                                           }
+//                                           return false;
+//                                   }
+//                               });
+
+                           googleMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+                               @Override
+                               public void onInfoWindowClick(@NonNull Marker marker) {
+                                   if (marker.getTitle().equals("The University of Wollongong in Dubai")) {
+                                       Log.d(TAG, "onInfoWindowClick: In UOWD on click");
+                                       setupUOWDParkingLayoutFragment();
+                                   }
+
+                                   if (marker.getTitle().equals("Dubai Mall")) {
+                                       Log.d(TAG, "onInfoWindowClick: In Dubai Mall");
+                                       setupDubaiMallParkingLayoutFragment();
+                                   }
+//
+                               }
+                           });
                            Log.d(TAG, "onSuccess: GPS coordinates: " + geopoint + "\n");
                        }
                    }
@@ -230,6 +274,30 @@ public class MapFragment extends Fragment {
                    }
                });
 
+    }
+
+    private void setupDubaiMallParkingLayoutFragment()
+    {
+        Fragment fragment = new DubaiMallParkingLayoutFragment();
+        getActivity().getSupportFragmentManager()
+                .beginTransaction()
+                .setReorderingAllowed(true)
+                .addToBackStack(null)
+                .setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_right, R.anim.enter_from_right, R.anim.exit_to_right)
+                .replace(R.id.id_fragment_container_view, fragment)
+                .commit();
+    }
+
+    private void setupUOWDParkingLayoutFragment()
+    {
+        Fragment fragment = new UOWDParkingLayoutFragment();
+        getActivity().getSupportFragmentManager()
+                .beginTransaction()
+                .setReorderingAllowed(true)
+                .addToBackStack(null)
+                .setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_right, R.anim.enter_from_right, R.anim.exit_to_right)
+                .replace(R.id.id_fragment_container_view, fragment)
+                .commit();
     }
 
     @Override
@@ -337,7 +405,7 @@ public class MapFragment extends Fragment {
 //            Log.d(TAG, "onRequestPermissionsResult: Inside first if");
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 //                Log.d(TAG, "onRequestPermissionsResult: Inside");
-//                getLastLocation();
+                getLastLocation();
                 checkSettingsAndStartLocationUpdates();
             } else if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION)) {
                 Log.d(TAG, "onRequestPermissionsResult: User has denied permission");
