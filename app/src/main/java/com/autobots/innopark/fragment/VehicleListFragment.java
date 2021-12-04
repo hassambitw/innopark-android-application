@@ -128,6 +128,7 @@ public class VehicleListFragment extends Fragment implements VehicleRecyclerView
         if (!vehiclesOwned.isEmpty()) {
             db.collection("vehicles")
                     .whereIn(FieldPath.documentId(), vehiclesOwned)
+                    .whereEqualTo("owned_by", currentUser.getEmail())
                     .get()
                     .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                         @Override

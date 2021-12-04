@@ -190,6 +190,8 @@ public class HomeFragment extends Fragment
                     boolean owned = false;
                     boolean driven = false;
 
+                    String tcNum = (String) result.get("");
+
                     //getting vehicles owned
                     if (result.get("vehicles_owned") != null) {
                         vehiclesOwned = (List<String>) result.get("vehicles_owned");

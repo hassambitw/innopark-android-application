@@ -9,6 +9,7 @@ public class UserApi extends Application
     private String userId;
     private String username;
     private String userEmail;
+    private String tcNum;
     private List<String> vehiclesOwned;
     private List<String> vehiclesDriven;
     private List<String> vehiclesCombined;
@@ -23,6 +24,14 @@ public class UserApi extends Application
 
     //empty constructor
     public UserApi() {}
+
+    public String getTcNum() {
+        return tcNum;
+    }
+
+    public void setTcNum(String tcNum) {
+        this.tcNum = tcNum;
+    }
 
     public List<String> getVehiclesCombined() {
         return vehiclesCombined;

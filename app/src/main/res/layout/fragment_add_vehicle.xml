@@ -20,7 +20,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="32dp"
             android:layout_marginEnd="32dp"
             android:background="@drawable/edittext_rounded"
             android:gravity="center"
@@ -29,8 +29,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/id_menu_toolbar"
-            app:layout_constraintVertical_bias="0.033">
+            app:layout_constraintTop_toBottomOf="@+id/textView9"
+            app:layout_constraintVertical_bias="0.028">
 
             <TextView
                 android:layout_width="85dp"
@@ -44,38 +44,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_marginLeft="10dp"
+                android:hint="Eg: A12345"
                 android:inputType="number"
-                android:paddingLeft="15dp"
-                android:textSize="18sp" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/linearLayout5"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="32dp"
-            android:background="@drawable/edittext_rounded"
-            android:gravity="center"
-            android:padding="10dp"
-            app:layout_constraintEnd_toEndOf="@+id/linearLayout4"
-            app:layout_constraintStart_toStartOf="@+id/linearLayout4"
-            app:layout_constraintTop_toBottomOf="@+id/linearLayout4">
-
-            <TextView
-                android:layout_width="85dp"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="Car Name"
-                android:textSize="18sp" />
-
-            <EditText
-                android:id="@+id/id_add_vehicle_car_name"
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:layout_marginLeft="10dp"
                 android:paddingLeft="15dp"
                 android:textSize="18sp" />
 
@@ -83,43 +53,27 @@
 
         <TextView
             android:id="@+id/textView9"
-            android:layout_width="wrap_content"
+            android:layout_width="347dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="28dp"
+            android:layout_marginStart="32dp"
+
+            android:layout_marginTop="32dp"
             android:layout_marginEnd="32dp"
-            android:text="Drivers"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-            app:layout_constraintEnd_toEndOf="@+id/linearLayout5"
-            app:layout_constraintEnd_toStartOf="@+id/id_add_vehicle_add_driver"
-            app:layout_constraintHorizontal_bias="0.5"
+            android:text="Input the license number of the vehicle you want to add."
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/linearLayout5" />
+            app:layout_constraintTop_toBottomOf="@+id/id_menu_toolbar" />
 
         <Button
-            android:id="@+id/id_add_vehicle_add_driver"
+            android:id="@+id/id_add_vehicle_add"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="32dp"
-            android:text="Add Driver"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/textView9"
-            app:layout_constraintTop_toBottomOf="@+id/linearLayout5" />
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/id_add_vehicle_add_driver_recycler_view"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginBottom="16dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="64dp"
+            android:text="Add"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/id_add_vehicle_add_driver" />
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout4" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
