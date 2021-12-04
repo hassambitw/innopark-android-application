@@ -8,6 +8,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentResultListener;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -20,7 +21,9 @@ import android.widget.TextView;
 import com.autobots.innopark.LoginActivity;
 import com.autobots.innopark.R;
 import com.autobots.innopark.adapter.VehicleRecyclerViewAdapter;
+import com.autobots.innopark.data.Callbacks.HashmapCallback;
 import com.autobots.innopark.data.DatabaseUtils;
+import com.autobots.innopark.data.User;
 import com.autobots.innopark.data.UserApi;
 import com.autobots.innopark.data.Vehicle;
 import com.autobots.innopark.data.Vehicle2;
@@ -38,6 +41,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -69,6 +73,8 @@ public class VehicleListFragment extends Fragment implements VehicleRecyclerView
 
     boolean innerQuery = false;
 
+    String strMessage;
+
     //firestore connection
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
 
@@ -97,6 +103,7 @@ public class VehicleListFragment extends Fragment implements VehicleRecyclerView
         emptyView = view.findViewById(R.id.id_vehicle_list_empty_view);
         mRecyclerView = view.findViewById(R.id.id_vehicles_recycler_view);
 
+
         vehiclesOwned = new ArrayList<>();
         vehicleList = new ArrayList<>();
         vehicleList2 = new ArrayList<>();
@@ -106,17 +113,59 @@ public class VehicleListFragment extends Fragment implements VehicleRecyclerView
             addVehicleFragment();
         });
 
-        setupToolbar(view);
+        getActivity().getSupportFragmentManager().setFragmentResultListener("requestKeyFromTC", this, new FragmentResultListener() {
+            @Override
+            public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
+                Log.d(TAG, "onFragmentResult: Inside");
+                strMessage = result.getString("TC");
+
+                setupToolbar(view);
+            }
+        });
+
+        setupNormalToolbar(view);
 //        setupRecyclerView(view);
 
         return view;
+    }
+
+    private void setupNormalToolbar(View view)
+    {
+        toolbar = view.findViewById(R.id.id_menu_toolbar);
+        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(false);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    getActivity().onBackPressed();
+                }
+            });
+        toolbarTitle = toolbar.findViewById(R.id.id_toolbar_title);
+        toolbarTitle.setText("Vehicles");
     }
 
     @Override
     public void onStart() {
         super.onStart();
 
-        loadVehicles();
+        Log.d(TAG, "onStart: " + strMessage);
+        getCurrentVehiclesOwned();
+//        loadVehicles();
+    }
+
+    private void getCurrentVehiclesOwned()
+    {
+        User.getUser(currentUser.getEmail(), new HashmapCallback() {
+            @Override
+            public void passHashmapResult(HashMap<String, Object> result) {
+                UserApi userApi = UserApi.getInstance();
+                ArrayList<String> currentVehiclesOwned = (ArrayList<String>) result.get("vehicles_owned");
+                userApi.setVehiclesOwned(currentVehiclesOwned);
+                loadVehicles();
+
+            }
+        });
     }
 
     private void loadVehicles()
@@ -222,16 +271,10 @@ public class VehicleListFragment extends Fragment implements VehicleRecyclerView
         toolbar = view.findViewById(R.id.id_menu_toolbar);
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
         ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(false);
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         toolbarTitle = toolbar.findViewById(R.id.id_toolbar_title);
         toolbarTitle.setText("Vehicles");
 
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getActivity().onBackPressed();
-            }
-        });
     }
 
     private void setupRecyclerView()

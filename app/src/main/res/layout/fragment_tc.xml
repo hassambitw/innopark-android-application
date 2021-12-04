@@ -36,15 +36,16 @@
                 android:layout_width="85dp"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="License Number"
+                android:text="Traffic Code Number"
                 android:textSize="18sp" />
 
             <EditText
-                android:id="@+id/id_add_vehicle_license_num"
+                android:id="@+id/id_tc_number_input"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_marginLeft="10dp"
-                android:hint="Eg: A12345"
+                android:hint="Eg: 234"
+                android:inputType="number"
                 android:paddingLeft="15dp"
                 android:textSize="18sp" />
 
@@ -58,24 +59,24 @@
 
             android:layout_marginTop="32dp"
             android:layout_marginEnd="32dp"
-            android:text="Input the license number of the vehicle you want to add."
+            android:text="Input your traffic code number associated with your ID."
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/id_menu_toolbar" />
 
         <Button
-            android:id="@+id/id_add_vehicle_add"
+            android:id="@+id/id_tc_number_verify"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
             android:layout_marginTop="64dp"
-            android:text="Add"
+            android:text="Verify"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/linearLayout4" />
 
         <ProgressBar
-            android:id="@+id/id_add_vehicle_progress_bar"
+            android:id="@+id/id_tc_progress_bar"
             style="?android:attr/progressBarStyle"
             android:layout_width="60dp"
             android:layout_height="60dp"

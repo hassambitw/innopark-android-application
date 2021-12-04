@@ -190,7 +190,11 @@ public class HomeFragment extends Fragment
                     boolean owned = false;
                     boolean driven = false;
 
-                    String tcNum = (String) result.get("");
+                    String tcNum = (String) result.get("traffic_code");
+                    userApi.setTcNum(tcNum);
+
+                    String userId = (String) result.get("id_card_number");
+                    userApi.setUserId(userId);
 
                     //getting vehicles owned
                     if (result.get("vehicles_owned") != null) {
@@ -222,11 +226,6 @@ public class HomeFragment extends Fragment
                     //Log.d(TAG, "passHashmapResult: " + vehiclesCombined);
 
                     profileName.setText(fullName);
-                    if (currentUser != null) {
-                        String currentUserUid = currentUser.getUid();
-                        userApi.setUserId(currentUserUid);
-                    }
-                    userApi.setUsername(fullName);
 
                     if (!vehiclesCombined.isEmpty())
                     {
