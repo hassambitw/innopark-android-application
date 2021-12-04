@@ -10,46 +10,59 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentSnapshot;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Vehicle
 {
 
-    String licensePlateNum;
-    String[] driverName;
-    String vehicleMake;
+    ArrayList<String> vehicles_owned;
+    ArrayList<String> vehicles_driven;
+    String first_name;
+    String last_name;
+
 
     public static String collection = Config.VEHICLES_TABLE;
 
-    public Vehicle(String licensePlateNum, String[] driverName, String vehicleMake)
-    {
-        this.licensePlateNum = licensePlateNum;
-        this.driverName = driverName;
-        this.vehicleMake = vehicleMake;
+    public Vehicle() {}
+
+    public Vehicle(ArrayList<String> vehicles_owned, ArrayList<String> vehicles_driven, String first_name, String last_name) {
+        this.vehicles_owned = vehicles_owned;
+        this.vehicles_driven = vehicles_driven;
+        this.first_name = first_name;
+        this.last_name = last_name;
     }
 
-    public String getLicensePlateNum() {
-        return licensePlateNum;
+    public ArrayList<String> getVehicles_owned() {
+        return vehicles_owned;
     }
 
-    public void setLicensePlateNum(String licensePlateNum) {
-        this.licensePlateNum = licensePlateNum;
+    public void setVehicles_owned(ArrayList<String> vehicles_owned) {
+        this.vehicles_owned = vehicles_owned;
     }
 
-    public CharSequence[] getDriverName() {
-        return driverName;
+    public ArrayList<String> getVehicles_driven() {
+        return vehicles_driven;
     }
 
-    public void setDriverName(String[] driverName) {
-        this.driverName = driverName;
+    public void setVehicles_driven(ArrayList<String> vehicles_driven) {
+        this.vehicles_driven = vehicles_driven;
     }
 
-    public String getVehicleMake() {
-        return vehicleMake;
+    public String getFirst_name() {
+        return first_name;
     }
 
-    public void setVehicleMake(String vehicleMake) {
-        this.vehicleMake = vehicleMake;
+    public void setFirst_name(String first_name) {
+        this.first_name = first_name;
+    }
+
+    public String getLast_name() {
+        return last_name;
+    }
+
+    public void setLast_name(String last_name) {
+        this.last_name = last_name;
     }
 
     public static void getVehicleInfo(String licensePlateNum, HashmapCallback callback){

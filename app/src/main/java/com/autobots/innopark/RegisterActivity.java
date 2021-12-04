@@ -113,7 +113,7 @@ public class RegisterActivity extends AppCompatActivity {
         vehicleMap = new HashMap<>();
 
         setupRegisterAction();
-        
+
         vehicles_owned = new ArrayList<>();
 
         radio_grp_vehicle.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
@@ -213,6 +213,8 @@ public class RegisterActivity extends AppCompatActivity {
                                                     //create user map so we can add a user to user collection in firestore
                                                     //change this to license number entered by user if he owns a vehicle
 
+                                                    ArrayList<String> vehiclesDriven = new ArrayList<>();
+
                                                         user.put("email_address", email);
                                                         user.put("first_name", firstName);
                                                         user.put("id_card_number", id);
@@ -220,6 +222,7 @@ public class RegisterActivity extends AppCompatActivity {
                                                         user.put("last_name", lastName);
                                                         user.put("phone_number", phoneNum);
                                                         user.put("vehicles_owned", vehicles_owned);
+                                                        user.put("vehicles_driven", vehiclesDriven);
                                                         user.put("traffic_code", tcNum);
 
 

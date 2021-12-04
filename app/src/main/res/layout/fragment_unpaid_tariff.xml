@@ -29,7 +29,7 @@
         android:visibility="gone"
         android:layout_height="wrap_content"
         android:text="No unpaid sessions to show."
-        android:textColor="@color/brinkpink"
+        android:textColor="@color/slategray"
         android:fontFamily="@font/open_sans_semibold"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         app:layout_constraintBottom_toBottomOf="@+id/id_unpaid_sessions_recycler_view"

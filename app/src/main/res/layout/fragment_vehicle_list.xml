@@ -40,5 +40,20 @@
         app:layout_constraintTop_toBottomOf="@+id/id_vehicles_add_vehicle"
         app:layout_constraintVertical_bias="0.0" />
 
+    <TextView
+        android:id="@+id/id_vehicle_list_empty_view"
+        android:visibility="gone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="You have not added a vehicle that you own. Add one!"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:textColor="@color/slategray"
+        android:fontFamily="@font/open_sans_semibold"
+        android:textAlignment="center"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/id_menu_toolbar" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
