@@ -75,6 +75,7 @@ public class VehicleListFragment extends Fragment implements VehicleRecyclerView
 
     String strMessage;
 
+    Bundle args;
     //firestore connection
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
 
@@ -102,6 +103,8 @@ public class VehicleListFragment extends Fragment implements VehicleRecyclerView
         addVehicle = view.findViewById(R.id.id_vehicles_add_vehicle);
         emptyView = view.findViewById(R.id.id_vehicle_list_empty_view);
         mRecyclerView = view.findViewById(R.id.id_vehicles_recycler_view);
+
+        args = new Bundle();
 
 
         vehiclesOwned = new ArrayList<>();
@@ -189,6 +192,14 @@ public class VehicleListFragment extends Fragment implements VehicleRecyclerView
                                     vehicle2 = snapshot.toObject(Vehicle2.class);
 
                                     String documentId = snapshot.getId();
+                                    if (vehicle2.getModel() != null) {
+                                        String model = vehicle2.getModel();
+                                        args.putString("model", model);
+                                    }
+                                    args.putString("license", documentId);
+
+                                    getActivity().getSupportFragmentManager().setFragmentResult("From Vehicle List", args);
+
                                     vehicle2.setDocumentId(documentId);
 
                                     vehicleList2.add(vehicle2);

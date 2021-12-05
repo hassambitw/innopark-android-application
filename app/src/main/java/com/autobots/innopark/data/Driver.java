@@ -16,81 +16,95 @@ import java.util.HashMap;
 
 public class Driver {
 
-    String driverName;
-    String driverAge;
-    String driverDOB;
-    String driverNationality;
+    String email_address;
+    String first_name;
+    String id_card_number;
+    boolean is_banned;
+    String last_name;
+    String phone_number;
+    ArrayList<String> vehicles_driven;
+    ArrayList<String> vehicles_owned;
 
     public static String drivers_in_vehicles_collection_field = "driven_by";
 
     public static String collection = Config.VEHICLES_TABLE;
 
-    public Driver (String driverName, String driverAge, String driverDOB, String driverNationality)
-    {
-        this.driverName = driverName;
-        this.driverAge = driverAge;
-        this.driverDOB = driverDOB;
-        this.driverNationality = driverNationality;
+    public Driver() {}
+
+    public Driver(String email_address, String first_name, String id_card_number, boolean is_banned, String last_name, String phone_number, ArrayList<String> vehicles_driven, ArrayList<String> vehicles_owned) {
+        this.email_address = email_address;
+        this.first_name = first_name;
+        this.id_card_number = id_card_number;
+        this.is_banned = is_banned;
+        this.last_name = last_name;
+        this.phone_number = phone_number;
+        this.vehicles_driven = vehicles_driven;
+        this.vehicles_owned = vehicles_owned;
     }
 
-    public String getDriverName() {
-        return driverName;
+    public String getEmail_address() {
+        return email_address;
     }
 
-    public void setDriverName(String driverName) {
-        this.driverName = driverName;
+    public void setEmail_address(String email_address) {
+        this.email_address = email_address;
     }
 
-    public String getDriverAge() {
-        return driverAge;
+    public String getFirst_name() {
+        return first_name;
     }
 
-    public void setDriverAge(String driverAge) {
-        this.driverAge = driverAge;
+    public void setFirst_name(String first_name) {
+        this.first_name = first_name;
     }
 
-    public String getDriverDOB() {
-        return driverDOB;
+    public String getId_card_number() {
+        return id_card_number;
     }
 
-    public void setDriverDOB(String driverDOB) {
-        this.driverDOB = driverDOB;
+    public void setId_card_number(String id_card_number) {
+        this.id_card_number = id_card_number;
     }
 
-    public String getDriverNationality() {
-        return driverNationality;
+    public boolean getIs_banned() {
+        return is_banned;
     }
 
-    public void setDriverNationality(String driverNationality) {
-        this.driverNationality = driverNationality;
+    public void setIs_banned(boolean is_banned) {
+        this.is_banned = is_banned;
     }
 
-//    public static void getDriversDb(String vehicle_license_plate){
-//        DatabaseUtils.db.collection(collection).document(vehicle_license_plate)
-//                .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-//            @Override
-//            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-//                if (task.isSuccessful()) {
-//                    DocumentSnapshot document = task.getResult();
-//
-//                    if (document != null && document.exists()) {
-//                        for (String key: document.getData().keySet()){
-//                                    if(key.equals(drivers_in_vehicles_collection_field)){
-//                                        ArrayList<String> drivers = (ArrayList<String>) document.getData().get(key);
-//                                        //getDriversHandler(drivers);
-//
-//                                        Log.w("value", String.valueOf((drivers).get(0)));
-//                                    }
-//                        }
-//                    } else {
-//                        Log.d("SUCCESS", "No such document");
-//                    }
-//                } else {
-//                    Log.d("SUCCESS", "get failed with ", task.getException());
-//                }
-//            }
-//        });
-//    }
+    public String getLast_name() {
+        return last_name;
+    }
+
+    public void setLast_name(String last_name) {
+        this.last_name = last_name;
+    }
+
+    public String getPhone_number() {
+        return phone_number;
+    }
+
+    public void setPhone_number(String phone_number) {
+        this.phone_number = phone_number;
+    }
+
+    public ArrayList<String> getVehicles_driven() {
+        return vehicles_driven;
+    }
+
+    public void setVehicles_driven(ArrayList<String> vehicles_driven) {
+        this.vehicles_driven = vehicles_driven;
+    }
+
+    public ArrayList<String> getVehicles_owned() {
+        return vehicles_owned;
+    }
+
+    public void setVehicles_owned(ArrayList<String> vehicles_owned) {
+        this.vehicles_owned = vehicles_owned;
+    }
 
     public static void getDriversList(String license_plate_number, ArraylistCallback callback) {
         Vehicle.getVehicleInfo(license_plate_number, new HashmapCallback() {

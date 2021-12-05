@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -18,10 +19,8 @@ public class AddDriverFragment extends Fragment {
 
     Toolbar toolbar;
     TextView toolbarTitle;
-    TextView driverName;
-    TextView driverAge;
-    TextView driverDOB;
-    TextView driverNationality;
+    TextView driverEmail;
+
 
 
     public AddDriverFragment()
@@ -33,15 +32,14 @@ public class AddDriverFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_add_driver, container, false);
-        driverName = view.findViewById(R.id.id_add_drivers_name);
-        driverAge = view.findViewById(R.id.id_add_drivers_age);
-        driverDOB = view.findViewById(R.id.id_add_drivers_dob);
-        driverNationality = view.findViewById(R.id.id_add_drivers_nationality);
+        driverEmail = view.findViewById(R.id.id_add_driver_email);
 
         setupToolbar(view);
 
         return view;
     }
+
+
 
     private void setupToolbar(View view)
     {

@@ -11,12 +11,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.autobots.innopark.R;
 import com.autobots.innopark.data.Driver;
+import com.autobots.innopark.data.User;
 
 import java.util.ArrayList;
 
 public class DriverRecyclerView extends RecyclerView.Adapter<DriverRecyclerView.driverViewHolder>
 {
 
+    private static final String TAG = "DriverRecyclerView";
     private ArrayList<Driver> driverList;
     private Context mContext;
 
@@ -38,10 +40,12 @@ public class DriverRecyclerView extends RecyclerView.Adapter<DriverRecyclerView.
     public void onBindViewHolder(@NonNull DriverRecyclerView.driverViewHolder holder, int position)
     {
         Driver driver = driverList.get(position);
-        holder.driverName.setText(driver.getDriverName());
-        holder.driverAge.setText(driver.getDriverAge());
-        holder.driverDOB.setText(driver.getDriverDOB());
-        holder.driverNationality.setText(driver.getDriverNationality());
+
+        holder.driverName.setText(driver.getFirst_name() + " " + driver.getLast_name());
+        holder.driverEmail.setText(driver.getEmail_address());
+//        holder.driverAge.setText(driver.getDriverAge());
+//        holder.driverDOB.setText(driver.getDriverDOB());
+//        holder.driverNationality.setText(driver.getDriverNationality());
     }
 
     @Override
@@ -53,16 +57,14 @@ public class DriverRecyclerView extends RecyclerView.Adapter<DriverRecyclerView.
     public class driverViewHolder extends RecyclerView.ViewHolder
     {
         TextView driverName;
-        TextView driverAge;
-        TextView driverNationality;
-        TextView driverDOB;
+        TextView driverEmail;
+
 
         public driverViewHolder(@NonNull View itemView) {
             super(itemView);
             driverName = itemView.findViewById(R.id.id_add_drivers_name);
-            driverAge = itemView.findViewById(R.id.id_add_drivers_age);
-            driverNationality = itemView.findViewById(R.id.id_add_drivers_nationality);
-            driverDOB = itemView.findViewById(R.id.id_add_drivers_dob);
+            driverEmail = itemView.findViewById(R.id.id_add_drivers_email);
+
         }
     }
 }

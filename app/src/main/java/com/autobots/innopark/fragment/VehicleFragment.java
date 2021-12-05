@@ -8,26 +8,41 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentResultListener;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.autobots.innopark.LoginActivity;
 import com.autobots.innopark.R;
 import com.autobots.innopark.adapter.DriverRecyclerView;
 import com.autobots.innopark.adapter.VehicleRecyclerViewAdapter;
+import com.autobots.innopark.data.Callbacks.HashmapCallback;
 import com.autobots.innopark.data.DatabaseUtils;
 import com.autobots.innopark.data.Driver;
+import com.autobots.innopark.data.User;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
 
 
 public class VehicleFragment extends Fragment {
@@ -40,8 +55,22 @@ public class VehicleFragment extends Fragment {
     private RecyclerView.LayoutManager mLayoutManager;
     private ArrayList<Driver> driverList;
 
+    boolean hasDrivers = false;
+
     final FirebaseAuth firebaseAuth = DatabaseUtils.firebaseAuth;
     FirebaseUser currentUser;
+
+    String license;
+    String model;
+
+    private static final String TAG = "VehicleFragment";
+
+    EditText licenseNum;
+    EditText carModel;
+    TextView emptyView;
+    ProgressBar progressBar;
+
+    ArrayList<String> driverEmails;
 
     //firestore connection
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -67,17 +96,124 @@ public class VehicleFragment extends Fragment {
     {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_vehicle, container, false);
+
         addDriver = view.findViewById(R.id.id_add_drivers_button);
+        licenseNum = view.findViewById(R.id.id_vehicle_details_license_num);
+        carModel = view.findViewById(R.id.id_vehicle_details_car_model);
+        emptyView = view.findViewById(R.id.id_vehicle_details_empty_view);
+        progressBar = view.findViewById(R.id.id_vehicle_details_progress_bar);
+        mRecyclerView = view.findViewById(R.id.id_vehicle_drivers_recycler_view);
+
+//        driverEmails = new ArrayList<>();
+
+        driverList = new ArrayList<>();
 
         addDriver.setOnClickListener((v) -> {
             addDriverFragment();
         });
 
+
+
         setupToolbar(view);
-        populateDrivers();
-        setupRecyclerView(view);
+//        setupRecyclerView(view);
 
         return view;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        getActivity().getSupportFragmentManager().setFragmentResultListener("From Vehicle List", this, new FragmentResultListener() {
+            @Override
+            public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
+                Log.d(TAG, "onFragmentResult: Inside");
+                license = result.getString("license");
+                licenseNum.setText(license);
+                if (result.getString("model") != null) {
+                    model = result.getString("model");
+                    carModel.setText(model);
+                } else {
+                    carModel.setText("-");
+                }
+                loadDrivers();
+            }
+        });
+//        loadDrivers();
+    }
+
+    private void loadDrivers()
+    {
+        progressBar.setVisibility(View.VISIBLE);
+        //get vehicle drivers from vehicle collection first
+        db.collection("vehicles")
+                .document(license)
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        if (documentSnapshot.exists()) {
+                            Log.d(TAG, "onSuccess: " + documentSnapshot.get("driven_by"));
+                            ArrayList<Object> driverObjs = new ArrayList<>();
+                            driverObjs = (ArrayList<Object>) documentSnapshot.get("driven_by");
+                            if (!driverObjs.isEmpty()) {
+                                Log.d(TAG, "onSuccess: Inside documentsnapshot");
+                                driverEmails = (ArrayList<String>) documentSnapshot.get("driven_by");
+                                //use driver email to get user info
+                                for (String driverEmail : driverEmails) {
+                                    Log.d(TAG, "onSuccess: Single driver email? " + driverEmail);
+                                    db.collection("users")
+                                            .whereEqualTo("email_address", driverEmail)
+                                            .get()
+                                            .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                                                @Override
+                                                public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                                                    Log.d(TAG, "onSuccess: Inside on success" + " Driver email: " + driverEmail);
+                                                    if (!queryDocumentSnapshots.isEmpty()) {
+                                                        progressBar.setVisibility(View.GONE);
+                                                        //found user/driver document
+                                                        List<DocumentSnapshot> snapshotList = queryDocumentSnapshots.getDocuments();
+                                                        for (DocumentSnapshot snapshot : snapshotList) {
+                                                            Driver driver = snapshot.toObject(Driver.class);
+
+                                                            driverList.add(driver);
+                                                            Log.d(TAG, "onSuccess: Inside for loop: " + driver.getEmail_address());
+                                                        }
+                                                    } else {
+                                                        progressBar.setVisibility(View.GONE);
+                                                        Log.d(TAG, "onSuccess: No user document found for the driver email");
+                                                    }
+                                                    setupRecyclerView();
+                                                }
+                                            })
+                                            .addOnFailureListener(new OnFailureListener() {
+                                                @Override
+                                                public void onFailure(@NonNull Exception e) {
+                                                    progressBar.setVisibility(View.GONE);
+                                                    Log.d(TAG, "onFailure: User query to fetch driver info failed");
+                                                }
+                                            });
+                                }
+                            } else {
+                                progressBar.setVisibility(View.GONE);
+                                Log.d(TAG, "onSuccess: Vehicle has no drivers");
+                                emptyView.setVisibility(View.VISIBLE);
+                            }
+
+                        } else {
+                            //vehicle document does not exist
+                            progressBar.setVisibility(View.GONE);
+                            Log.d(TAG, "onSuccess: Vehicle document does not exist");
+                        }
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        progressBar.setVisibility(View.GONE);
+                        Log.d(TAG, "onFailure: Vehicle query failed: " + e.getMessage());
+                    }
+                });
     }
 
     private void addDriverFragment()
@@ -92,15 +228,6 @@ public class VehicleFragment extends Fragment {
                 .commit();
     }
 
-    private void populateDrivers()
-    {
-        driverList = new ArrayList<>();
-
-        driverList.add(new Driver("Hassam Shaukat", "23", "05/12/1997", "Pakistan"));
-        driverList.add(new Driver("Wahdan Hasan", "21", "15/02/1999", "Pakistan"));
-        driverList.add(new Driver("Rama Al Sbeinaty", "21", "05/12/1999", "Syria"));
-        driverList.add(new Driver("Pritish Agarwal", "21", "05/12/1999", "India"));
-    }
 
     private void setupToolbar(View view)
     {
@@ -119,9 +246,8 @@ public class VehicleFragment extends Fragment {
         });
     }
 
-    private void setupRecyclerView(View view)
+    private void setupRecyclerView()
     {
-        mRecyclerView = view.findViewById(R.id.id_vehicle_drivers_recycler_view);
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLayoutManager);
