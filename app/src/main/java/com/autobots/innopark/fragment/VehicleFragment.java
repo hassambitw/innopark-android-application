@@ -8,6 +8,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentResultListener;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -30,6 +31,7 @@ import com.autobots.innopark.data.Callbacks.HashmapCallback;
 import com.autobots.innopark.data.DatabaseUtils;
 import com.autobots.innopark.data.Driver;
 import com.autobots.innopark.data.User;
+import com.autobots.innopark.data.UserApi;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -124,11 +126,32 @@ public class VehicleFragment extends Fragment {
     public void onStart() {
         super.onStart();
 
+        UserApi userApi = UserApi.getInstance();
+
         getActivity().getSupportFragmentManager().setFragmentResultListener("From Vehicle List", this, new FragmentResultListener() {
             @Override
             public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
-                Log.d(TAG, "onFragmentResult: Inside");
+                Log.d(TAG, "onFragmentResult: Inside from Vehicle List");
                 license = result.getString("license");
+                userApi.setIndividualLicense(license);
+                licenseNum.setText(license);
+                if (result.getString("model") != null) {
+                    model = result.getString("model");
+                    carModel.setText(model);
+                } else {
+                    carModel.setText("-");
+                }
+                loadDrivers();
+            }
+        });
+
+
+        getActivity().getSupportFragmentManager().setFragmentResultListener("From Add Driver", this, new FragmentResultListener() {
+            @Override
+            public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
+                Log.d(TAG, "onFragmentResult: Inside from Add Vehicle");
+                license = result.getString("license2");
+//                userApi.setIndividualLicense(license);
                 licenseNum.setText(license);
                 if (result.getString("model") != null) {
                     model = result.getString("model");
@@ -218,11 +241,11 @@ public class VehicleFragment extends Fragment {
 
     private void addDriverFragment()
     {
-        Fragment fragment = new AddDriverFragment();
+        AddDriverFragment fragment = new AddDriverFragment();
         getActivity().getSupportFragmentManager()
                 .beginTransaction()
                 .setReorderingAllowed(true)
-                .addToBackStack(null)
+                .addToBackStack(AddDriverFragment.class.getName())
                 .setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_right, R.anim.enter_from_right, R.anim.exit_to_right)
                 .replace(R.id.id_child_fragment_container_view, fragment)
                 .commit();
@@ -242,6 +265,7 @@ public class VehicleFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 getActivity().onBackPressed();
+
             }
         });
     }

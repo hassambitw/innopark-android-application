@@ -13,6 +13,7 @@ public class UserApi extends Application
     private List<String> vehiclesOwned;
     private List<String> vehiclesDriven;
     private List<String> vehiclesCombined;
+    private String individualLicense;
     private static UserApi instance;
 
     public static UserApi getInstance() {
@@ -24,6 +25,14 @@ public class UserApi extends Application
 
     //empty constructor
     public UserApi() {}
+
+    public String getIndividualLicense() {
+        return individualLicense;
+    }
+
+    public void setIndividualLicense(String individualLicense) {
+        this.individualLicense = individualLicense;
+    }
 
     public String getTcNum() {
         return tcNum;
