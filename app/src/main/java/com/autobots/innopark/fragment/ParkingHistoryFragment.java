@@ -215,15 +215,6 @@ public class ParkingHistoryFragment extends Fragment {
         });
     }
 
-//    private void setupData()
-//    {
-//        parkingHistoryDataList.add(new ParkingHistoryData("UOWD", "02/09/2021", "B1", new String[]{"Hassam Shaukat"}, "A12345", "Toyota Corolla", "1 Hour", Boolean.TRUE, "Paid", 50, 100, Boolean.TRUE));
-//        parkingHistoryDataList.add(new ParkingHistoryData("UOWD", "02/09/2021", "B1", new String[]{"Hassam Shaukat"}, "A12345", "Toyota Corolla", "1 Hour", Boolean.FALSE, "Unpaid", 50, 100, Boolean.FALSE));
-//        parkingHistoryDataList.add(new ParkingHistoryData("UOWD", "02/09/2021", "B1", new String[]{"Hassam Shaukat"}, "A12345", "Toyota Corolla", "1 Hour", Boolean.TRUE, "Paid", 50, 100, Boolean.FALSE));
-//        parkingHistoryDataList.add(new ParkingHistoryData("UOWD", "02/09/2021", "B1", new String[]{"Hassam Shaukat"}, "A12345", "Toyota Corolla", "1 Hour", Boolean.FALSE, "Unpaid", 50, 100, Boolean.TRUE));
-//        parkingHistoryDataList.add(new ParkingHistoryData("UOWD", "02/09/2021", "B1", new String[]{"Hassam Shaukat"}, "A12345", "Toyota Corolla", "1 Hour", Boolean.FALSE, "Unpaid", 50, 100, Boolean.TRUE));
-//    }
-
 
     private void setupRecyclerView()
     {

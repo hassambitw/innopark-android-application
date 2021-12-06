@@ -29,13 +29,11 @@
 
             <ImageView
                 android:id="@+id/id_card_inactive_session_tariff_logo"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_marginStart="24dp"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:layout_marginStart="16dp"
                 android:layout_marginTop="20dp"
                 android:src="@drawable/card_unpaid_cross"
-                app:layout_constraintEnd_toStartOf="@+id/id_card_inactive_session_parking_area"
-                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -56,7 +54,7 @@
                 android:id="@+id/textView28"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="32dp"
+                android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginBottom="16dp"
                 android:fontFamily="@font/open_sans"
@@ -95,32 +93,33 @@
                 android:textSize="16sp"
                 app:layout_constraintBottom_toBottomOf="@+id/id_card_inactive_session_parking_area"
                 app:layout_constraintEnd_toStartOf="@+id/guideline5"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toEndOf="@+id/id_card_inactive_session_parking_area"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="@+id/guideline7"
                 app:layout_constraintTop_toTopOf="@+id/id_card_inactive_session_parking_area"
-                app:layout_constraintVertical_bias="0.0" />
+                app:layout_constraintVertical_bias="0.093" />
 
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/guideline4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                app:layout_constraintGuide_begin="88dp" />
+                app:layout_constraintGuide_percent="0.25" />
 
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/guideline5"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                app:layout_constraintGuide_begin="270dp" />
+                app:layout_constraintGuide_percent="0.75" />
 
 
             <TextView
                 android:id="@+id/id_card_inactive_session_parking_spot"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
                 android:layout_marginTop="24dp"
-                android:layout_marginEnd="24dp"
+                android:layout_marginEnd="16dp"
                 android:layout_marginBottom="4dp"
                 android:fontFamily="@font/open_sans_semibold"
                 android:text="Spot 23"
@@ -139,7 +138,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:layout_marginEnd="24dp"
+                android:layout_marginEnd="16dp"
                 android:layout_marginBottom="16dp"
                 android:fontFamily="@font/open_sans_bold"
                 android:text="1hr : 30min"
@@ -156,7 +155,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                app:layout_constraintGuide_begin="238dp" />
+                app:layout_constraintGuide_percent="0.65"/>
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

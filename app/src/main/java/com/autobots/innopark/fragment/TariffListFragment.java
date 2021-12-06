@@ -69,7 +69,7 @@ public class TariffListFragment extends Fragment implements TariffActiveSessionR
 
     int i;
 
-    private List<String> vehiclesCombined;
+    private List<String> vehicledOwned;
 
     String parent_id;
 
@@ -116,7 +116,7 @@ public class TariffListFragment extends Fragment implements TariffActiveSessionR
 
         args2 = new Bundle();
 
-        vehiclesCombined = new ArrayList<>();
+        vehicledOwned = new ArrayList<>();
         unpaidTariffItems = new ArrayList<>();
         activeTariffItems = new ArrayList<>();
         tariffItems2 = new ArrayList<>();
@@ -151,12 +151,12 @@ public class TariffListFragment extends Fragment implements TariffActiveSessionR
     private void loadActiveData()
     {
         UserApi userApi = UserApi.getInstance();
-        vehiclesCombined = userApi.getVehiclesCombined();
+        vehicledOwned = userApi.getVehiclesCombined();
 
-        if (!vehiclesCombined.isEmpty()) {
+        if (!vehicledOwned.isEmpty()) {
             db.collectionGroup("sessions_info")
                     .whereEqualTo("end_datetime", null)
-                    .whereIn("vehicle", vehiclesCombined)
+                    .whereIn("vehicle", vehicledOwned)
                     .orderBy("start_datetime", Query.Direction.DESCENDING)
                     .limit(1)
                     .get()
@@ -215,15 +215,15 @@ public class TariffListFragment extends Fragment implements TariffActiveSessionR
         UserApi userApi = UserApi.getInstance();
         String email = userApi.getUserEmail();
         String currentUserUid = currentUser.getUid();
-        vehiclesCombined = userApi.getVehiclesCombined();
+        vehicledOwned = userApi.getVehiclesOwned();
 
         Date currentDate = new Date();
 
-        if (!vehiclesCombined.isEmpty()) {
+        if (!vehicledOwned.isEmpty()) {
             db.collectionGroup("sessions_info")
                     .whereNotEqualTo("end_datetime", null)
                     .whereEqualTo("is_paid", false)
-                    .whereIn("vehicle", vehiclesCombined)
+                    .whereIn("vehicle", vehicledOwned)
                     .orderBy("end_datetime", Query.Direction.DESCENDING)
                     .get()
                     .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
@@ -254,8 +254,8 @@ public class TariffListFragment extends Fragment implements TariffActiveSessionR
 ////                                    Date parsedDate = simpleDateFormat.parse(newCurrentDate);
 //
                                         if (currentDate.after(due_datetime)) {
-                                            Log.d(TAG, "onSuccess: Current date is after due date where the due date is: " + due_datetime +
-                                                    " and the current date is " + currentDate + " so it is a fine and is skipped");
+//                                            Log.d(TAG, "onSuccess: Current date is after due date where the due date is: " + due_datetime +
+//                                                    " and the current date is " + currentDate + " so it is a fine and is skipped");
                                             continue;
                                         }
 //                                    } else {
@@ -264,6 +264,7 @@ public class TariffListFragment extends Fragment implements TariffActiveSessionR
 //                                    }
 
                                         unpaidTariffItems.add(tariff);
+                                        Log.d(TAG, "onSuccess: Unpaid tariff items: " + unpaidTariffItems.toString());
 
                                         i++;
 
@@ -284,7 +285,7 @@ public class TariffListFragment extends Fragment implements TariffActiveSessionR
 //                                Log.d(TAG, "onSuccess: Parent Doc ID of Unpaid: " + parent_id);
 
                                 }
-//                                setupInactiveRecyclerView();
+                                setupInactiveRecyclerView();
 
                             } else {
                                 Log.d(TAG, "onSuccess: Query document snapshots empty");
