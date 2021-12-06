@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.autobots.innopark.R;
 import com.autobots.innopark.data.Fine;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 public class FinesRecyclerViewAdapter extends RecyclerView.Adapter<FinesRecyclerViewAdapter.FinesViewHolder>
@@ -20,6 +21,8 @@ public class FinesRecyclerViewAdapter extends RecyclerView.Adapter<FinesRecycler
     final private ArrayList<Fine> fine_items;
     private Context mContext;
     private OnFineClickListener onFineClickListener;
+    String formatted_date;
+    SimpleDateFormat formatter;
 
     public FinesRecyclerViewAdapter(ArrayList<Fine> fine_items, Context mContext, OnFineClickListener onFineClickListener)
     {
@@ -41,7 +44,14 @@ public class FinesRecyclerViewAdapter extends RecyclerView.Adapter<FinesRecycler
     public void onBindViewHolder(@NonNull FinesViewHolder holder, int position) {
 
         Fine fine = fine_items.get(position);
-        holder.fineAmount.setText(String.valueOf(fine.getFineAmount()));
+
+        holder.fineAmount.setText(String.valueOf(fine.getFine_amount()) + " DHS");
+        holder.fineAvenue.setText(fine.getAvenue_name());
+        formatter = new SimpleDateFormat("dd/MM/yyyy");
+        formatted_date = formatter.format(fine.getCreated_datetime());
+        holder.fineDate.setText(formatted_date);
+//        holder.fineLicense.setText(fine.getAvenue_name());
+
 
     }
 
@@ -53,15 +63,15 @@ public class FinesRecyclerViewAdapter extends RecyclerView.Adapter<FinesRecycler
     public class FinesViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener
     {
         public TextView fineAmount;
-        public TextView fineLicense;
-        public TextView fineDrivers;
+        public TextView fineDate;
+        public TextView fineAvenue;
         OnFineClickListener onFineClickListener;
 
         public FinesViewHolder(@NonNull View itemView, OnFineClickListener onFineClickListener) {
             super(itemView);
             fineAmount = itemView.findViewById(R.id.id_fine_row_fine_amount);
-            fineLicense = itemView.findViewById(R.id.id_fine_row_item_license);
-            fineDrivers = itemView.findViewById(R.id.id_fine_row_item_drivers);
+            fineDate = itemView.findViewById(R.id.id_fine_row_date);
+            fineAvenue = itemView.findViewById(R.id.id_fine_row_avenue);
 
             this.onFineClickListener = onFineClickListener;
 

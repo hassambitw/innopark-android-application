@@ -27,6 +27,8 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.ArrayList;
+
 public class FineFragment extends Fragment
 {
 
@@ -35,6 +37,7 @@ public class FineFragment extends Fragment
     VideoView videoView;
     Button payFine;
     Button disputeFine;
+    ArrayList<String> vehiclesOwned;
 
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
 
@@ -61,6 +64,8 @@ public class FineFragment extends Fragment
         videoView = view.findViewById(R.id.id_pending_fine_video_footage);
         payFine = view.findViewById(R.id.id_pending_fine_pay);
         disputeFine = view.findViewById(R.id.id_pending_fine_dispute_fine);
+
+//        vehiclesOwned = new ArrayList<>();
 
         disputeFine.setOnClickListener((v) -> {
             startDisputeFineFragment();

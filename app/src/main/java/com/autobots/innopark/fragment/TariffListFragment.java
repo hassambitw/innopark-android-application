@@ -284,7 +284,7 @@ public class TariffListFragment extends Fragment implements TariffActiveSessionR
 //                                Log.d(TAG, "onSuccess: Parent Doc ID of Unpaid: " + parent_id);
 
                                 }
-                                setupInactiveRecyclerView();
+//                                setupInactiveRecyclerView();
 
                             } else {
                                 Log.d(TAG, "onSuccess: Query document snapshots empty");

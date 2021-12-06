@@ -185,6 +185,8 @@ public class TCFragment extends Fragment
     {
 
 //        userMap.put("vehicles_owned", tc);
+        UserApi userApi = UserApi.getInstance();
+
 
         db.collection("users")
                 .document(currentUser.getUid())
@@ -194,6 +196,7 @@ public class TCFragment extends Fragment
                     public void onSuccess(Void unused) {
                         //user doc updated, next check vehicle collection
                         checkVehicleCollectionForAddedLicense();
+
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
