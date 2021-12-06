@@ -49,27 +49,27 @@ public class UOWDParkingLayoutFragment extends Fragment
         View view = inflater.inflate(R.layout.fragment_uowd_parking_layout, container, false);
 
 
-        setupToolbar(view);
+//        setupToolbar(view);
 
         return view;
     }
 
-    private void setupToolbar(View view)
-    {
-        toolbar = view.findViewById(R.id.id_menu_toolbar);
-        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(false);
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        toolbar_title = toolbar.findViewById(R.id.id_toolbar_title);
-        toolbar_title.setText("UOWD Parking Layout");
-
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getActivity().onBackPressed();
-            }
-        });
-    }
+//    private void setupToolbar(View view)
+//    {
+//        toolbar = view.findViewById(R.id.id_menu_toolbar);
+//        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
+//        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(false);
+//        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+//        toolbar_title = toolbar.findViewById(R.id.id_toolbar_title);
+//        toolbar_title.setText("UOWD Parking Layout");
+//
+//        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                getActivity().onBackPressed();
+//            }
+//        });
+//    }
 }
 
 

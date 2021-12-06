@@ -4,19 +4,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:scrollbarAlwaysDrawVerticalTrack="true"
     tools:context=".fragment.UOWDParkingLayoutFragment">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <com.ortiz.touchview.TouchImageView
+        android:id="@+id/imageView12"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent"
+        android:adjustViewBounds="true"
+        android:contentDescription="Specs"
+        android:scaleType="center"
+        android:scrollbars="vertical"
+        android:src="@drawable/empty_lot" />
 
-        <include
-            android:id="@+id/id_menu_toolbar"
-            layout="@layout/toolbar" />
 
-
-
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </ScrollView>
