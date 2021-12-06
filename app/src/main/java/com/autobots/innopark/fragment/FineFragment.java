@@ -2,13 +2,17 @@ package com.autobots.innopark.fragment;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.MediaController;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.VideoView;
 
@@ -21,6 +25,7 @@ import androidx.fragment.app.Fragment;
 
 import com.autobots.innopark.LoginActivity;
 import com.autobots.innopark.R;
+import com.autobots.innopark.VideoActivity;
 import com.autobots.innopark.data.DatabaseUtils;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -38,6 +43,9 @@ public class FineFragment extends Fragment
     Button payFine;
     Button disputeFine;
     ArrayList<String> vehiclesOwned;
+    Button fullscreenBtn;
+    TextView emptyView;
+    TextView launchVideo;
 
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
 
@@ -61,10 +69,17 @@ public class FineFragment extends Fragment
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
     {
         View view = inflater.inflate(R.layout.fragment_fine, container, false);
-        videoView = view.findViewById(R.id.id_pending_fine_video_footage);
+//        videoView = view.findViewById(R.id.id_pending_fine_video_footage);
         payFine = view.findViewById(R.id.id_pending_fine_pay);
         disputeFine = view.findViewById(R.id.id_pending_fine_dispute_fine);
+        emptyView = view.findViewById(R.id.id_pending_fine_empty_view);
+        launchVideo = view.findViewById(R.id.id_pending_fine_message);
 
+        launchVideo.setOnClickListener((v) -> {
+            startActivity(new Intent(getActivity(), VideoActivity.class));
+        });
+
+//        fullscreenBtn = view.findViewById(R.id.fullscreen);
 //        vehiclesOwned = new ArrayList<>();
 
         disputeFine.setOnClickListener((v) -> {
@@ -73,7 +88,7 @@ public class FineFragment extends Fragment
 
 
         setupToolbar(view);
-        setupVideoView(view);
+//        setupVideoView(view);
 
         return view;
     }
@@ -92,14 +107,34 @@ public class FineFragment extends Fragment
 
     private void setupVideoView(View view)
     {
-        String videoPath = "android.resource://" + getActivity().getPackageName() + "/" + R.raw.leg_2;
-        Uri uri = Uri.parse(videoPath);
-        videoView.setVideoURI(uri);
+//        String videoPath = "android.resource://" + getActivity().getPackageName() + "/" + R.raw.leg_2;
+//        Uri uri = Uri.parse(videoPath);
+//        videoView.setVideoURI(uri);
+//
+//        MediaController mediaController = new MediaController(getActivity());
+//        videoView.setMediaController(mediaController);
+//        mediaController.setAnchorView(videoView);
+//        videoView.start();
 
-        MediaController mediaController = new MediaController(getActivity());
-        videoView.setMediaController(mediaController);
-        mediaController.setAnchorView(videoView);
-        videoView.requestFocus();
+//        fullscreenBtn.setOnClickListener((v) -> {
+//            enterFullScreen();
+//            fullscreenBtn.setVisibility(View.GONE);
+//        });
+    }
+
+    private void enterFullScreen()
+    {
+        getActivity().getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);//设置横屏
+        getActivity().getWindow().setFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON,WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(
+                RelativeLayout.LayoutParams.MATCH_PARENT,
+                RelativeLayout.LayoutParams.MATCH_PARENT
+        );
+        layoutParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+        layoutParams.addRule(RelativeLayout.ALIGN_PARENT_TOP);
+        layoutParams.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
+        layoutParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
     }
 
     private void setupToolbar(View view)

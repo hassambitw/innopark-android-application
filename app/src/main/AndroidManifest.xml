@@ -21,6 +21,10 @@
             android:name=".ForgotPasswordActivity"
             android:exported="true" />
         <activity
+            android:name=".VideoActivity"
+            android:exported="true"
+            android:screenOrientation="landscape"/>
+        <activity
             android:name=".DashboardActivity"
             android:exported="true" />
         <activity
