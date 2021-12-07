@@ -56,11 +56,18 @@ public class FineFragment extends Fragment
     EditText violationTypeET;
     String violationType;
 
+    Bundle args;
+
     EditText dueDateET;
     Date dueDate;
     SimpleDateFormat formatter;
     String formatted_date;
     ProgressBar progressBar;
+
+    String fineId;
+    String fineDescription;
+    String parentId;
+    TextView fineDescriptionTV;
 
     private static final String TAG = "FineFragment";
 
@@ -99,6 +106,9 @@ public class FineFragment extends Fragment
         violationTypeET = view.findViewById(R.id.id_pending_fine_violation_type);
         dueDateET = view.findViewById(R.id.id_pending_due_date);
         progressBar = view.findViewById(R.id.id_pending_fine_progress_bar);
+        fineDescriptionTV = view.findViewById(R.id.id_pending_fine_description);
+
+        args = new Bundle();
 
 //        fullscreenBtn = view.findViewById(R.id.fullscreen);
 //        vehiclesOwned = new ArrayList<>();
@@ -132,6 +142,10 @@ public class FineFragment extends Fragment
                 footage = result.getString("footage");
                 Log.d(TAG, "onFragmentResult: " + footage);
                 dueDate = (Date) result.getSerializable("dueDate");
+                fineId = result.getString("fineId");
+                fineDescription = result.getString("fineDescription");
+                parentId = result.getString("parentId");
+                fineDescriptionTV.setText(fineDescription);
 //                Log.d(TAG, "onFragmentResult: Due Date: " + dueDate);
 
                 licenseET.setText(license);
@@ -164,6 +178,16 @@ public class FineFragment extends Fragment
     private void startDisputeFineFragment()
     {
         Fragment fragment = new DisputeFineFragment();
+
+        args.putString("fineType", violationType);
+        args.putString("license", license);
+        args.putDouble("fineAmount", fineAmount);
+        args.putString("fineId", fineId);
+        args.putString("parentId", parentId);
+
+
+        getActivity().getSupportFragmentManager().setFragmentResult("From Fine Fragment", args);
+
         getActivity().getSupportFragmentManager()
                 .beginTransaction()
                 .setReorderingAllowed(true)
@@ -173,22 +197,6 @@ public class FineFragment extends Fragment
                 .commit();
     }
 
-    private void setupVideoView(View view)
-    {
-//        String videoPath = "android.resource://" + getActivity().getPackageName() + "/" + R.raw.leg_2;
-//        Uri uri = Uri.parse(videoPath);
-//        videoView.setVideoURI(uri);
-//
-//        MediaController mediaController = new MediaController(getActivity());
-//        videoView.setMediaController(mediaController);
-//        mediaController.setAnchorView(videoView);
-//        videoView.start();
-
-//        fullscreenBtn.setOnClickListener((v) -> {
-//            enterFullScreen();
-//            fullscreenBtn.setVisibility(View.GONE);
-//        });
-    }
 
     private void setupToolbar(View view)
     {

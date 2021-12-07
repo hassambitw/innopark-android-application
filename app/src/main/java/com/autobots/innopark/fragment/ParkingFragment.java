@@ -8,6 +8,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentResultListener;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
@@ -35,6 +36,12 @@ public class ParkingFragment extends Fragment {
     final FirebaseAuth firebaseAuth = DatabaseUtils.firebaseAuth;
     FirebaseUser currentUser;
 
+    String value;
+    private static final String TAG = "Parking Fragment";
+
+    ViewPager viewPager;
+    TabLayout tabLayout;
+
     //firestore connection
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
 
@@ -58,13 +65,29 @@ public class ParkingFragment extends Fragment {
     {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_parking, container, false);
+        viewPager = view.findViewById(R.id.id_view_pager);
+        tabLayout = view.findViewById(R.id.id_tabs);
         Log.d("TAG", "onCreateView: ");
 
         setupToolbar(view);
-        setupViewPager(view);
+        setupViewPager();
 
         return view;
 
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        getActivity().getSupportFragmentManager().setFragmentResultListener("From Dispute Fine", this, new FragmentResultListener() {
+            @Override
+            public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
+                Log.d(TAG, "onFragmentResult: Inside");
+                value = result.getString("FinesDefault");
+                setupViewPager();
+            }
+        });
     }
 
     private void setupToolbar(View view)
@@ -77,12 +100,16 @@ public class ParkingFragment extends Fragment {
         toolbarTitle.setText("Parking");
     }
 
-    private void setupViewPager(View view)
+    private void setupViewPager()
     {
-        ViewPager viewPager = view.findViewById(R.id.id_view_pager);
         PagerAdapter pagerAdapter = new ParkingFragmentPagerAdapter(getChildFragmentManager());
         viewPager.setAdapter(pagerAdapter);
-        TabLayout tabLayout = view.findViewById(R.id.id_tabs);
+//        tabLayout.selectTab(T);
+        if (value == "1") {
+            tabLayout.selectTab(tabLayout.getTabAt(1));
+            Log.d(TAG, "setupViewPager: Inside");
+        }
         tabLayout.setupWithViewPager(viewPager);
+
     }
 }

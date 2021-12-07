@@ -245,7 +245,7 @@ public class VehicleFragment extends Fragment {
         getActivity().getSupportFragmentManager()
                 .beginTransaction()
                 .setReorderingAllowed(true)
-                .addToBackStack(AddDriverFragment.class.getName())
+                .addToBackStack(null)
                 .setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_right, R.anim.enter_from_right, R.anim.exit_to_right)
                 .replace(R.id.id_child_fragment_container_view, fragment)
                 .commit();

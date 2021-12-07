@@ -23,11 +23,13 @@ public class Fine
     boolean is_reviewed;
     String session_id;
     String vehicle;
+    String fineID;
+    String parentDocumentId;
 
     public Fine() {}
 
 
-    public Fine(String avenue_name, Date created_datetime, Date due_datetime, double fine_amount, String fine_description, String fine_type, String footage, boolean is_accepted, boolean is_disputed, boolean is_paid, boolean is_reviewed, String session_id, String vehicle) {
+    public Fine(String avenue_name, Date created_datetime, Date due_datetime, double fine_amount, String fine_description, String fine_type, String footage, boolean is_accepted, boolean is_disputed, boolean is_paid, boolean is_reviewed, String session_id, String vehicle, String fineID, String parentDocumentId) {
         this.avenue_name = avenue_name;
         this.created_datetime = created_datetime;
         this.due_datetime = due_datetime;
@@ -41,6 +43,24 @@ public class Fine
         this.is_reviewed = is_reviewed;
         this.session_id = session_id;
         this.vehicle = vehicle;
+        this.fineID = fineID;
+        this.parentDocumentId = parentDocumentId;
+    }
+
+    public String getParentDocumentId() {
+        return parentDocumentId;
+    }
+
+    public void setParentDocumentId(String parentDocumentId) {
+        this.parentDocumentId = parentDocumentId;
+    }
+
+    public String getFineID() {
+        return fineID;
+    }
+
+    public void setFineID(String fineID) {
+        this.fineID = fineID;
     }
 
     public String getAvenue_name() {

@@ -62,6 +62,9 @@ public class FinesListFragment extends Fragment implements FinesRecyclerViewAdap
     String footage;
     Date dueDate;
 
+    String fineID;
+    String parentDocumentId;
+
 //    OnPassData onPassData;
 
 
@@ -138,8 +141,13 @@ public class FinesListFragment extends Fragment implements FinesRecyclerViewAdap
                                 List<DocumentSnapshot> snapshotList = queryDocumentSnapshots.getDocuments();
                                 for (DocumentSnapshot snapshot : snapshotList) {
                                     Fine fine = snapshot.toObject(Fine.class);
+                                    fineID = snapshot.getId();
+                                    parentDocumentId = String.valueOf(snapshot.getReference().getParent().getParent().getId());
+                                    fine.setParentDocumentId(parentDocumentId);
+                                    fine.setFineID(fineID);
 //                                    Log.d(TAG, "onSuccess: Fine due date: " + fine.getDue_datetime() + " Fine avenue: " + fine.getAvenue_name() + " Fine amount: " + fine.getFine_amount());
                                     fineItems.add(fine);
+
 
                                 }
                                 setupRecyclerView();
@@ -202,6 +210,9 @@ public class FinesListFragment extends Fragment implements FinesRecyclerViewAdap
             footage = fines.getFootage();
 //            onPassData.sendString(footage);
         }
+        String fineId = fines.getFineID();
+        String fineDescription = fines.getFine_description();
+        String parentDocumentId = fines.getParentDocumentId();
 
         Log.d(TAG, "onSuccess: " + footage);
         dueDate = fines.getDue_datetime();
@@ -213,6 +224,9 @@ public class FinesListFragment extends Fragment implements FinesRecyclerViewAdap
         args.putString("violationType", violationType);
         args.putString("footage", footage);
         args.putSerializable("dueDate", dueDate);
+        args.putString("fineId", fineId);
+        args.putString("fineDescription", fineDescription);
+        args.putString("parentId", parentDocumentId);
 
         getActivity().getSupportFragmentManager().setFragmentResult("From Fine List", args);
 

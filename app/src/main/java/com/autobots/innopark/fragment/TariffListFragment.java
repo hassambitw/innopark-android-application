@@ -85,6 +85,8 @@ public class TariffListFragment extends Fragment implements TariffActiveSessionR
 
     Session tariff;
 
+
+
     public TariffListFragment()
     {
     }
