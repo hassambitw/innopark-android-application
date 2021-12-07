@@ -78,52 +78,6 @@ public class UOWDParkingLayoutFragment extends Fragment
 
         bgMap = view.findViewById(R.id.parking_layout);
 
-//        int mapWidth = bgMap.getDrawable().getIntrinsicWidth();
-//        int mapHeight = bgMap.getDrawable().getIntrinsicHeight();
-//        Log.d(TAG, "onCreateView: Map width: " + mapWidth + " Map height: " + mapHeight);
-
-//        ViewTreeObserver vto = bgMap.getViewTreeObserver();
-//        vto.addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
-//            public boolean onPreDraw() {
-//                bgMap.getViewTreeObserver().removeOnPreDrawListener(this);
-//                bgMap.setScaleType(ImageView.ScaleType.CENTER);
-//                finalMapWidth = bgMap.getMeasuredHeight();
-//                finalMapHeight = bgMap.getMeasuredWidth();
-//                Log.d(TAG, "onPreDraw: Width: " + finalMapHeight + " Height: " + finalMapHeight);
-//                return true;
-//            }
-//        });
-
-//        bgMap.setImageDrawable(getResources().getDrawable(R.drawable.occupied_parking));
-//
-//        Log.d(TAG, "onCreateView: X: " +  bgMap.getX());
-//        Log.d(TAG, "onCreateView: Y: " + bgMap.getY());
-
-//        Mat m = null;
-//        try {
-//            m = Utils.loadResource(getActivity(), R.drawable.empty_lot_labeled, Imgcodecs.IMREAD_GRAYSCALE);
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//        Bitmap bm = Bitmap.createBitmap(m.cols(), m.rows(),Bitmap.Config.ARGB_8888);
-//        Log.d(TAG, "onCreateView: Cols: " + m.cols() + " Rows: " + m.rows());
-//        Utils.matToBitmap(m, bm);
-
-//        bgMap.setDrawingCacheEnabled(true);
-//
-//        // this is the important code :)
-//        // Without it the view will have a dimension of 0,0 and the bitmap will be null
-//        bgMap.measure(View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED),
-//                View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
-//        bgMap.layout(0, 0, bgMap.getMeasuredWidth(), bgMap.getMeasuredHeight());
-//
-//        bgMap.buildDrawingCache(true);
-//        Bitmap bm = Bitmap.createBitmap(bgMap.getDrawingCache());
-//        bgMap.setDrawingCacheEnabled(false); // clear drawing cache
-
-//        bgMap.buildDrawingCache();
-//        Bitmap bm = bgMap.getDrawingCache();
-
         BitmapDrawable drawable = (BitmapDrawable) bgMap.getDrawable();
         Bitmap bm = drawable.getBitmap();
 
@@ -141,50 +95,6 @@ public class UOWDParkingLayoutFragment extends Fragment
 //        canvas.drawRect( 236, 20, 52, 87, paint);
         drawRectangle(236, 20, 52, 87, canvas, paint);
         bgMap.setImageBitmap(mutableBitmap);
-
-//        bm.copyPixelsFromBuffer();
-//        ByteBuffer byteBuffer = ar
-//
-//
-////
-//        int screenWidth = getActivity().getWindow().getWindowManager().getDefaultDisplay().getWidth();
-//        Log.e(TAG,"screen width : "+screenWidth);
-//        int screenHeight = getActivity().getWindow().getWindowManager().getDefaultDisplay().getHeight();
-//        Log.d(TAG, "onCreateView: " + screenHeight);
-////
-//        int width = bm.getWidth();
-//        Log.e(TAG,"bitmap width : "+width);
-//        int height = bm.getHeight();
-//        Log.e(TAG,"bitmap height : "+height);
-//
-//        float scale = 0;
-//        if(width > height){
-//            scale = (float) width / (float) height;
-//        } else if(height > width){
-//            scale = (float) height / (float) width;
-//        }
-//        Log.e(TAG,"scale : "+scale);
-//
-//        float newWidth = (float) screenWidth * scale;
-//
-//        Log.d(TAG,"new height : "+newWidth);
-//
-//        Bitmap scaledBitmap = Bitmap.createScaledBitmap(bm, screenWidth, (int) newWidth, true);
-//        Log.e(TAG,"new bitmap width : " + scaledBitmap.getWidth());
-//        Log.e(TAG,"new bitmap height : " + scaledBitmap.getHeight());
-//
-//        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(screenWidth, (int)newWidth);
-//        params.addRule(RelativeLayout.ALIGN_PARENT_TOP, RelativeLayout.TRUE);
-//        view.setLayoutParams(params);
-//
-//        bgMap.setImageBitmap(scaledBitmap);
-
-
-//        String imagePath = getResources().getDrawable(Integer.parseInt("empty_lot_labeled")).toString();
-//        String overlayPath = getResources().getDrawable(Integer.parseInt("occupied_parking")).toString();
-//
-//
-//        overlayImage(imagePath, overlayPath, 236, 288, (288-236), (106-19));
 
 
 //        setupToolbar(view);
