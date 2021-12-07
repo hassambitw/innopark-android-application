@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import com.autobots.innopark.LoginActivity;
 import com.autobots.innopark.R;
+import com.autobots.innopark.VideoActivity;
 import com.autobots.innopark.adapter.FinesRecyclerViewAdapter;
 import com.autobots.innopark.data.DatabaseUtils;
 import com.autobots.innopark.data.Fine;
@@ -32,7 +33,9 @@ import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 public class FinesListFragment extends Fragment implements FinesRecyclerViewAdapter.OnFineClickListener
 {
@@ -51,6 +54,15 @@ public class FinesListFragment extends Fragment implements FinesRecyclerViewAdap
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     private static final String TAG = "FinesListFragment";
+    Bundle args;
+    String license;
+    Double fineAmount;
+    boolean status;
+    String violationType;
+    String footage;
+    Date dueDate;
+
+//    OnPassData onPassData;
 
 
     @Override
@@ -61,6 +73,12 @@ public class FinesListFragment extends Fragment implements FinesRecyclerViewAdap
         if (currentUser == null) {
             startActivity(new Intent(getActivity(), LoginActivity.class));
         }
+
+//        try {
+//            onPassData = (OnPassData) context;
+//        } catch(ClassCastException e) {
+//            throw new ClassCastException(context.toString() + " must implement onSomeEventListener");
+//        }
     }
 
     public FinesListFragment()
@@ -77,6 +95,8 @@ public class FinesListFragment extends Fragment implements FinesRecyclerViewAdap
         paidFines = view.findViewById(R.id.id_fine_view_previous_fine);
         mRecyclerView = view.findViewById(R.id.id_recycler_view_unpaid_fines);
         emptyView = view.findViewById(R.id.id_unpaid_fines_empty_view);
+
+        args = new Bundle();
 
         fineItems = new ArrayList<>();
         vehiclesOwned = new ArrayList<>();
@@ -118,8 +138,9 @@ public class FinesListFragment extends Fragment implements FinesRecyclerViewAdap
                                 List<DocumentSnapshot> snapshotList = queryDocumentSnapshots.getDocuments();
                                 for (DocumentSnapshot snapshot : snapshotList) {
                                     Fine fine = snapshot.toObject(Fine.class);
-                                    Log.d(TAG, "onSuccess: Fine date: " + fine.getCreated_datetime() + " Fine avenue: " + fine.getAvenue_name() + " Fine amount: " + fine.getFine_amount());
+//                                    Log.d(TAG, "onSuccess: Fine due date: " + fine.getDue_datetime() + " Fine avenue: " + fine.getAvenue_name() + " Fine amount: " + fine.getFine_amount());
                                     fineItems.add(fine);
+
                                 }
                                 setupRecyclerView();
                             } else {
@@ -169,6 +190,33 @@ public class FinesListFragment extends Fragment implements FinesRecyclerViewAdap
     {
         Fragment selectedFragment = new FineFragment();
 
+        Fine fines = fineItems.get(position);
+
+        license = fines.getVehicle();
+        fineAmount = fines.getFine_amount();
+        status = fines.isIs_paid();
+        violationType = fines.getFine_type();
+        if (fines.getFootage().isEmpty()) {
+            footage = "Null";
+        } else {
+            footage = fines.getFootage();
+//            onPassData.sendString(footage);
+        }
+
+        Log.d(TAG, "onSuccess: " + footage);
+        dueDate = fines.getDue_datetime();
+//                                    Log.d(TAG, "onSuccess: " + dueDate);
+
+        args.putString("license", license);
+        args.putDouble("fineAmount", fineAmount);
+        args.putBoolean("status", status);
+        args.putString("violationType", violationType);
+        args.putString("footage", footage);
+        args.putSerializable("dueDate", dueDate);
+
+        getActivity().getSupportFragmentManager().setFragmentResult("From Fine List", args);
+
+
         getActivity().getSupportFragmentManager()
                 .beginTransaction()
                 .setReorderingAllowed(true)
@@ -177,4 +225,8 @@ public class FinesListFragment extends Fragment implements FinesRecyclerViewAdap
                 .replace(R.id.id_fragment_container_view, selectedFragment)
                 .commit();
     }
+
+//    public interface OnPassData {
+//        public void sendString(String s);
+//    }
 }

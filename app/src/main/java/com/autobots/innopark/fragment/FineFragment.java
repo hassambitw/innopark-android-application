@@ -2,17 +2,14 @@ package com.autobots.innopark.fragment;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
-import android.net.Uri;
 import android.os.Bundle;
-import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.MediaController;
-import android.widget.RelativeLayout;
+import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.VideoView;
 
@@ -22,6 +19,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentResultListener;
 
 import com.autobots.innopark.LoginActivity;
 import com.autobots.innopark.R;
@@ -32,7 +30,9 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class FineFragment extends Fragment
 {
@@ -46,6 +46,25 @@ public class FineFragment extends Fragment
     Button fullscreenBtn;
     TextView emptyView;
     TextView launchVideo;
+
+    EditText licenseET;
+    String license;
+    EditText fineET;
+    double fineAmount;
+    EditText statusET;
+    boolean status;
+    EditText violationTypeET;
+    String violationType;
+
+    EditText dueDateET;
+    Date dueDate;
+    SimpleDateFormat formatter;
+    String formatted_date;
+    ProgressBar progressBar;
+
+    private static final String TAG = "FineFragment";
+
+    String footage;
 
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
 
@@ -74,10 +93,12 @@ public class FineFragment extends Fragment
         disputeFine = view.findViewById(R.id.id_pending_fine_dispute_fine);
         emptyView = view.findViewById(R.id.id_pending_fine_empty_view);
         launchVideo = view.findViewById(R.id.id_pending_fine_message);
-
-        launchVideo.setOnClickListener((v) -> {
-            startActivity(new Intent(getActivity(), VideoActivity.class));
-        });
+        licenseET = view.findViewById(R.id.id_pending_fine_license);
+        fineET = view.findViewById(R.id.id_pending_fine_amount);
+        statusET = view.findViewById(R.id.id_pending_fine_status);
+        violationTypeET = view.findViewById(R.id.id_pending_fine_violation_type);
+        dueDateET = view.findViewById(R.id.id_pending_due_date);
+        progressBar = view.findViewById(R.id.id_pending_fine_progress_bar);
 
 //        fullscreenBtn = view.findViewById(R.id.fullscreen);
 //        vehiclesOwned = new ArrayList<>();
@@ -86,11 +107,58 @@ public class FineFragment extends Fragment
             startDisputeFineFragment();
         });
 
+//        launchVideo.setOnClickListener((v) -> {
+//            startActivity(new Intent(getActivity(), VideoActivity.class));
+//        });
+
 
         setupToolbar(view);
 //        setupVideoView(view);
 
         return view;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        getActivity().getSupportFragmentManager().setFragmentResultListener("From Fine List", this, new FragmentResultListener() {
+            @Override
+            public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
+                license = result.getString("license");
+                fineAmount = result.getDouble("fineAmount");
+                status = result.getBoolean("status");
+                violationType = result.getString("violationType");
+                footage = result.getString("footage");
+                Log.d(TAG, "onFragmentResult: " + footage);
+                dueDate = (Date) result.getSerializable("dueDate");
+//                Log.d(TAG, "onFragmentResult: Due Date: " + dueDate);
+
+                licenseET.setText(license);
+                fineET.setText(fineAmount + "");
+                if (status == true) statusET.setText("Paid");
+                else statusET.setText("Unpaid");
+                violationTypeET.setText(violationType);
+                if (footage == "Null") {
+                    launchVideo.setVisibility(View.GONE);
+                    emptyView.setVisibility(View.VISIBLE);
+                    emptyView.setText("There's no footage for fines of type: " + violationType);
+                } else {
+                    launchVideo.setOnClickListener((v) -> {
+//                        progressBar.setVisibility(View.VISIBLE);
+                        Intent i = new Intent(getActivity(), VideoActivity.class);
+                        i.putExtra("footage", footage);
+                        startActivity(i);
+//                        progressBar.setVisibility(View.GONE);
+                    });
+                }
+                formatter = new SimpleDateFormat("dd/MM/yyyy");
+                formatted_date = formatter.format(dueDate);
+                dueDateET.setText(formatted_date);
+
+
+            }
+        });
     }
 
     private void startDisputeFineFragment()
@@ -120,21 +188,6 @@ public class FineFragment extends Fragment
 //            enterFullScreen();
 //            fullscreenBtn.setVisibility(View.GONE);
 //        });
-    }
-
-    private void enterFullScreen()
-    {
-        getActivity().getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);//设置横屏
-        getActivity().getWindow().setFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON,WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-        RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(
-                RelativeLayout.LayoutParams.MATCH_PARENT,
-                RelativeLayout.LayoutParams.MATCH_PARENT
-        );
-        layoutParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
-        layoutParams.addRule(RelativeLayout.ALIGN_PARENT_TOP);
-        layoutParams.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
-        layoutParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
     }
 
     private void setupToolbar(View view)

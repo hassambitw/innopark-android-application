@@ -1,5 +1,7 @@
 package com.autobots.innopark;
 
+import android.app.Fragment;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.Window;
@@ -9,6 +11,8 @@ import android.widget.VideoView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.autobots.innopark.fragment.FinesListFragment;
 
 public class VideoActivity extends AppCompatActivity
 {
@@ -26,15 +30,26 @@ public class VideoActivity extends AppCompatActivity
 
         videoView = findViewById(R.id.videoView);
 
-        launchVideo();
-
-
+//        launchVideo();
     }
 
-    private void launchVideo()
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        Intent i = getIntent();
+        String videoPath = i.getStringExtra("footage");
+        launchVideo(videoPath);
+
+//        this.get
+//
+//        String videoPath = "android.resource://" + this.getPackageName() + "/" + R.raw.leg_2;
+//        launchVideo(videoPath);
+    }
+
+    private void launchVideo(String videoPath)
     {
 
-        String videoPath = "android.resource://" + this.getPackageName() + "/" + R.raw.leg_2;
         Uri uri = Uri.parse(videoPath);
         videoView.setVideoURI(uri);
 
@@ -54,4 +69,11 @@ public class VideoActivity extends AppCompatActivity
     }
 
 
+//    @Override
+//    public void sendString(String s) {
+//        Fragment frag = getFragmentManager().findFragmentById(R.id.id_fragment_container_view);
+//        launchVideo(s);
+//    }
 }
+
+

@@ -153,7 +153,7 @@ public class TariffListFragment extends Fragment implements TariffActiveSessionR
         UserApi userApi = UserApi.getInstance();
         vehicledOwned = userApi.getVehiclesCombined();
 
-        if (!vehicledOwned.isEmpty()) {
+        if (vehicledOwned != null && !vehicledOwned.isEmpty()) {
             db.collectionGroup("sessions_info")
                     .whereEqualTo("end_datetime", null)
                     .whereIn("vehicle", vehicledOwned)
