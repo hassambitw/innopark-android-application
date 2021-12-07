@@ -4,18 +4,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:scrollbarAlwaysDrawVerticalTrack="true"
-    tools:context=".fragment.UOWDParkingLayoutFragment">
+    tools:context=".fragment.UOWDParkingLayoutFragment"
+    android:scrollbarAlwaysDrawVerticalTrack="true">
 
     <com.ortiz.touchview.TouchImageView
-        android:id="@+id/imageView12"
+        android:id="@+id/parking_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:adjustViewBounds="true"
+        android:layout_height="wrap_content"
         android:contentDescription="Specs"
+        android:adjustViewBounds="true"
+        android:src="@drawable/empty_lot_labeled"
         android:scaleType="center"
-        android:scrollbars="vertical"
-        android:src="@drawable/empty_lot" />
+        android:scrollbars="vertical"/>
 
 
 

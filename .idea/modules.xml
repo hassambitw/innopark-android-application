@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/InnoPark.iml" filepath="$PROJECT_DIR$/.idea/modules/InnoPark.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/InnoPark.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/InnoPark.app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/sdk/InnoPark.sdk.iml" filepath="$PROJECT_DIR$/.idea/modules/sdk/InnoPark.sdk.iml" />
     </modules>
   </component>
 </project>

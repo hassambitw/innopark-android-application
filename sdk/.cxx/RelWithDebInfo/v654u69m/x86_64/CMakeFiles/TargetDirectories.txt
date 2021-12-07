@@ -1,0 +1,3 @@
+C:/Users/hassa/Documents/GitHub/innopark-app-android/sdk/.cxx/RelWithDebInfo/v654u69m/x86_64/CMakeFiles/opencv_jni_shared.dir
+C:/Users/hassa/Documents/GitHub/innopark-app-android/sdk/.cxx/RelWithDebInfo/v654u69m/x86_64/CMakeFiles/edit_cache.dir
+C:/Users/hassa/Documents/GitHub/innopark-app-android/sdk/.cxx/RelWithDebInfo/v654u69m/x86_64/CMakeFiles/rebuild_cache.dir

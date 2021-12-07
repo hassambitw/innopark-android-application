@@ -15,7 +15,7 @@
         android:contentDescription="Specs"
         android:scaleType="center"
         android:scrollbars="vertical"
-        android:src="@drawable/empty_lot" />
+        android:src="@drawable/empty_lot_labeled" />
 
 
 
