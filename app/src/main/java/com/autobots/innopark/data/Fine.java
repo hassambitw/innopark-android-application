@@ -1,6 +1,5 @@
 package com.autobots.innopark.data;
 
-import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.ServerTimestamp;
 
 import java.util.Date;
@@ -25,11 +24,12 @@ public class Fine
     String vehicle;
     String fineID;
     String parentDocumentId;
+    String payment_link;
 
     public Fine() {}
 
 
-    public Fine(String avenue_name, Date created_datetime, Date due_datetime, double fine_amount, String fine_description, String fine_type, String footage, boolean is_accepted, boolean is_disputed, boolean is_paid, boolean is_reviewed, String session_id, String vehicle, String fineID, String parentDocumentId) {
+    public Fine(String avenue_name, Date created_datetime, Date due_datetime, double fine_amount, String fine_description, String fine_type, String footage, boolean is_accepted, boolean is_disputed, boolean is_paid, boolean is_reviewed, String session_id, String vehicle, String fineID, String parentDocumentId, String payment_link) {
         this.avenue_name = avenue_name;
         this.created_datetime = created_datetime;
         this.due_datetime = due_datetime;
@@ -45,6 +45,14 @@ public class Fine
         this.vehicle = vehicle;
         this.fineID = fineID;
         this.parentDocumentId = parentDocumentId;
+    }
+
+    public String getPayment_link() {
+        return payment_link;
+    }
+
+    public void setPayment_link(String payment_link) {
+        this.payment_link = payment_link;
     }
 
     public String getParentDocumentId() {

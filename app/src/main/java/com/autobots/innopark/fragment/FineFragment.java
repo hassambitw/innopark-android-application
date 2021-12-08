@@ -2,6 +2,7 @@ package com.autobots.innopark.fragment;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,6 +12,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.VideoView;
 
 
@@ -69,6 +71,8 @@ public class FineFragment extends Fragment
     String parentId;
     TextView fineDescriptionTV;
 
+    String paymentLink;
+
     private static final String TAG = "FineFragment";
 
     String footage;
@@ -79,6 +83,8 @@ public class FineFragment extends Fragment
 
     final FirebaseAuth firebaseAuth = DatabaseUtils.firebaseAuth;
     FirebaseUser currentUser;
+
+    Button payBtn;
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -107,6 +113,8 @@ public class FineFragment extends Fragment
         dueDateET = view.findViewById(R.id.id_pending_due_date);
         progressBar = view.findViewById(R.id.id_pending_fine_progress_bar);
         fineDescriptionTV = view.findViewById(R.id.id_pending_fine_description);
+        payBtn = view.findViewById(R.id.id_pending_fine_pay);
+
 
         args = new Bundle();
 
@@ -146,12 +154,25 @@ public class FineFragment extends Fragment
                 fineDescription = result.getString("fineDescription");
                 parentId = result.getString("parentId");
                 fineDescriptionTV.setText(fineDescription);
+
+                paymentLink = result.getString("paymentLink");
 //                Log.d(TAG, "onFragmentResult: Due Date: " + dueDate);
 
                 licenseET.setText(license);
                 fineET.setText(fineAmount + "");
-                if (status == true) statusET.setText("Paid");
-                else statusET.setText("Unpaid");
+                if (status == true) {
+                    statusET.setText("Paid");
+                    payBtn.setOnClickListener((v) -> {
+                        Toast.makeText(getActivity(), "You've already paid for this fine!", Toast.LENGTH_SHORT).show();
+                    });
+                }
+                else {
+                    statusET.setText("Unpaid");
+                    payBtn.setOnClickListener((v) -> {
+                        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(paymentLink));
+                        startActivity(browserIntent);
+                    });
+                }
                 violationTypeET.setText(violationType);
                 if (footage == "Null") {
                     launchVideo.setVisibility(View.GONE);
@@ -169,6 +190,7 @@ public class FineFragment extends Fragment
                 formatter = new SimpleDateFormat("dd/MM/yyyy");
                 formatted_date = formatter.format(dueDate);
                 dueDateET.setText(formatted_date);
+
 
 
             }

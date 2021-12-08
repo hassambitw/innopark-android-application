@@ -17,7 +17,6 @@ import android.widget.TextView;
 
 import com.autobots.innopark.LoginActivity;
 import com.autobots.innopark.R;
-import com.autobots.innopark.VideoActivity;
 import com.autobots.innopark.adapter.FinesRecyclerViewAdapter;
 import com.autobots.innopark.data.DatabaseUtils;
 import com.autobots.innopark.data.Fine;
@@ -26,7 +25,6 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
@@ -35,7 +33,6 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Objects;
 
 public class FinesListFragment extends Fragment implements FinesRecyclerViewAdapter.OnFineClickListener
 {
@@ -61,6 +58,7 @@ public class FinesListFragment extends Fragment implements FinesRecyclerViewAdap
     String violationType;
     String footage;
     Date dueDate;
+    String paymentLink;
 
     String fineID;
     String parentDocumentId;
@@ -214,6 +212,9 @@ public class FinesListFragment extends Fragment implements FinesRecyclerViewAdap
         String fineDescription = fines.getFine_description();
         String parentDocumentId = fines.getParentDocumentId();
 
+        paymentLink = fines.getPayment_link();
+
+
         Log.d(TAG, "onSuccess: " + footage);
         dueDate = fines.getDue_datetime();
 //                                    Log.d(TAG, "onSuccess: " + dueDate);
@@ -227,6 +228,8 @@ public class FinesListFragment extends Fragment implements FinesRecyclerViewAdap
         args.putString("fineId", fineId);
         args.putString("fineDescription", fineDescription);
         args.putString("parentId", parentDocumentId);
+
+        args.putString("paymentLink", paymentLink);
 
         getActivity().getSupportFragmentManager().setFragmentResult("From Fine List", args);
 
