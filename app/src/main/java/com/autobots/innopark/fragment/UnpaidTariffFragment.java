@@ -3,6 +3,7 @@ package com.autobots.innopark.fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,6 +34,8 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -51,6 +54,7 @@ public class UnpaidTariffFragment extends Fragment implements TariffInactiveSess
     TextView emptyView;
 
     Bundle args2;
+    String paymentLink;
 
     final FirebaseAuth firebaseAuth = DatabaseUtils.firebaseAuth;
     FirebaseUser currentUser;
@@ -211,6 +215,8 @@ public class UnpaidTariffFragment extends Fragment implements TariffInactiveSess
         //Log.d(TAG, "onSuccess: " + parking_level);
         double tariff_amt = tariff_item.getTariff_amount();
         String avenue_name = tariff_item.getAvenue_name();
+//        String paymentLink = tariff_item.getPayment_link();
+        if (tariff_item.getPayment_link() != null) paymentLink = tariff_item.getPayment_link();
 
         if (start_time != null) args2.putSerializable("start_time4", start_time);
         if (end_time != null) args2.putSerializable("end_time4", end_time);
@@ -219,6 +225,7 @@ public class UnpaidTariffFragment extends Fragment implements TariffInactiveSess
         args2.putString("parking_spot4", parking_spot);
         args2.putChar("parking_level4", parking_level);
         args2.putDouble("tariff4", tariff_amt);
+        if (!StringUtils.isEmpty(paymentLink)) args2.putString("paymentLink", paymentLink);
 
         getActivity().getSupportFragmentManager().setFragmentResult("requestKeyFromUnpaid", args2);
 

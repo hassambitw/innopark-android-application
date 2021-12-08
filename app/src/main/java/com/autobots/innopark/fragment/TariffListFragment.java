@@ -4,6 +4,7 @@ package com.autobots.innopark.fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -29,6 +30,7 @@ import com.autobots.innopark.data.UserApi;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.Timestamp;
+import org.apache.commons.lang3.StringUtils;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
@@ -84,6 +86,7 @@ public class TariffListFragment extends Fragment implements TariffActiveSessionR
     private CollectionReference collectionReference = db.collection("avenues");
 
     Session tariff;
+    String paymentLink;
 
 
 
@@ -396,6 +399,9 @@ public class TariffListFragment extends Fragment implements TariffActiveSessionR
         args2.putString("parking_spot2", parking_spot);
         args2.putChar("parking_level2", parking_level);
         args2.putDouble("tariff2", tariff_amt);
+//        String paymentLink = tariff_item.getPayment_link();
+        if (tariff_item.getPayment_link() != null) paymentLink = tariff_item.getPayment_link();
+        if (!TextUtils.isEmpty(paymentLink)) args2.putString("paymentLink", paymentLink);
 
         getActivity().getSupportFragmentManager().setFragmentResult("requestKeyFromUnpaidTariffList", args2);
 
@@ -426,6 +432,7 @@ public class TariffListFragment extends Fragment implements TariffActiveSessionR
         //Log.d(TAG, "onSuccess: " + parking_level);
         double tariff_amt = tariff_item.getTariff_amount();
         String avenue_name = tariff_item.getAvenue_name();
+        if (tariff_item.getPayment_link() != null) paymentLink = tariff_item.getPayment_link();
 
         if (start_time != null) args2.putSerializable("start_time3", start_time);
         if (end_time != null) args2.putSerializable("end_time3", end_time);
@@ -434,6 +441,7 @@ public class TariffListFragment extends Fragment implements TariffActiveSessionR
         args2.putString("parking_spot3", parking_spot);
         args2.putChar("parking_level3", parking_level);
         args2.putDouble("tariff3", tariff_amt);
+        if (!StringUtils.isEmpty(paymentLink)) args2.putString("paymentLink", paymentLink);
 
         getActivity().getSupportFragmentManager().setFragmentResult("requestKeyFromActiveTariffList", args2);
 

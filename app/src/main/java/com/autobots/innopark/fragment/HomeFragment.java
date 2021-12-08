@@ -63,6 +63,7 @@ public class HomeFragment extends Fragment
     CardView fineCardView;
     TextView profileName;
     Bundle args;
+    String paymentLink;
 
     String parent_id;
 
@@ -261,6 +262,10 @@ public class HomeFragment extends Fragment
                                                 double tariff = session.getTariff_amount();
                                                 String avenue_name = session.getAvenue_name();
 
+                                                if (session.getPayment_link() != null) {
+                                                    paymentLink = session.getPayment_link();
+                                                }
+
                                                 if (avenue_name != null)
                                                     activeSessionLocation.setText(avenue_name.trim());
                                                 else
@@ -279,6 +284,8 @@ public class HomeFragment extends Fragment
                                                 args.putChar("parking_level", parking_level);
                                                 args.putDouble("tariff", tariff);
                                                 args.putString("avenue_name", avenue_name);
+                                                if (paymentLink.isEmpty()) args.putString("paymentLink", paymentLink);
+                                                Log.d(TAG, "onSuccess: payment: " + paymentLink);
 //                                            currentSessionFragment.setArguments(args);
                                                 getActivity().getSupportFragmentManager().setFragmentResult("requestKeyFromActive_Home", args);
 

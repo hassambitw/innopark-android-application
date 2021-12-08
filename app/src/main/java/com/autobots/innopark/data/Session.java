@@ -13,6 +13,7 @@ public class Session {
     double tariff_amount;
     String vehicle;
     String avenue_name;
+    String payment_link;
 
     public Session() {}
 
@@ -37,6 +38,14 @@ public class Session {
 //        this.vehicle = vehicle;
 //    }
 
+
+    public String getPayment_link() {
+        return payment_link;
+    }
+
+    public void setPayment_link(String payment_link) {
+        this.payment_link = payment_link;
+    }
 
     public String getAvenue_name() {
         return avenue_name;

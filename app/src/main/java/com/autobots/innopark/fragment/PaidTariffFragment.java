@@ -50,6 +50,8 @@ public class PaidTariffFragment extends Fragment implements TariffInactiveSessio
     private List<String> vehiclesCombined;
     TextView emptyView;
 
+    String paymentLink;
+
     Bundle args2;
 
     final FirebaseAuth firebaseAuth = DatabaseUtils.firebaseAuth;
@@ -196,6 +198,7 @@ public class PaidTariffFragment extends Fragment implements TariffInactiveSessio
         //Log.d(TAG, "onSuccess: " + parking_level);
         double tariff_amt = tariff_item.getTariff_amount();
         String avenue_name = tariff_item.getAvenue_name();
+        if (tariff_item.getPayment_link() != null) paymentLink = tariff_item.getPayment_link();
 
         if (start_time != null) args2.putSerializable("start_time5", start_time);
         if (end_time != null) args2.putSerializable("end_time5", end_time);
@@ -204,6 +207,7 @@ public class PaidTariffFragment extends Fragment implements TariffInactiveSessio
         args2.putString("parking_spot5", parking_spot);
         args2.putChar("parking_level5", parking_level);
         args2.putDouble("tariff5", tariff_amt);
+//        if (!paymentLink.isEmpty()) args2.putString("paymentLink", paymentLink);
 
         getActivity().getSupportFragmentManager().setFragmentResult("requestKeyFromPaidTariff", args2);
 
