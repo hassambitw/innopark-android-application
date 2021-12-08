@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -39,6 +40,8 @@ public class CurrentSessionFragment extends Fragment
     double tariff;
     String formatted_date;
     SimpleDateFormat formatter;
+
+    Button payBtn;
 
     public static CurrentSessionFragment newInstance(Date startTime, Date endTime, String vehicle, String parkingSpot, char parking_level, String avenue_name, double tariff) {
         final Bundle creationArgs = new Bundle();
@@ -79,6 +82,8 @@ public class CurrentSessionFragment extends Fragment
         vehicleTV = v.findViewById(R.id.id_session_vehicle);
         parkingSpotTV = v.findViewById(R.id.id_session_parking_spot);
         tariffTV = v.findViewById(R.id.id_session_tariff_amt);
+
+        payBtn = v.findViewById(R.id.id_sessions_link_paypal);
 
         getActivity().getSupportFragmentManager().setFragmentResultListener("requestKeyFromActive_Home", this, new FragmentResultListener() {
             @Override

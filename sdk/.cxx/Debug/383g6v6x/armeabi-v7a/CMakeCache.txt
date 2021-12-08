@@ -222,6 +222,9 @@ Project_BINARY_DIR:STATIC=C:/Users/hassa/Documents/GitHub/innopark-app-android/s
 //Value Computed by CMake
 Project_SOURCE_DIR:STATIC=C:/Users/hassa/Documents/GitHub/innopark-app-android/sdk/libcxx_helper
 
+//Dependencies for target
+opencv_jni_shared_LIB_DEPENDS:STATIC=
+
 
 ########################
 # INTERNAL cache entries
@@ -247,8 +250,6 @@ CMAKE_CTEST_COMMAND:INTERNAL=C:/Users/hassa/AppData/Local/Android/Sdk/cmake/3.10
 CMAKE_CXX_COMPILER_AR-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_CXX_COMPILER_RANLIB
 CMAKE_CXX_COMPILER_RANLIB-ADVANCED:INTERNAL=1
-//Result of TRY_COMPILE
-CMAKE_CXX_FEATURE_TEST:INTERNAL=FALSE
 //ADVANCED property for variable: CMAKE_CXX_FLAGS
 CMAKE_CXX_FLAGS-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_CXX_FLAGS_DEBUG

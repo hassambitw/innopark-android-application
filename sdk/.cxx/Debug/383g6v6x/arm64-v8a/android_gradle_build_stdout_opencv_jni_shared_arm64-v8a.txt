@@ -1,0 +1,2 @@
+ninja: Entering directory `C:\Users\hassa\Documents\GitHub\innopark-app-android\sdk\.cxx\Debug\383g6v6x\arm64-v8a'
+ninja: no work to do.

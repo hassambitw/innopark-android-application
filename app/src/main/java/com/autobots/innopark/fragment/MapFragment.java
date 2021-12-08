@@ -102,6 +102,8 @@ public class MapFragment extends Fragment {
 
     Marker myMarker;
 
+    String documentId;
+
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -223,11 +225,16 @@ public class MapFragment extends Fragment {
                        List<DocumentSnapshot> snapshotList = queryDocumentSnapshots.getDocuments();
                        for (DocumentSnapshot snapshot : snapshotList) {
                            GeoPoint geopoint = snapshot.getGeoPoint("gps_coordinate");
-                           Object avenueName = snapshot.get("name");
+                           String avenueName = snapshot.get("name").toString();
+
+                           if (avenueName.equals("The University of Wollongong in Dubai")) {
+                               documentId = snapshot.getId();
+                               Log.d(TAG, "onSuccess: " + documentId);
+                           }
 
 
                            LatLng storedParkings = new LatLng(geopoint.getLatitude(), geopoint.getLongitude());
-                           Log.d(TAG, "onSuccess: Parkings: " + avenueName.toString());
+//                           Log.d(TAG, "onSuccess: Parkings: " + avenueName.toString());
                            myMarker = googleMap.addMarker(new MarkerOptions().position(storedParkings).title(avenueName.toString()).snippet("Click here to view parking layout!"));
 
 
@@ -253,6 +260,7 @@ public class MapFragment extends Fragment {
                                public void onInfoWindowClick(@NonNull Marker marker) {
                                    if (marker.getTitle().equals("The University of Wollongong in Dubai")) {
                                        Log.d(TAG, "onInfoWindowClick: In UOWD on click");
+//                                       documentId = snapshot.getId();
                                        setupUOWDParkingLayoutFragment();
                                    }
 
@@ -291,6 +299,11 @@ public class MapFragment extends Fragment {
     private void setupUOWDParkingLayoutFragment()
     {
         Fragment fragment = new UOWDParkingLayoutFragment();
+
+        Bundle args = new Bundle();
+        args.putString("documentId", documentId);
+        getActivity().getSupportFragmentManager().setFragmentResult("From Map Fragment", args);
+
         getActivity().getSupportFragmentManager()
                 .beginTransaction()
                 .setReorderingAllowed(true)
