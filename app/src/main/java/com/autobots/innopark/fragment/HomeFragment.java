@@ -30,6 +30,7 @@ import com.autobots.innopark.data.User;
 import com.autobots.innopark.data.UserApi;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
@@ -78,6 +79,12 @@ public class HomeFragment extends Fragment
     List<String> vehiclesOwned;
     List<String> vehiclesDriven;
     List<String> vehiclesCombined;
+
+    TextView weeklySpending;
+    TextView monthlySpending;
+
+    long weeklyTariff = 0;
+    long monthlyTariff = 0;
 
     //private HomeFragmentListener homeFragmentListener;
 
@@ -136,6 +143,8 @@ public class HomeFragment extends Fragment
         activeSessionView = view.findViewById(R.id.id_home_card_active_session);
         activeSessionParking = view.findViewById(R.id.id_home_card_parking_lvl);
         activeSessionLocation = view.findViewById(R.id.id_home_card_parking_location);
+        weeklySpending = view.findViewById(R.id.id_home_card_weekly_spending);
+        monthlySpending = view.findViewById(R.id.id_home_card_monthly_spending);
         fineCardView = view.findViewById(R.id.id_home_card_fine_history);
         mapCardView = view.findViewById(R.id.id_home_card_view_map);
 
@@ -328,6 +337,10 @@ public class HomeFragment extends Fragment
                         activeSessionView.setOnClickListener(null);
                     }
 
+                    if (!vehiclesOwned.isEmpty()) {
+                        getRecentSpending(vehiclesOwned);
+                    }
+
                     Log.w(Tags.SUCCESS.name(), result.toString());
 
                 }else Log.w(Tags.FAILURE.name(), "ERROR: USER NOT FOUND");
@@ -339,6 +352,75 @@ public class HomeFragment extends Fragment
 
 
 
+    }
+
+    private void getRecentSpending(List<String> vehiclesOwned)
+    {
+
+
+        db.collectionGroup("sessions_info")
+                .whereIn("vehicle", vehiclesOwned)
+                .whereNotEqualTo("end_datetime", null)
+                .whereEqualTo("is_paid", true)
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        if (!queryDocumentSnapshots.isEmpty()) {
+                            Log.d(TAG, "onSuccess: Found docs");
+                            List<DocumentSnapshot> snapshotList = queryDocumentSnapshots.getDocuments();
+                            for (DocumentSnapshot snapshot : snapshotList) {
+                                long tariff_amount = (long) snapshot.get("tariff_amount");
+                                Date dueDate = snapshot.getTimestamp("due_datetime").toDate();
+                                Date currentTime = new Date();
+                                Log.d(TAG, "onSuccess: Tariff: " + tariff_amount + " Timestamp: " + dueDate);
+
+                                long difference_In_Time = currentTime.getTime() - dueDate.getTime();
+                                long difference_in_seconds = (difference_In_Time / 1000) % 60;
+                                long difference_In_Minutes
+                                        = (difference_In_Time
+                                        / (1000 * 60))
+                                        % 60;
+
+                                long difference_In_Hours
+                                        = (difference_In_Time
+                                        / (1000 * 60 * 60))
+                                        % 24;
+
+                                long difference_In_Years
+                                        = (difference_In_Time
+                                        / (1000l * 60 * 60 * 24 * 365));
+
+                                long difference_In_Days
+                                        = (difference_In_Time
+                                        / (1000 * 60 * 60 * 24))
+                                        % 365;
+
+                                if (difference_In_Days < 8) {
+                                    weeklyTariff += tariff_amount;
+                                }
+
+                                if (difference_In_Days < 31) {
+                                    monthlyTariff += tariff_amount;
+                                }
+
+                                weeklySpending.setText(weeklyTariff + " DHS");
+                                monthlySpending.setText(monthlyTariff + " DHS");
+
+                                Log.d(TAG, "onSuccess: Week: " + weeklyTariff + " Month: " + monthlyTariff);
+
+                            }
+                        } else {
+                            Log.d(TAG, "onSuccess: Found no docs");
+                        }
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.d(TAG, "onFailure: Subcollection query failed: " + e.getMessage());
+                    }
+                });
     }
 
     private void startParkingHistoryFragmentAgain()
