@@ -221,14 +221,15 @@ public class TariffListFragment extends Fragment implements TariffActiveSessionR
         String email = userApi.getUserEmail();
         String currentUserUid = currentUser.getUid();
         vehicledOwned = userApi.getVehiclesOwned();
+        List<String> vehiclesCombined = userApi.getVehiclesCombined();
 
         Date currentDate = new Date();
 
-        if (!vehicledOwned.isEmpty()) {
+        if (!vehiclesCombined.isEmpty()) {
             db.collectionGroup("sessions_info")
                     .whereNotEqualTo("end_datetime", null)
                     .whereEqualTo("is_paid", false)
-                    .whereIn("vehicle", vehicledOwned)
+                    .whereIn("vehicle", vehiclesCombined)
                     .orderBy("end_datetime", Query.Direction.DESCENDING)
                     .get()
                     .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
