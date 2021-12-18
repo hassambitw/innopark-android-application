@@ -164,9 +164,9 @@ public class HomeFragment extends Fragment
             startMapFragment();
         });
 
-        fineCardView.setOnClickListener((v) -> {
-            startParkingHistoryFragmentAgain();
-        });
+//        fineCardView.setOnClickListener((v) -> {
+//            startParkingHistoryFragmentAgain();
+//        });
 
 
         return view;
