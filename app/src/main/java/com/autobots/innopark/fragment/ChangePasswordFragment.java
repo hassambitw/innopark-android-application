@@ -138,7 +138,7 @@ public class ChangePasswordFragment extends Fragment
         ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(false);
         ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         toolbar_title = toolbar.findViewById(R.id.id_toolbar_title);
-        toolbar_title.setText("Change Email");
+        toolbar_title.setText("Change Password");
 
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override

@@ -140,6 +140,7 @@ public class FinesListFragment extends Fragment implements FinesRecyclerViewAdap
                                 for (DocumentSnapshot snapshot : snapshotList) {
                                     Fine fine = snapshot.toObject(Fine.class);
                                     fineID = snapshot.getId();
+                                    Log.d(TAG, "onSuccess: " + fineID + " ");
                                     parentDocumentId = String.valueOf(snapshot.getReference().getParent().getParent().getId());
                                     fine.setParentDocumentId(parentDocumentId);
                                     fine.setFineID(fineID);
