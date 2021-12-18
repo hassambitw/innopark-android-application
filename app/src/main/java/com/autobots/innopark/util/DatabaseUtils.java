@@ -1,4 +1,4 @@
-package com.autobots.innopark.data;
+package com.autobots.innopark.util;
 
 import android.util.Log;
 
@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 
 import com.autobots.innopark.data.Callbacks.HashmapCallback;
 import com.autobots.innopark.data.Callbacks.StringCallback;
+import com.autobots.innopark.data.models.Tags;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;

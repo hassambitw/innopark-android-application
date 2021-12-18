@@ -1,14 +1,10 @@
 package com.autobots.innopark.fragment;
 
-import static android.content.ContentValues.TAG;
-
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 
@@ -19,33 +15,28 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.autobots.innopark.Config;
-import com.autobots.innopark.LoginActivity;
+import com.autobots.innopark.activity.LoginActivity;
 import com.autobots.innopark.R;
 import com.autobots.innopark.data.Callbacks.HashmapCallback;
-import com.autobots.innopark.data.DatabaseUtils;
-import com.autobots.innopark.data.Session;
-import com.autobots.innopark.data.Tags;
-import com.autobots.innopark.data.User;
-import com.autobots.innopark.data.UserApi;
+import com.autobots.innopark.util.DatabaseUtils;
+import com.autobots.innopark.data.models.Session;
+import com.autobots.innopark.data.models.Tags;
+import com.autobots.innopark.data.models.User;
+import com.autobots.innopark.data.api.UserApi;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
@@ -145,7 +136,7 @@ public class HomeFragment extends Fragment
         activeSessionLocation = view.findViewById(R.id.id_home_card_parking_location);
         weeklySpending = view.findViewById(R.id.id_home_card_weekly_spending);
         monthlySpending = view.findViewById(R.id.id_home_card_monthly_spending);
-        fineCardView = view.findViewById(R.id.id_home_card_fine_history);
+//        fineCardView = view.findViewById(R.id.id_home_card_fine_history);
         mapCardView = view.findViewById(R.id.id_home_card_view_map);
 
         vehiclesDriven = new ArrayList<>();

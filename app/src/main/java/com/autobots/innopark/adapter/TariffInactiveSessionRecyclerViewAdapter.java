@@ -11,8 +11,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.autobots.innopark.R;
-import com.autobots.innopark.data.DatabaseUtils;
-import com.autobots.innopark.data.Session;
+import com.autobots.innopark.util.DatabaseUtils;
+import com.autobots.innopark.data.models.Session;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;

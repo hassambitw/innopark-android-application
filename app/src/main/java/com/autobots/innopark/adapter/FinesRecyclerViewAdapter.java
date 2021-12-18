@@ -10,7 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.autobots.innopark.R;
-import com.autobots.innopark.data.Fine;
+import com.autobots.innopark.data.models.Fine;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;

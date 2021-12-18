@@ -14,11 +14,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.autobots.innopark.JavaMailAPI;
 import com.autobots.innopark.R;
-import com.autobots.innopark.data.UserApi;
-
-import org.w3c.dom.Text;
 
 
 public class CustomerServiceFragment extends Fragment {

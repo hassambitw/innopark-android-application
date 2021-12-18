@@ -1,24 +1,18 @@
-package com.autobots.innopark;
+package com.autobots.innopark.activity;
 
-import static android.content.ContentValues.TAG;
-
-import com.autobots.innopark.data.Callbacks.HashmapCallback;
-import com.autobots.innopark.data.DatabaseUtils;
+import com.autobots.innopark.R;
+import com.autobots.innopark.util.DatabaseUtils;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
-import android.Manifest;
 import android.app.Activity;
 import android.app.Dialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
@@ -29,24 +23,15 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Toast;
 
-import com.autobots.innopark.data.Tags;
-import com.autobots.innopark.data.User;
-import com.autobots.innopark.data.UserApi;
-import com.autobots.innopark.data.UserSessionManager;
 import com.autobots.innopark.fragment.HomeFragment;
 import com.autobots.innopark.fragment.MenuFragment;
 import com.autobots.innopark.fragment.NotificationFragment;
 import com.autobots.innopark.fragment.ParkingFragment;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationBarView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.messaging.FirebaseMessaging;
-
-import java.util.HashMap;
 
 
 public class DashboardActivity extends AppCompatActivity {

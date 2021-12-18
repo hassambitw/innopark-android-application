@@ -20,14 +20,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 
-import com.autobots.innopark.LoginActivity;
+import com.autobots.innopark.activity.LoginActivity;
 import com.autobots.innopark.R;
-import com.autobots.innopark.data.DatabaseUtils;
-import com.autobots.innopark.data.UserApi;
+import com.autobots.innopark.util.DatabaseUtils;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.AuthCredential;
-import com.google.firebase.auth.EmailAuthCredential;
 import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;

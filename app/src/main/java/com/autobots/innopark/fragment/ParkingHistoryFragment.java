@@ -18,33 +18,24 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.autobots.innopark.LoginActivity;
+import com.autobots.innopark.activity.LoginActivity;
 import com.autobots.innopark.R;
-import com.autobots.innopark.adapter.FineHistoryRecyclerViewAdapter;
 import com.autobots.innopark.adapter.ParkingHistoryRecyclerViewAdapter;
-import com.autobots.innopark.adapter.VehicleRecyclerViewAdapter;
-import com.autobots.innopark.data.Callbacks.HashmapCallback;
-import com.autobots.innopark.data.DatabaseUtils;
-import com.autobots.innopark.data.ParkingHistoryData;
-import com.autobots.innopark.data.Session;
-import com.autobots.innopark.data.User;
-import com.autobots.innopark.data.UserApi;
+import com.autobots.innopark.util.DatabaseUtils;
+import com.autobots.innopark.data.models.ParkingHistoryData;
+import com.autobots.innopark.data.models.Session;
+import com.autobots.innopark.data.api.UserApi;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
-import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 
@@ -59,6 +50,7 @@ public class ParkingHistoryFragment extends Fragment {
     private ArrayList<ParkingHistoryData> parkingHistoryDataList;
     private List<String> vehiclesCombined;
     private ArrayList<Session> parkingList;
+    TextView emptyView;
 
     ParkingHistoryData data;
     Session data2;
@@ -95,6 +87,7 @@ public class ParkingHistoryFragment extends Fragment {
         parkingHistoryDataList = new ArrayList<ParkingHistoryData>();
         vehiclesCombined = new ArrayList<>();
         parkingList = new ArrayList<>();
+        emptyView = view.findViewById(R.id.id_parking_history_empty_view);
 
         mRecyclerView = view.findViewById(R.id.id_parking_history_recycler_view);
 
@@ -160,6 +153,7 @@ public class ParkingHistoryFragment extends Fragment {
                             }
                             setupRecyclerView();
                         } else {
+                            emptyView.setVisibility(View.VISIBLE);
                             Log.d(TAG, "onSuccess: Query document snapshots empty");
                         }
                     }

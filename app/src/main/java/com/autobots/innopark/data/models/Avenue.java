@@ -1,4 +1,4 @@
-package com.autobots.innopark.data;
+package com.autobots.innopark.data.models;
 
 import com.google.firebase.firestore.GeoPoint;
 

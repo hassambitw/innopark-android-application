@@ -9,7 +9,7 @@
 
 
     <application
-        android:name=".data.UserApi"
+        android:name=".data.api.UserApi"
         android:allowBackup="true"
         android:usesCleartextTraffic="true"
         android:icon="@drawable/innopark_logo"
@@ -18,20 +18,20 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.InnoPark">
         <activity
-            android:name=".ForgotPasswordActivity"
+            android:name=".activity.ForgotPasswordActivity"
             android:exported="true" />
         <activity
-            android:name=".VideoActivity"
+            android:name=".activity.VideoActivity"
             android:exported="true"
             android:screenOrientation="landscape"/>
         <activity
-            android:name=".DashboardActivity"
+            android:name=".activity.DashboardActivity"
             android:exported="true" />
         <activity
-            android:name=".RegisterActivity"
+            android:name=".activity.RegisterActivity"
             android:exported="true" />
         <activity
-            android:name=".LoginActivity"
+            android:name=".activity.LoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

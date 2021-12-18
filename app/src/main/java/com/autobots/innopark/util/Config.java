@@ -1,13 +1,6 @@
-package com.autobots.innopark;
+package com.autobots.innopark.util;
 
-import android.content.SharedPreferences;
-
-import androidx.appcompat.widget.DrawableUtils;
-
-import com.autobots.innopark.data.UserSessionManager;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.FirebaseFirestore;
+import com.autobots.innopark.data.models.UserSessionManager;
 
 public class Config {
 

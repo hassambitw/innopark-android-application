@@ -18,21 +18,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.autobots.innopark.Config;
-import com.autobots.innopark.LoginActivity;
+import com.autobots.innopark.util.Config;
+import com.autobots.innopark.activity.LoginActivity;
 import com.autobots.innopark.R;
 //import com.autobots.innopark.adapter.NotificationsRecyclerView2;
 import com.autobots.innopark.adapter.NotificationsRecyclerViewAdapter;
-import com.autobots.innopark.data.DatabaseUtils;
-import com.autobots.innopark.data.NotificationData;
-import com.autobots.innopark.data.Tags;
-import com.autobots.innopark.data.UserToken;
+import com.autobots.innopark.util.DatabaseUtils;
+import com.autobots.innopark.data.models.NotificationData;
+import com.autobots.innopark.data.models.UserToken;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;

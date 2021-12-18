@@ -15,12 +15,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.autobots.innopark.LoginActivity;
+import com.autobots.innopark.activity.LoginActivity;
 import com.autobots.innopark.R;
 import com.autobots.innopark.adapter.FinesRecyclerViewAdapter;
-import com.autobots.innopark.data.DatabaseUtils;
-import com.autobots.innopark.data.Fine;
-import com.autobots.innopark.data.UserApi;
+import com.autobots.innopark.util.DatabaseUtils;
+import com.autobots.innopark.data.models.Fine;
+import com.autobots.innopark.data.api.UserApi;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;

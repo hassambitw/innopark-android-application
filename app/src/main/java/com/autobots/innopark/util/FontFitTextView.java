@@ -1,4 +1,4 @@
-package com.autobots.innopark;
+package com.autobots.innopark.util;
 
 import android.content.Context;
 import android.text.TextPaint;

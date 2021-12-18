@@ -10,8 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.autobots.innopark.R;
-import com.autobots.innopark.data.Driver;
-import com.autobots.innopark.data.User;
+import com.autobots.innopark.data.models.Driver;
 
 import java.util.ArrayList;
 

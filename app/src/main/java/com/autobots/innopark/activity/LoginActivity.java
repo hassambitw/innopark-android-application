@@ -1,9 +1,7 @@
-package com.autobots.innopark;
+package com.autobots.innopark.activity;
 
-import com.autobots.innopark.data.Callbacks.ArraylistCallback;
-import com.autobots.innopark.data.Callbacks.HashmapCallback;
-import com.autobots.innopark.data.Callbacks.StringCallback;
-import com.autobots.innopark.data.DatabaseUtils;
+import com.autobots.innopark.R;
+import com.autobots.innopark.util.DatabaseUtils;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -11,9 +9,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -25,13 +21,11 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.autobots.innopark.data.Driver;
-import com.autobots.innopark.data.Tags;
-import com.autobots.innopark.data.Tariff;
-import com.autobots.innopark.data.User;
-import com.autobots.innopark.data.UserApi;
-import com.autobots.innopark.data.UserSessionManager;
+import com.autobots.innopark.data.models.Tags;
+import com.autobots.innopark.data.api.UserApi;
+import com.autobots.innopark.data.models.UserSessionManager;
 import com.autobots.innopark.fragment.NotificationService;
+import com.autobots.innopark.util.Config;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -41,9 +35,6 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.messaging.FirebaseMessaging;
-
-import java.util.ArrayList;
-import java.util.HashMap;
 
 public class LoginActivity extends AppCompatActivity
 {

@@ -1,11 +1,13 @@
-package com.autobots.innopark.data;
+package com.autobots.innopark.data.models;
 
 import android.util.Log;
 
 import androidx.annotation.NonNull;
 
-import com.autobots.innopark.Config;
+import com.autobots.innopark.data.models.Tags;
+import com.autobots.innopark.util.Config;
 import com.autobots.innopark.data.Callbacks.HashmapCallback;
+import com.autobots.innopark.util.DatabaseUtils;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentSnapshot;

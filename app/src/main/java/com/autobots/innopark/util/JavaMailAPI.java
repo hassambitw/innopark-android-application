@@ -1,12 +1,11 @@
-package com.autobots.innopark;
+package com.autobots.innopark.util;
 
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import com.autobots.innopark.data.EmailUtils;
-import com.autobots.innopark.data.UserApi;
-import com.google.firebase.installations.Utils;
+import com.autobots.innopark.data.models.EmailUtils;
+import com.autobots.innopark.data.api.UserApi;
 
 import java.util.Properties;
 

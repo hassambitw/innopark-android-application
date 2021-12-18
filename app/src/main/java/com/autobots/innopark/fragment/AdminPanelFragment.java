@@ -16,7 +16,6 @@ import android.widget.TextView;
 
 import com.autobots.innopark.R;
 import com.autobots.innopark.adapter.AdminPanelRecyclerViewAdapter;
-import com.autobots.innopark.data.MenuItemList;
 
 import java.util.ArrayList;
 

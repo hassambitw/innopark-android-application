@@ -1,24 +1,20 @@
-package com.autobots.innopark.data;
+package com.autobots.innopark.data.models;
 
 import android.util.Log;
 
 import androidx.annotation.NonNull;
 
-import com.autobots.innopark.Config;
+import com.autobots.innopark.util.Config;
 import com.autobots.innopark.data.Callbacks.HashmapCallback;
 import com.autobots.innopark.data.Callbacks.StringCallback;
+import com.autobots.innopark.util.DatabaseUtils;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.Query;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class User {
 

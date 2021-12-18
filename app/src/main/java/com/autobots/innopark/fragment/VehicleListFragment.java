@@ -18,19 +18,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.autobots.innopark.LoginActivity;
+import com.autobots.innopark.activity.LoginActivity;
 import com.autobots.innopark.R;
 import com.autobots.innopark.adapter.VehicleRecyclerViewAdapter;
 import com.autobots.innopark.data.Callbacks.HashmapCallback;
-import com.autobots.innopark.data.DatabaseUtils;
-import com.autobots.innopark.data.User;
-import com.autobots.innopark.data.UserApi;
-import com.autobots.innopark.data.Vehicle;
-import com.autobots.innopark.data.Vehicle2;
+import com.autobots.innopark.util.DatabaseUtils;
+import com.autobots.innopark.data.models.User;
+import com.autobots.innopark.data.api.UserApi;
+import com.autobots.innopark.data.models.Vehicle;
+import com.autobots.innopark.data.models.Vehicle2;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
-import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -39,11 +37,8 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 
 public class VehicleListFragment extends Fragment implements VehicleRecyclerViewAdapter.OnVehicleClickListener {
 

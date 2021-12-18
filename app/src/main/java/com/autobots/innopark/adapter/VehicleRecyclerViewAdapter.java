@@ -11,12 +11,9 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.autobots.innopark.R;
-import com.autobots.innopark.data.UserApi;
-import com.autobots.innopark.data.Vehicle;
-import com.autobots.innopark.data.Vehicle2;
+import com.autobots.innopark.data.models.Vehicle2;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class VehicleRecyclerViewAdapter extends RecyclerView.Adapter<VehicleRecyclerViewAdapter.vehicleViewHolder>
 {

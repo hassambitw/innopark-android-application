@@ -19,17 +19,17 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 
-import com.autobots.innopark.LoginActivity;
+import com.autobots.innopark.activity.LoginActivity;
 import com.autobots.innopark.R;
 import com.autobots.innopark.adapter.Avenue;
 import com.autobots.innopark.adapter.TariffActiveSessionRecyclerViewAdapter;
 import com.autobots.innopark.adapter.TariffInactiveSessionRecyclerViewAdapter;
-import com.autobots.innopark.data.DatabaseUtils;
-import com.autobots.innopark.data.Session;
-import com.autobots.innopark.data.UserApi;
+import com.autobots.innopark.util.DatabaseUtils;
+import com.autobots.innopark.data.models.Session;
+import com.autobots.innopark.data.api.UserApi;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.Timestamp;
+
 import org.apache.commons.lang3.StringUtils;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -39,14 +39,10 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.Instant;
-import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 
 public class TariffListFragment extends Fragment implements TariffActiveSessionRecyclerViewAdapter.OnTariffClickListener, TariffInactiveSessionRecyclerViewAdapter.OnTariffClickListener {

@@ -1,11 +1,9 @@
-package com.autobots.innopark.data;
+package com.autobots.innopark.data.models;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import com.autobots.innopark.Config;
-
-import java.util.HashMap;
+import com.autobots.innopark.util.Config;
 
 public class UserSessionManager {
 

@@ -1,4 +1,4 @@
-package com.autobots.innopark;
+package com.autobots.innopark.activity;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -11,7 +11,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 
-import com.autobots.innopark.data.DatabaseUtils;
+import com.autobots.innopark.R;
+import com.autobots.innopark.util.DatabaseUtils;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;

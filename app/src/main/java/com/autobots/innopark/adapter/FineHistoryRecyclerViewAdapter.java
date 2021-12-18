@@ -7,15 +7,12 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.autobots.innopark.R;
-import com.autobots.innopark.data.ParkingHistoryData;
-import com.autobots.innopark.data.Tariff;
+import com.autobots.innopark.data.models.ParkingHistoryData;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class FineHistoryRecyclerViewAdapter extends RecyclerView.Adapter<FineHistoryRecyclerViewAdapter.fineHistoryViewHolder>
 {

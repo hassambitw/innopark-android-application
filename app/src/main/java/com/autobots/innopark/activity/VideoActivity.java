@@ -1,4 +1,4 @@
-package com.autobots.innopark;
+package com.autobots.innopark.activity;
 
 import android.app.Fragment;
 import android.content.Intent;
@@ -12,6 +12,7 @@ import android.widget.VideoView;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.autobots.innopark.R;
 import com.autobots.innopark.fragment.FinesListFragment;
 
 public class VideoActivity extends AppCompatActivity

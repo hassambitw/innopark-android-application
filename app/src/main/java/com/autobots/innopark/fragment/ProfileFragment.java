@@ -20,21 +20,19 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import androidx.appcompat.widget.Toolbar;
 
-import com.autobots.innopark.LoginActivity;
+import com.autobots.innopark.activity.LoginActivity;
 import com.autobots.innopark.R;
 import com.autobots.innopark.data.Callbacks.HashmapCallback;
-import com.autobots.innopark.data.DatabaseUtils;
-import com.autobots.innopark.data.Tags;
-import com.autobots.innopark.data.User;
-import com.autobots.innopark.data.UserApi;
+import com.autobots.innopark.util.DatabaseUtils;
+import com.autobots.innopark.data.models.Tags;
+import com.autobots.innopark.data.models.User;
+import com.autobots.innopark.data.api.UserApi;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
-
-import org.w3c.dom.Text;
 
 import java.util.HashMap;
 

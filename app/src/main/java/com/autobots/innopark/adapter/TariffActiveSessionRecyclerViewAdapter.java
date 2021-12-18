@@ -11,7 +11,7 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.autobots.innopark.R;
-import com.autobots.innopark.data.Session;
+import com.autobots.innopark.data.models.Session;
 
 import java.util.ArrayList;
 import java.util.Date;

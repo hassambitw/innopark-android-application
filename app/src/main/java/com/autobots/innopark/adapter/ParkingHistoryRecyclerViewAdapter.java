@@ -12,17 +12,13 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.autobots.innopark.R;
-import com.autobots.innopark.data.ParkingHistoryData;
-import com.autobots.innopark.data.Session;
-import com.autobots.innopark.data.Tariff;
+import com.autobots.innopark.data.models.Session;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
-import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 public class ParkingHistoryRecyclerViewAdapter extends RecyclerView.Adapter<ParkingHistoryRecyclerViewAdapter.parkingHistoryViewHolder>

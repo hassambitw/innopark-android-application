@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 
 import com.autobots.innopark.R;
-import com.autobots.innopark.data.MenuItemList;
+import com.autobots.innopark.data.models.MenuItemList;
 
 
 import java.util.ArrayList;

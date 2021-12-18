@@ -1,10 +1,6 @@
 package com.autobots.innopark.fragment;
 
-import android.app.Notification;
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
 import android.app.PendingIntent;
-import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
@@ -12,34 +8,20 @@ import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
-import com.autobots.innopark.Config;
-import com.autobots.innopark.DashboardActivity;
-import com.autobots.innopark.LoginActivity;
+import com.autobots.innopark.util.Config;
 import com.autobots.innopark.R;
 import com.autobots.innopark.data.Callbacks.StringCallback;
-import com.autobots.innopark.data.DatabaseUtils;
-import com.autobots.innopark.data.Session;
-import com.autobots.innopark.data.Tags;
-import com.autobots.innopark.data.UserSessionManager;
+import com.autobots.innopark.util.DatabaseUtils;
+import com.autobots.innopark.data.models.Tags;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.google.firebase.messaging.Constants;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 
 public class NotificationService extends FirebaseMessagingService {
