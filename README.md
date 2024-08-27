@@ -1,4 +1,4 @@
-#Automated Parking Management System
+# Automated Parking Management System
 
 As part of a team project, I contributed to developing an innovative automated parking lot management system. My primary focus was on creating a comprehensive mobile application that interfaces with a network of cameras for efficient parking space monitoring and violation detection. This system aims to reduce manual labor costs while enhancing the parking experience for users.
 
